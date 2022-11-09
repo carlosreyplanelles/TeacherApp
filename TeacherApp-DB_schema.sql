@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `teacherapp`.`cities` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   `province_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK_city_province_idx` (`province_id` ASC) VISIBLE,
+  INDEX `FK_city_province_idx` (`province_id` ASC),
   CONSTRAINT `FK_city_province`
     FOREIGN KEY (`province_id`)
     REFERENCES `teacherapp`.`provinces` (`id`))
@@ -87,8 +87,8 @@ CREATE TABLE IF NOT EXISTS `teacherapp`.`users` (
   `password` VARCHAR(255) NOT NULL,
   `role_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  INDEX `FK_User_role_idx` (`role_id` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  INDEX `FK_User_role_idx` (`role_id` ASC),
   CONSTRAINT `FK_User_role`
     FOREIGN KEY (`role_id`)
     REFERENCES `teacherapp`.`roles` (`id`))
@@ -102,12 +102,12 @@ COLLATE = utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `teacherapp`.`students` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `active` TINYINT NULL DEFAULT '0',
+  `active` TINYINT NULL DEFAULT '1',
   `phone` VARCHAR(12) NULL DEFAULT NULL,
   `avatar` VARCHAR(150) NULL DEFAULT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK_User_Student_idx` (`user_id` ASC) VISIBLE,
+  INDEX `FK_User_Student_idx` (`user_id` ASC),
   CONSTRAINT `FK_User_Student`
     FOREIGN KEY (`user_id`)
     REFERENCES `teacherapp`.`users` (`id`))
@@ -127,8 +127,8 @@ CREATE TABLE IF NOT EXISTS `teacherapp`.`location` (
   `province_id` INT NOT NULL,
   `address` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK_Location_City_idx` (`city_id` ASC) VISIBLE,
-  INDEX `FK_Location_Province_idx` (`province_id` ASC) VISIBLE,
+  INDEX `FK_Location_City_idx` (`city_id` ASC),
+  INDEX `FK_Location_Province_idx` (`province_id` ASC),
   CONSTRAINT `FK_Location_City`
     FOREIGN KEY (`city_id`)
     REFERENCES `teacherapp`.`cities` (`id`),
@@ -155,9 +155,9 @@ CREATE TABLE IF NOT EXISTS `teacherapp`.`teachers` (
   `user_id` INT NOT NULL,
   `subjects` MEDIUMTEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK_Location_idx` (`location_id` ASC) VISIBLE,
-  INDEX `FK_Branch_idx` (`branch_id` ASC) VISIBLE,
-  INDEX `FK_User_teacher_idx` (`user_id` ASC) VISIBLE,
+  INDEX `FK_Location_idx` (`location_id` ASC),
+  INDEX `FK_Branch_idx` (`branch_id` ASC),
+  INDEX `FK_User_teacher_idx` (`user_id` ASC),
   CONSTRAINT `FK_Branch`
     FOREIGN KEY (`branch_id`)
     REFERENCES `teacherapp`.`branches` (`id`),
@@ -181,9 +181,9 @@ CREATE TABLE IF NOT EXISTS `teacherapp`.`classes` (
   `teacher_id` INT NOT NULL,
   `student_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `UQ_class_teacher` (`teacher_id` ASC, `class_datetime` ASC) VISIBLE,
-  INDEX `FK_Class_student_idx` (`student_id` ASC) VISIBLE,
-  INDEX `FK_Class_teacher_idx` (`teacher_id` ASC) VISIBLE,
+  UNIQUE INDEX `UQ_class_teacher` (`teacher_id` ASC, `class_datetime` ASC),
+  INDEX `FK_Class_student_idx` (`student_id` ASC),
+  INDEX `FK_Class_teacher_idx` (`teacher_id` ASC),
   CONSTRAINT `FK_Class_student`
     FOREIGN KEY (`student_id`)
     REFERENCES `teacherapp`.`students` (`id`),
@@ -209,25 +209,6 @@ COLLATE = utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `teacherapp`.`login`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `teacherapp`.`login` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(60) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `role_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  INDEX `FK_Role_idx` (`role_id` ASC) VISIBLE,
-  CONSTRAINT `FK_Role`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `teacherapp`.`roles` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------
 -- Table `teacherapp`.`ratings`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `teacherapp`.`ratings` (
@@ -237,8 +218,8 @@ CREATE TABLE IF NOT EXISTS `teacherapp`.`ratings` (
   `teacher_id` INT NOT NULL,
   `student_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK_Rating_Teacher_idx` (`teacher_id` ASC) VISIBLE,
-  INDEX `FK_Rating_Student_idx` (`student_id` ASC) VISIBLE,
+  INDEX `FK_Rating_Teacher_idx` (`teacher_id` ASC),
+  INDEX `FK_Rating_Student_idx` (`student_id` ASC),
   CONSTRAINT `FK_Rating_Student`
     FOREIGN KEY (`student_id`)
     REFERENCES `teacherapp`.`students` (`id`),
