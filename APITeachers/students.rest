@@ -1,0 +1,4 @@
+GET http://localhost:3000/api/students
+
+###
+GET http://localhost:3000/api/students/200
