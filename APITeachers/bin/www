@@ -8,6 +8,9 @@ var app = require('../app');
 var debug = require('debug')('apiteachers:server');
 var http = require('http');
 
+// ENV file loda
+require('dotenv').config();
+
 /**
  * Loading the environment variables from the .env file.
  */
@@ -24,6 +27,12 @@ require('../config/db');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+
+// ENV file loda
+require('dotenv').config();
+
+// DB Config
+require('../config/db');
 
 /**
  * Create HTTP server.
