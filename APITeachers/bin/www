@@ -8,15 +8,15 @@ var app = require('../app');
 var debug = require('debug')('apiteachers:server');
 var http = require('http');
 
+// ENV file loda
+require('dotenv').config();
+
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
-// ENV file loda
-require('dotenv').config();
 
 // DB Config
 require('../config/db');
