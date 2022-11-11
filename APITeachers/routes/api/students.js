@@ -47,4 +47,30 @@ router.post('/', async (req, res) => {
     }
 });
 
+// UPDATE
+router.put('/:studentId', async (req, res) => {
+    const { studentId } = req.params;
+
+    try {
+        // Get student data
+        const student = await Student.get(studentId);
+        req.body.location_id = student.location_id;
+        req.body.user_id = student.user_id;
+        
+        // Update locations table
+        await Location.update(student.location_id, req.body)
+
+        // Update users table
+        await User.update(student.user_id, req.body)
+
+        // Update students table
+        await Student.update(student.id, req.body);
+        const newStudent = await Student.getById(student.id);
+
+        res.json(newStudent);
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
 module.exports = router;
