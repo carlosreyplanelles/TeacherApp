@@ -3,7 +3,7 @@ const { getAdminById } = require("../models/admin.model");
 const { getTeacherById } = require("../models/teacher.model");
 const Student = require('../models/student.model');
 
-const newAdmin = {
+const newAUser = {
     name: {
         exists: true,
         trim: true,
@@ -235,7 +235,7 @@ const checkTeacher = async (req, res, next) => {
  * @param res - The response object.
  * @param next - A function that is used to pass control to the next middleware function.
  */
- const checkStudent = async (req, res, next) => {
+const checkStudent = async (req, res, next) => {
     const { studentId } = req.params;
     /* Checking if the student id exists. */
     if (await Student.getById(studentId)) {
