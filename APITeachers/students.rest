@@ -1,7 +1,7 @@
 GET http://localhost:3000/api/students
 
 ###
-GET http://localhost:3000/api/students/200
+GET http://localhost:3000/api/students/201
 
 ###
 POST http://localhost:3000/api/students
@@ -11,7 +11,7 @@ Content-Type: application/json
     "name": "Alberto",
     "surname": "Martín",
     "email": "alberto@gmail.com",
-    "password": "12345",
+    "password": "12345678",
     "role_id": 3,
     "phone": "123456789",
     "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
@@ -22,23 +22,22 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/api/students/201
+PUT http://localhost:3000/api/students/204
 Content-Type: application/json
 
 {
     "name": "Alberto",
     "surname": "Martín Montero",
     "email": "alberto@gmail.com",
-    "password": "12345",
+    "password": "12345678",
     "role_id": 3,
-    "phone": "987654321",
+    "phone": "123456789",
     "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
     "latitude": 41.6704100,
     "longitude": -3.6892000,
     "city_id": 8943,
-    "address": "Calle Falsa 231",
     "active": 0
 }
 
 ###
-DELETE http://localhost:3000/api/students/203
+DELETE http://localhost:3000/api/students/204

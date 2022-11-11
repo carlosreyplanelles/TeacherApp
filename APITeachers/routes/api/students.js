@@ -1,8 +1,11 @@
 const router = require('express').Router();
+const { checkSchema } = require('express-validator');
 
 const Student = require('../../models/student.model');
 const Location = require('../../models/location.model');
 const User = require('../../models/user.model');
+
+const { newStudent, checkError, checkStudent } = require('../../helpers/validators');
 
 // GET ALL
 router.get('/', async (req, res) => {
@@ -15,7 +18,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET BY ID
-router.get('/:studentId', async (req, res) => {
+router.get('/:studentId', checkStudent, async (req, res) => {
     const { studentId } = req.params;
 
     try {
@@ -27,7 +30,7 @@ router.get('/:studentId', async (req, res) => {
 });
 
 // POST
-router.post('/', async (req, res) => {
+router.post('/', checkSchema(newStudent), checkError, async (req, res) => {
     try {
         // Insert location and get location_id
         const newLocation = await Location.create(req.body);
@@ -48,7 +51,7 @@ router.post('/', async (req, res) => {
 });
 
 // UPDATE
-router.put('/:studentId', async (req, res) => {
+router.put('/:studentId', checkSchema(newStudent), checkError, checkStudent, async (req, res) => {
     const { studentId } = req.params;
 
     try {
@@ -74,7 +77,7 @@ router.put('/:studentId', async (req, res) => {
 });
 
 // DELETE
-router.delete('/:studentId', async (req, res) => {
+router.delete('/:studentId', checkStudent, async (req, res) => {
     const { studentId } = req.params;
 
     try {
