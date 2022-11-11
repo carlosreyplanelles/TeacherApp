@@ -8,9 +8,6 @@ var app = require('../app');
 var debug = require('debug')('apiteachers:server');
 var http = require('http');
 
-// ENV file loda
-require('dotenv').config();
-
 /**
  * Loading the environment variables from the .env file.
  */
