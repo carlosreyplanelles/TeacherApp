@@ -73,4 +73,16 @@ router.put('/:studentId', async (req, res) => {
     }
 });
 
+// DELETE
+router.delete('/:studentId', async (req, res) => {
+    const { studentId } = req.params;
+
+    try {
+        const result = await Student.deleteById(studentId);
+        res.json(result);
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
 module.exports = router;

@@ -22,7 +22,7 @@ const update = (studentId, { active, phone, avatar, user_id, location_id }) => {
 };
 
 const deleteById = (studentId) => {
-    return executeQuery('', [studentId]);
+    return executeQuery('DELETE s, u, l FROM students as s INNER JOIN users as u ON s.user_id = u.id INNER JOIN locations as l ON s.location_id = l.id WHERE s.id = ?', [studentId]);
 };
 
 module.exports = {

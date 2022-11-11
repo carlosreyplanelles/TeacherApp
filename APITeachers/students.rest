@@ -39,3 +39,6 @@ Content-Type: application/json
     "address": "Calle Falsa 231",
     "active": 0
 }
+
+###
+DELETE http://localhost:3000/api/students/203
