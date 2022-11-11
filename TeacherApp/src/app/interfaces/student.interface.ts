@@ -1,9 +1,17 @@
 export interface Student {
-    id?: number,
-    creation_date: string,
-    name: string,
-    surname: string,
-    email: string,
-    password: string,
-    role_id: number
+  id?: number;
+  active: number;
+  phone: string;
+  avatar: string;
+  creation_date: string;
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  city: string;
+  province: string;
+  role: string;
 }
