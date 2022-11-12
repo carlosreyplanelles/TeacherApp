@@ -20,11 +20,11 @@ const getTeacherById = (teacherid) => {
     );
 }; 
 
-const getAll = () => {
+const getAllTeachers = () => {
     return executeQuery('select * from teachers');
 }
 
-const getByPage = (page, limit) => {
+const getTeachersByPage = (page, limit) => {
     return executeQuery('select * from teachers limit ? offset ?', [limit, (page - 1) * limit]);
 }
 
@@ -54,5 +54,5 @@ const update = (teacherId, { phone, branch_id, price_hour, experience, validated
 }
 
 module.exports = {
-    getAll, getByPage, getTeacherById, getById, getByEmail, create, deleteById, update
+    getAllTeachers, getTeachersByPage, getTeacherById, getById, getByEmail, create, deleteById, update
 }

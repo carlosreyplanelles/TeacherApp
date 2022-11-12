@@ -2,9 +2,10 @@ const router = require('express').Router();
 
 const { checkSchema } = require('express-validator');
 
-const { getAll, getById, getByPage, create, update, deleteById } = require('../../models/teacher.model');
+const { getAllTeachers, getById, getTeachersByPage, create, update, deleteById } = require('../../models/teacher.model');
 
-const { getAll, getById, getByPage, create, update, deleteById } = require('../../models/user.model');
+/**TODO: Conflicto con nombres de métodos iguales entre users y teachers por eso lo comenté para ver qué necesito y renombré un par mios*/
+//const { getAll, getById, getByPage, create, update, deleteById } = require('../../models/user.model');
 
 /**TODO: Validators Teachers*/
 const { teacherData, checkValidationErrors, checkTeacher } = require('../../helpers/validators');
@@ -18,10 +19,10 @@ router.get('/', async (req, res) => {
 
         if (Object.keys(req.query).length !== 0) {            
             const { page , limit } = req.query;
-            teachers = await getByPage(parseInt(page), parseInt(limit));
+            teachers = await getTeachersByPage(parseInt(page), parseInt(limit));
         }
         else {            
-            teachers = await getAll();
+            teachers = await getAllTeachers();
         }
         
         res.status(200).json(teachers);

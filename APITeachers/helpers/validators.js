@@ -1,9 +1,9 @@
 const { validationResult } = require('express-validator');
-const { getAdminById } = require("../models/admin.model");
+//const { getAdminById } = require("../models/admin.model");
 const { getTeacherById } = require("../models/teacher.model");
-const Student = require('../models/student.model');
+//const Student = require('../models/student.model');
 
-const newAUser = {
+const newAdmin = {
     name: {
         exists: true,
         trim: true,
