@@ -27,6 +27,7 @@ export class AdminViewComponent implements OnInit {
   // arrPending: Teacher[] = [];
 
   adminid: number = 205;
+  actualTab: string = 'pending';
 
   constructor(
     private adminService: AdminsService,
@@ -42,7 +43,7 @@ export class AdminViewComponent implements OnInit {
       //   let resAdmin = await this.adminService.getAdminById(206);
       //   this.currentAdmin = resAdmin;
 
-      this.adminService.getAdminById(205)
+      this.adminService.getAdminById(this.adminid)
         .then(response => {
           this.currentAdmin = response;
           console.log(this.currentAdmin);
@@ -56,11 +57,15 @@ export class AdminViewComponent implements OnInit {
       // getNumValidated();
       // getNumPending();
     })
+
+    console.log(this.actualTab);
+
   }
 
   async getNumStudents(): Promise<number> {
-    let response = await this.studentsService.getAllStudents();
+    let response = await this.studentsService.getAll();
     return response.length;
+
   }
 
   getNumTeachers() {
@@ -73,6 +78,10 @@ export class AdminViewComponent implements OnInit {
 
   getNumPending() {
 
+  }
+
+  chargeTab(tab: string): void {
+    this.actualTab = tab;
   }
 
 }

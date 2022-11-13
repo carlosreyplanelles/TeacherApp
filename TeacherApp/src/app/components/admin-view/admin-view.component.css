@@ -7,7 +7,7 @@ img {
     background: #000;
 }
 
-.skill-block {
+.tab-block {
     width: 30%;
 }
 
@@ -18,7 +18,7 @@ img {
 }
 
 @media (min-width: 1200px) {
-    .skill-block {
+    .tab-block {
         padding: 56px !important;
     }
 }

@@ -12,20 +12,24 @@
                     <h5>{{currentAdmin.title}}</h5>
                     <h6>{{currentAdmin.email}}</h6>
                 </div>
-                <div class="d-flex flex-row text-white">
-                    <div class="p-4 bg-primary text-center skill-block">
+                <div class="menu d-flex flex-row text-white">
+                    <div [ngClass]="{ 'activo': actualTab === 'students' }" (click)="chargeTab('students')"
+                        class="p-4 bg-primary text-center tab-block">
                         <h4>{{numStudents}}</h4>
                         <h6>Estudiantes</h6>
                     </div>
-                    <div class="p-3 bg-success text-center skill-block">
+                    <div [ngClass]="{ 'activo': actualTab === 'teachers' }" (click)="chargeTab('teachers')"
+                        class="p-3 bg-success text-center tab-block">
                         <h4>{{numTeachers}}</h4>
                         <h6>Profesores</h6>
                     </div>
-                    <div class="p-3 bg-warning text-center skill-block">
+                    <div [ngClass]="{ 'activo': actualTab === 'validated' }" (click)="chargeTab('validated')"
+                        class="p-3 bg-warning text-center tab-block">
                         <h4>{{numValidated}}</h4>
                         <h6>Profesores validados</h6>
                     </div>
-                    <div class="p-3 bg-danger text-center skill-block">
+                    <div [ngClass]="{ 'activo': actualTab === 'students' }" (click)="chargeTab('pending')"
+                        class="p-3 bg-danger text-center tab-block">
                         <h4>{{numPending}}</h4>
                         <h6>Profesores Pendientes</h6>
                     </div>
@@ -34,3 +38,5 @@
         </div>
     </div>
 </div>
+
+<app-admin-student-list *ngIf="actualTab === 'students'"> </app-admin-student-list>
