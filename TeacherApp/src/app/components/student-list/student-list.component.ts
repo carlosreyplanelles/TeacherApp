@@ -1,15 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { STUDENTS } from 'mokdata.students.db';
+import { Student } from 'src/app/interfaces/student.interface';
+import { StudentsService } from 'src/app/services/students.service';
 
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.css']
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent implements AfterViewInit {
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'city',
+    'contact',
+    'creation_date',
+    'admin',
+  ];
+  dataSource: MatTableDataSource<Student>;
 
-  constructor() { }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  ngOnInit(): void {
+  constructor(private studentsService: StudentsService) {
+    this.dataSource = new MatTableDataSource(STUDENTS);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  async ngOnInit(): Promise<void> {
+
+
+    // try {
+    //   let response = await this.studentsService.getAll(1);
+    //   this.arrStudents = response.data;
+    //   console.log(this.arrStudents)
+    // }
+    // catch (err: any) {
+    //   console.log(err.error)
+    // }
+  }
+
+  deleteStudent(studenId: Number | undefined){
+    console.log(studenId);
   }
 
 }
