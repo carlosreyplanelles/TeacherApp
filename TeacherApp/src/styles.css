@@ -25,3 +25,12 @@
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
 }
+
+.border-red{
+    border: 1px solid tomato;
+}
+
+.error{
+    color: tomato;
+    font-size: 12px;
+  }

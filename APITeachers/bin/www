@@ -12,11 +12,14 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
+// ENV file load
+ require('dotenv').config();
+
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-// ENV file loda
-require('dotenv').config();
+
+
 
 // DB Config
 require('../config/db');
