@@ -9,9 +9,15 @@ export class LoginComponent implements OnInit {
 
   constructor() { }
 
+  user = {
+    email: "felix@gmail.com",
+    password: "123"
+  }
   ngOnInit(): void {
   }
 
-  loginButton(){}//all login
+  login(){
+
+  }
 
 }
