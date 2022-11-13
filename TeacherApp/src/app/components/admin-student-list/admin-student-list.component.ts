@@ -8,11 +8,11 @@ import { Student } from 'src/app/interfaces/student.interface';
 import { StudentsService } from 'src/app/services/students.service';
 
 @Component({
-  selector: 'app-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.css'],
+  selector: 'app-admin-student-list',
+  templateUrl: './admin-student-list.component.html',
+  styleUrls: ['./admin-student-list.component.css'],
 })
-export class StudentListComponent implements AfterViewInit {
+export class AdminStudentListComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'id',
     'name',
@@ -76,8 +76,6 @@ export class StudentListComponent implements AfterViewInit {
         if (result.isConfirmed) {
           try {
             let response = await this.studentsService.delete(idStudent);
-            console.log('🤣', response);
-
             if (response.affectedRows > 0) {
               swalWithBootstrapButtons.fire('Usuario borrado');
               this.ngOnInit();
