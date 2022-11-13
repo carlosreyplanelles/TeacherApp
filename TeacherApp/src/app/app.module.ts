@@ -27,7 +27,7 @@ import { MaterialModule } from './material.module';
     FooterComponent,
     HomeComponent,
     AdminViewComponent,
-    Error404Component
+    Error404Component,
     StudentListComponent,
     StudentCardComponent,
     StudentViewComponent,
@@ -42,7 +42,7 @@ import { MaterialModule } from './material.module';
     /* A module that is used to create forms. */
     FormsModule,
     /* Importing the google maps api key from the environment.ts file. */
-    AgmCoreModule.forRoot(environment.googleMaps)
+    AgmCoreModule.forRoot(environment.googleMaps),
     BrowserAnimationsModule,
     MaterialModule,
   ],
