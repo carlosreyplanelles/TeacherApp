@@ -15,3 +15,6 @@ th {
   background: whitesmoke;
 }
 
+mat-icon {
+  padding-top: 2px;
+}

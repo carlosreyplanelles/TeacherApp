@@ -19,6 +19,7 @@ import { StudentViewComponent } from './components/student-view/student-view.com
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MaterialModule } from './material.module';
     AgmCoreModule.forRoot(environment.googleMaps),
     BrowserAnimationsModule,
     MaterialModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
