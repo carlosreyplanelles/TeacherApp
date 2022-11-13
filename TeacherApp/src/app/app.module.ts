@@ -14,8 +14,6 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
 import { Error404Component } from './components/errors/error404/error404.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
-import { StudentCardComponent } from './components/student-card/student-card.component';
-import { StudentViewComponent } from './components/student-view/student-view.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
@@ -30,8 +28,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AdminViewComponent,
     Error404Component,
     AdminStudentListComponent,
-    StudentCardComponent,
-    StudentViewComponent,
+
   ],
   imports: [
     BrowserModule,

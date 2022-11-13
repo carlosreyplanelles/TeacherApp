@@ -6,11 +6,16 @@ import Swal from 'sweetalert2';
 
 import { Student } from 'src/app/interfaces/student.interface';
 import { StudentsService } from 'src/app/services/students.service';
+import { CustomPaginator } from './CustomPaginatorConfiguration';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-admin-student-list',
   templateUrl: './admin-student-list.component.html',
   styleUrls: ['./admin-student-list.component.css'],
+  providers:[{
+    provide: MatPaginatorIntl, useValue: CustomPaginator()
+  }]
 })
 export class AdminStudentListComponent implements AfterViewInit {
   displayedColumns: string[] = [
