@@ -1,5 +1,4 @@
 var express = require('express');
-var dayjs = require('dayjs');
 var router = express.Router();
 
 const { checkToken } = require('../helpers/midelwares')
@@ -7,6 +6,15 @@ const { checkToken } = require('../helpers/midelwares')
 const jwt = require('jsonwebtoken')
 
 var allUsers = require('../models/user.model')
+
+router.get('/', async (req, res) => {
+    try {
+        const users = await allUsers.getAll();
+        res.json(users);
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
 
 /* GET ALL USERS. */
 
@@ -19,10 +27,9 @@ router.get('/', async (req, res) => {
     }
 });
 
-/* GET USER BY EMAIL. */
+/* POST SIGNIN. */
 
-router.get('/signin', async (req, res) => {
-
+router.post('/signin', async (req, res) => {
 
     const { email, password } = req.body
 
@@ -36,7 +43,10 @@ router.get('/signin', async (req, res) => {
     }
 });
 
-router.post('/test', checkToken, (req, res) => {
+
+/* POST USER. */
+
+router.post('/login', checkToken, async (req, res) => {
     res.json(req.data)
 })
     

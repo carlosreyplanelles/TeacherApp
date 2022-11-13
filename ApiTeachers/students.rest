@@ -22,7 +22,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/api/students/204
+PUT http://localhost:3000/api/students/201
 Content-Type: application/json
 
 {
@@ -40,4 +40,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/api/students/204
+DELETE http://localhost:3000/api/students/201

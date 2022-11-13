@@ -1,8 +1,10 @@
 <div class="all-login">
-    <h1>Iniciar Sesion</h1>
+    <h2>Iniciar Sesion</h2>
     <form class="all-form">
-        <input type="text" [(ngModel)]="user.email" placeholder="Escribe tu Email">
-        <input type="password" [(ngModel)]="user.password" placeholder="Escribe tu Contraseña">
-        <button class="btn btn-secondary" (click)="login()">Iniciar sesion</button>
+        <div class="inputs">
+            <input type="text" [(ngModel)]="user.email" name="email" >
+            <input type="password" [(ngModel)]="user.password" name="password">
+        </div>
+        <button class="btn btn-secondary" (click)="login()">Iniciar Sesion</button>
     </form>
 </div>
