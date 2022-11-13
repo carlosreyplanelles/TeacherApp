@@ -1,3 +1,15 @@
+/* Importing the Poppins font from Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap');
+/* Importing the Roboto font from Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap');
+/* Importing the font-awesome library. */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css');
+/* Importing the bootstrap css file. */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css');
+/* Importing the ionicons library. */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css');
+
+
 /* You can add global styles to this file, and also import other style files */
 :root {
     --bs-blue: #0d6efd;
@@ -24,4 +36,16 @@
     --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+}
+
+/* Setting the font for the entire page to Montserrat. */
+body {
+    font-family: 'Poppins', 'Roboto', sans-serif !important;
+}
+
+/* Making the image responsive. */
+.img-fluid {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
 }
