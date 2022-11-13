@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/admin
 
 ### GET ONE ADMIN
-GET http://localhost:3000/api/admin/admin=210
+GET http://localhost:3000/api/admin/admin=206
 
 ### CREATE NEW ADMIN
 POST http://localhost:3000/api/admin/new
