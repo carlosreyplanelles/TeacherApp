@@ -1,0 +1,43 @@
+### GET ALL ADMINS
+GET http://localhost:3000/api/admin
+
+### GET ONE ADMIN
+GET http://localhost:3000/api/admin/admin=210
+
+### CREATE NEW ADMIN
+POST http://localhost:3000/api/admin/new
+Content-Type: application/json
+
+{
+    "name": " Laura ", 
+    "surname": "Marquinez", 
+    "email": "laura@gmail.com", 
+    "password": "jnsjkadna",
+    "role_id": 1
+}
+
+### UPDATE ONE ADMIN
+PUT http://localhost:3000/api/admin/update/admin=1
+Content-Type: application/json
+
+{
+    "name": " Laura ", 
+    "surname": "Marquinez", 
+    "email": "lauri@gmail.com", 
+    "password": "Laura2022",
+    "role_id": 1
+}
+
+### VALIDATE ONE TEACHER
+PUT http://localhost:3000/api/admin/validate/teacher=101
+Content-Type: application/json
+
+{
+    "validated": 1
+}
+
+### DELETE ONE ADMIN
+DELETE http://localhost:3000/api/admin/delete/admin=212
+
+### DELETE ALL ADMINS
+DELETE http://localhost:3000/api/admin/delete/all

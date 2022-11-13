@@ -1,23 +1,35 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StudentRegistroComponent } from './components/student-registro/student-registro.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { AdminViewComponent } from './components/admin-view/admin-view.component';
+import { Error404Component } from './components/errors/error404/error404.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StudentRegistroComponent
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
+    AdminViewComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     AppRoutingModule,
+    /* A module that is used to make HTTP requests. */
+    HttpClientModule,
+    /* A module that is used to create forms. */
     ReactiveFormsModule,
-    HttpClientModule
+    /* A module that is used to create forms. */
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
