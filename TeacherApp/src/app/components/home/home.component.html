@@ -1,0 +1,36 @@
+<section id="map-teachers" class="container mt-3">
+    <h4>Mapa Profesores</h4>
+    <div class="card mapa">
+        <!-- User coordinates to locate the map -->
+        <agm-map [latitude]="userlat" [longitude]="userlong" [zoom]="13">
+            <!-- User marker -->
+            <agm-marker [latitude]="userlat" [longitude]="userlong"
+                [iconUrl]="$any({url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', scaledSize: { width: 50, height: 50 } })">
+                <agm-info-window>
+                    <h5 class="text-primary">User Name</h5>
+                    <hr>
+                    <!-- <p>Información</p>
+                    <ul>
+                        <li>latitud: {{userlat}}</li>
+                        <li>longitud: {{userlong}}</li>
+                    </ul>
+                    <a href="http://www.google.es" class="btn btn-danger">Ver detalle</a> -->
+                </agm-info-window>
+            </agm-marker>
+            <!-- Teacher marker -->
+            <!-- FALTA:ngfor con todos los profesores -->
+            <agm-marker [latitude]="lat" [longitude]="long">
+                <agm-info-window>
+                    <h5 class="text-danger">Profesor</h5>
+                    <hr>
+                    <p>Información</p>
+                    <ul>
+                        <li>latitud: {{lat}}</li>
+                        <li>longitud: {{long}}</li>
+                    </ul>
+                    <a href="http://www.google.es" class="btn btn-danger">Ver detalle</a>
+                </agm-info-window>
+            </agm-marker>
+        </agm-map>
+    </div>
+</section>
