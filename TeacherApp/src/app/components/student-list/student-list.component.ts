@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { STUDENTS } from 'mokdata.students.db';
 import { Student } from 'src/app/interfaces/student.interface';
 import { StudentsService } from 'src/app/services/students.service';
 
@@ -27,7 +26,7 @@ export class StudentListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private studentsService: StudentsService) {
-    this.dataSource = new MatTableDataSource(STUDENTS);
+    this.dataSource = new MatTableDataSource();
   }
 
   ngAfterViewInit() {
@@ -46,15 +45,13 @@ export class StudentListComponent implements AfterViewInit {
 
   async ngOnInit(): Promise<void> {
 
-
-    // try {
-    //   let response = await this.studentsService.getAll(1);
-    //   this.arrStudents = response.data;
-    //   console.log(this.arrStudents)
-    // }
-    // catch (err: any) {
-    //   console.log(err.error)
-    // }
+    try {
+      let response = await this.studentsService.getAll();
+      this.dataSource.data = response;    
+    }
+    catch (err: any) {
+      console.log(err.error)
+    }
   }
 
   deleteStudent(studenId: Number | undefined){

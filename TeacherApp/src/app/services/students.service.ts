@@ -11,9 +11,9 @@ export class StudentsService {
   baseUrl = 'http://localhost:3000/api/students/';
   constructor(private httpClient: HttpClient) {}
 
-  getAll(page: number = 1): Promise<any> {
+  getAll(): Promise<any> {
     return lastValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}?page=${page}`)
+      this.httpClient.get<any>(`${this.baseUrl}`)
     );
   }
 
