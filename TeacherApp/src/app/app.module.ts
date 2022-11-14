@@ -2,15 +2,22 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
 
-
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
 import { Error404Component } from './components/errors/error404/error404.component';
+import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -19,7 +26,9 @@ import { Error404Component } from './components/errors/error404/error404.compone
     FooterComponent,
     HomeComponent,
     AdminViewComponent,
-    Error404Component
+    Error404Component,
+    AdminStudentListComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -29,9 +38,14 @@ import { Error404Component } from './components/errors/error404/error404.compone
     /* A module that is used to create forms. */
     ReactiveFormsModule,
     /* A module that is used to create forms. */
-    FormsModule
+    FormsModule,
+    /* Importing the google maps api key from the environment.ts file. */
+    AgmCoreModule.forRoot(environment.googleMaps),
+    BrowserAnimationsModule,
+    MaterialModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
