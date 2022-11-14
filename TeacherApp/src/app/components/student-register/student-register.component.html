@@ -1,0 +1,45 @@
+<h1>Formulario de estudiante</h1>
+<section class="container mt-3">
+    <form [formGroup]="studentForm" (ngSubmit)="getDataForm()">
+        <div class="row mb-3">
+            <label  class="form-label" for="name">Nombre</label>
+            <input  type="text" [ngClass]="{'border-red': !checkValidControl('name')}" id="name" class="form-control" formControlName="name">
+        </div>
+        <div class="row mb-3">
+            <label class="form-label" for="surname">Apellidos</label>
+            <input  [ngClass]="{'border-red': !checkValidControl('surname')}" class="form-label" type="text" id="surname" class="form-control" formControlName="surname">
+        </div>
+        <div class="row mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input [ngClass]="{'border-red': !checkValidControl('email')}" class="form-label" type="text" id="email" class="form-control" formControlName="email">
+        </div>
+        <div class="row mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input  type="password" [ngClass]="{'border-red': !checkValidControl('password')}" id="password" class="form-control" formControlName="password">
+        </div>
+        <div class="row mb-3">
+            <label class="form-label" for="passwordConfirm">Confirma tu password</label>
+            <input  type="password" [ngClass]="{'border-red': !checkValidControl('passwordConfirm')}" id="passwordConfirm" class="form-control" formControlName="passwordConfirm">
+        </div>
+        <div class="row mb-3">
+            <label class="form-label" for="phone">teléfono</label>
+            <input  type="text" [ngClass]="{'border-red': !checkValidControl('phone')}" id="phone" class="form-control" formControlName="phone">
+        </div>
+        <div class="row mb-3">
+            <label class="form-label" for="province-selector">Provincia</label>
+            <select [(ngModel)]= "province_id" [ngModelOptions]="{standalone: true}" (change) = "onSelected()" class="form-control" name="province" id="province-selector">
+                <option default>Selecciona una provincia</option>
+                <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
+            </select>
+        </div>
+        <div class="row mb-3">
+            <label  class="form-label" for="province-selector">Ciudad</label>
+            <select [(ngModel)]= "city_id" [ngModelOptions]="{standalone: true}" class="form-control" name="city" id="city-selector">
+                <option default>Selecciona tu ciudad de residencia</option>
+                <option *ngFor="let city of citiesbyProvince" [value]="city.id">{{city.name}}</option>
+            </select>
+        </div>
+        
+        <input type="submit" value="Registrar" class="btn btn-success mt-3">
+    </form>
+</section>
