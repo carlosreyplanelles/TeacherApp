@@ -1,0 +1,24 @@
+<div class="container mt-5 mb-5">
+    <div class="row no-gutters">
+        <figure class="col-md-4 col-lg-4">
+            <img class="img-fluid" [src]="currentStudent?.avatar" [alt]="currentStudent?.name">
+        </figure>
+        <div class="col-md-8 col-lg-8">
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row justify-content-between align-items-center p-5 bg-dark text-white">
+                    <h2 class="display-5">{{ currentStudent?.name }} {{ currentStudent?.surname }}</h2>
+                    <button class="btn btn-primary">Editar mi perfil</button>
+                </div>
+                <div class="p-4 bg-black text-white">
+                    <ul class="ms-4">
+                        <li class="mt-2">Teléfono: {{ currentStudent?.phone }}</li>
+                        <li class="mt-2">Email: {{ currentStudent?.email }}</li>
+                        <li class="mt-2">Dirección: {{ currentStudent?.address }}</li>
+                        <li class="mt-2">Ciudad: {{ currentStudent?.city }}</li>
+                        <li class="mt-2">Provincia: {{ currentStudent?.province }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
