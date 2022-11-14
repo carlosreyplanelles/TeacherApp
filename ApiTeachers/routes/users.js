@@ -27,6 +27,21 @@ router.get('/', async (req, res) => {
     }
 });
 
+/* GET USER BY EMAIL. */
+
+router.get('/login', async (req, res) => {
+
+    const {email} = req.body
+    try {
+        const users = await allUsers.getUserByEmail(email);
+        res.json(users);
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
+//REGISTER(borrar)
+
 /* POST SIGNIN. */
 
 router.post('/signin', async (req, res) => {

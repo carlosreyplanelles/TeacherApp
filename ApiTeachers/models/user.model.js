@@ -12,8 +12,8 @@ const getAll = () => {
     return executeQuery('SELECT * FROM users')
 }
 
-const getUserByEmail = (email, password) => {
-    return executeQuery('SELECT * FROM users where email = ? and password = ?', [email, password])
+const getUserByEmail = (email) => {
+    return executeQuery('SELECT * FROM users where email = ?', [email])
 }
 
 module.exports = {

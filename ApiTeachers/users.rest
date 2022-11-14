@@ -10,10 +10,11 @@ Content-Type: application/json
 GET http://localhost:3000/users
 
 ###
-POST http://localhost:3000/users/login
+GET http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-    "email": "felix@gmail.com",
-    "password": "123"
+    "email": "gdobrowolski16@unesco.org",
+    "password": "Spain",
+    "role_id": 1
 }

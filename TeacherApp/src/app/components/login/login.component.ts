@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Users } from 'src/app/interfaces/users.interface';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
+
+import jwt_decode from 'jwt-decode'
 
 @Component({
   selector: 'app-login',
@@ -14,22 +17,28 @@ export class LoginComponent implements OnInit {
     private router: Router
     ) { }
 
-  user = {
+  user: Users = {
     email: "zmccaughanf@nytimes.com",
-    password: "Spain"
+    password: "Spain",
+    role_id: 1
   }
 
   ngOnInit(): void {
   }
 
-  signin() {
-    this.loginAuthService.login(this.user).subscribe( (res:any) => {
-      localStorage.setItem('token', res)
-    })
-  }
+  //LOGIN
 
   login() {
-      this.router.navigate(['home'])
+    const token: any = localStorage.getItem('token')!
+
+    const user = jwt_decode(token)
+
+    this.loginAuthService.login(this.user).subscribe( (res:any) => {
+      localStorage.setItem('token', res.token)
+      console.log(res.token)
+      this.router.navigate
+    })
+    
   }
 
 }
