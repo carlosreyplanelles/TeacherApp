@@ -5,5 +5,6 @@ var router = express.Router();
 router.use('/admin', require('./api/admin.js'));
 
 router.use('/students', require('./api/students'));
+router.use('/classes', require('./api/classes'));
 
 module.exports = router;
