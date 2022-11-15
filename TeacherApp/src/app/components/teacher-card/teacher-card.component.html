@@ -1,19 +1,27 @@
-<div class="card mt-5 h-100">
+<div class="card mt-4">
+    <div class="text-center">
+        <img alt="" class="rounded-circle" [src]="myTeacher.avatar">
+    </div>
+    <div class="card-body text-center">
+        <h4 class="m-b-xs"><strong>{{myTeacher.name}}</strong></h4>
+        <h4 class="m-b-xs mt-0"><strong>{{myTeacher.surname}}</strong></h4>
 
-    <img class="card-img-top" src="{{myTeacher.avatar}}" alt="avatar image">
-
-    <div class="card-body text-center pb-0">
-        <h5 class="card-titlela ">{{myTeacher.name}} {{myTeacher.name}}</h5>
-        <h6 class="card-subtitle mb-2 text-muted ">{{myTeacher.city}}</h6>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item border border-0">Rama</li>
-            <p class="card-text pb-2 border-bottom">{{myTeacher.email}}</p>
-        </ul>
-        <a href="#" class="btn btn-primary mt-2 ">Ver perfil</a>
+        <div class="font-bold">Rama</div>
+        <address class="m-t-md">
+            <strong>{{myTeacher.city}}, {{myTeacher.province}}</strong><br>
+            795 Folsom Ave, Suite 600<br>
+            {{myTeacher.address}}<br>
+            {{myTeacher.phone}}
+        </address>
     </div>
 
-    <div class="card-footer">
-        <small class="text-muted">Rating</small>
+    <div class="card-footer text-center">
+        <div class="m-t-xs btn-group">
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+        </div>
     </div>
 
 </div>
