@@ -21,7 +21,13 @@ const getTeacherById = (teacherid) => {
 }; 
 
 const getAllTeachers = () => {
-    return executeQuery('select * from teachers');
+    //return executeQuery('select * from teachers');
+    return executeQuery('select u.id as user_id, u.name,u.surname,u.email,u.creation_date,t.id as teacher_id,' +
+                        't.phone, t.branch_id,b.title as branch_title,t.price_hour,t.experience,t.validated,t.location_id,' +
+                        'l.address,c.name as city, p.name as province, l.latitude, l.longitude,t.avatar,t.subjects '+
+                        'from users u, teachers t, branches b, locations l, cities c, provinces p ' +
+                        'where (u.id=t.user_id) and (t.branch_id=b.id) and (t.location_id=l.id) and (l.city_id=c.id) and (c.province_id=p.id) and (u.role_id=2)');
+
 }
 
 const getTeachersByPage = (page, limit) => {
