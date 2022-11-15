@@ -11,7 +11,7 @@ export class StudentViewComponent implements OnInit {
 
   currentStudent: Student | any;
 
-  studentId: number = 200;
+  studentId: number = 108;
 
   constructor(private studentsService: StudentsService) { }
 

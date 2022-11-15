@@ -1,0 +1,25 @@
+<section>
+    <h5 class="mt-3">Mis clases activas</h5>
+
+    <table class="table mt-4">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Profesor</th>
+                <th scope="col">Materia</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let class of activeClasses">
+                <td>{{ class.teacher_name }} {{ class.teacher_surname }}</td>
+                <td>{{ class.branch }}</td>
+                <td>{{ class.class_datetime }}</td>
+                <td>
+                    <a class="btn btn-info me-2">Contacto</a>
+                    <a class="btn btn-primary text-white">Evaluar profesor</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

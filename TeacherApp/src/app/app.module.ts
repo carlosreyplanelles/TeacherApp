@@ -19,6 +19,7 @@ import { StudentViewComponent } from './components/student-view/student-view.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { StudentClassesListComponent } from './components/student-classes-list/student-classes-list.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AdminViewComponent,
     Error404Component,
     AdminStudentListComponent,
-    StudentViewComponent
+    StudentViewComponent,
+    StudentClassesListComponent
   ],
   imports: [
     BrowserModule,
