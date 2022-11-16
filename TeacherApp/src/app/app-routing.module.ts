@@ -5,6 +5,7 @@ import { Error404Component } from './components/errors/error404/error404.compone
 import { HomeComponent } from './components/home/home.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
+import { RatingFormComponent } from './components/rating-form/rating-form.component';
 
 const routes: Routes = [
   /* Redirecting the user to the home page if the user enters the root of the application. */
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'profile', component: AdminViewComponent },
   { path: 'students', component: AdminStudentListComponent },
   { path: 'student-profile', component: StudentViewComponent },
+  { path: 'rating', component: RatingFormComponent },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
 ];
