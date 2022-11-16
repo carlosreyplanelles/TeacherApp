@@ -16,6 +16,7 @@ import { Error404Component } from './components/errors/error404/error404.compone
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component'
 import { TeacherListComponent } from './components/teacher-list/teacher-list.component';
+import { AdminTeacherListComponent } from './components/admin-teacher-list/admin-teacher-list.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
@@ -30,8 +31,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AdminViewComponent,
     Error404Component,
     AdminStudentListComponent,
+    AdminTeacherListComponent,
     TeacherCardComponent,
-    TeacherListComponent
+    TeacherListComponent,
 
   ],
   imports: [
@@ -47,7 +49,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AgmCoreModule.forRoot(environment.googleMaps),
     BrowserAnimationsModule,
     MaterialModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+
+
   ],
   providers: [],
   bootstrap: [AppComponent],
