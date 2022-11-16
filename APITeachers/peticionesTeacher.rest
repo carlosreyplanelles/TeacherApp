@@ -1,1 +1,26 @@
 GET http://localhost:3100/api/teachers
+
+###
+POST http://localhost:3100/api/teachers
+Content-Type: application/json
+
+{
+    "user_id": 110,
+    "name": "Edie",
+    "surname": "Galliford",
+    "email": "egalliforda@imgur.com",
+    "creation_date": "2022-11-09T20:51:45.000Z",    
+    "phone": "8683550302",
+    "branch_id": 1555,
+    "branch_title": "Ciencias",
+    "price_hour": 16.14,
+    "experience": 23,
+    "validated": 0,   
+    "address": "7953 Rutledge Way",
+    "city_id": 1500,
+    "province": "Bizkaia",
+    "latitude": 45.521519,
+    "longitude": 3.5276642,
+    "avatar": "https://robohash.org/quissintalias.png?size=50x50&set=set1",
+    "subjects": "ante ipsum primis in"
+}
