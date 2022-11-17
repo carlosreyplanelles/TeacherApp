@@ -108,6 +108,7 @@ router.put('/:teacherId',
         const { teacherId } = req.params;
 
         try {     
+            //Carlos nos tiene que enviar el loctationid y el cityid desde el front ya que en la ida se lo enviamos.
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
             console.log("resultUser", resultUser);
@@ -116,6 +117,7 @@ router.put('/:teacherId',
             const resultLocation = await updateLocation(req.body.location_id,req.body);          
             console.log("resultLocation", resultLocation);
 
+            //Actualizo teacher
             const result = await updateTeacher(teacherId, req.body);
             /**TODO: Respuesta: ¿Resultado de la operación o los datos getTeacherbyid?*/
             res.status(200).json(result);
