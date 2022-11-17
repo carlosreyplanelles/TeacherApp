@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'profile', component: AdminViewComponent },
   { path: 'students', component: AdminStudentListComponent },
   { path: 'student-profile', component: StudentViewComponent },
-  { path: 'rating', component: RatingFormComponent },
+  { path: 'rating/:teacherId', component: RatingFormComponent },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
 ];

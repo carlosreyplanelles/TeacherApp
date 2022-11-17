@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RatingFormComponent implements OnInit {
 
+  // Este dato se obtendrá de la sesión activa
+  studentId: number = 108;
+
   constructor() { }
 
   ngOnInit(): void {
