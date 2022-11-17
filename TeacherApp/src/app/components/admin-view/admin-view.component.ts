@@ -19,10 +19,10 @@ export class AdminViewComponent implements OnInit {
 
   numStudents: number = 0;
   // arrStudents: Student[] = [];
+  numInactives: number = 0;
+  // arrInactives: Teacher[] = [];
   numTeachers: number = 0;
   // arrTeachers: Teacher[] = [];
-  numValidated: number = 0;
-  // arrValidated: Teacher[] = [];
   numPending: number = 0;
   // arrPending: Teacher[] = [];
 
@@ -58,7 +58,8 @@ export class AdminViewComponent implements OnInit {
       // getNumPending();
     })
 
-    console.log(this.actualTab);
+
+
 
   }
 
