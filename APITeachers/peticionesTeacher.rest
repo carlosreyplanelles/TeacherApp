@@ -5,19 +5,19 @@ POST http://localhost:3100/api/teachers
 Content-Type: application/json
 
 {    
-    "name": "Edie",
-    "surname": "Galliford",
-    "email": "egalliforda@imgur.com",
-    "password": "53156456",       
-    "role_id": 3,
-    "phone": "8683550302",
-    "avatar": "https://robohash.org/quissintalias.png?size=50x50&set=set1",
+    "name": "Is",
+    "surname": "T",
+    "email": "isabeli@mgur.com",
+    "password": "CorazonLatino",       
+    "role_id": 2,
+    "phone": "999999999",
+    "avatar": "hps://robohash.org/quissintalias.png?size=50x50&set=set1",
     "latitude": 45.521519,
     "longitude": 3.5276642,    
-    "city_id": 8119,
+    "city_id": 8991,
     "address": "7953 Rutledge Way",
     "price_hour": 16.14,
-    "branch_id": 1,
+    "branch_id": 2,
     "subjects": "ante ipsum primis in",  
     "experience": 23,
     "validated": 0 

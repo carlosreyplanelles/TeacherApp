@@ -6,33 +6,44 @@ const { getTeacherById, getBranchById } = require("../models/teacher.model");
 const newTeacherData = {
 
     name: {
-        exists: true,
-        trim: true,
-        errorMessage: "The name field is required"
+        exists: {
+            errorMessage: 'El campo nombre es obligatorio'
+        },
+        trim: true,       
+        isLength: {
+            options: { min: 3 },
+            errorMessage: 'El nombre debe tener como mínimo 3 caracteres.'
+        } 
     },
     surname: {
-        exists: true,
+        exists: {
+            errorMessage: 'El campo apellidos es obligatorio'
+        },
         trim: true,
-        errorMessage: "The surname field is required"
+        isLength: {
+            options: {min: 3, max: 80},
+            errorMessage: 'La longitud del campo apellidos no es válida'
+        }  
     },
     email: {
         exists: {
-            errorMessage: "The email field is required",
+            errorMessage: 'El campo email es obligatorio'
         },
         trim: true,
         isEmail: {
-            errorMessage: "The email must be valid",
-        }
+            errorMessage: 'Introduzca un email válido'
+        }  
     },
     password: {
         exists: {
-            errorMessage: "The password field is required",
+            errorMessage: "El campo contraseña es obligatorio",
         },
         trim: true,
         isLength: {
             options: { min: 8 },
-            errorMessage: 'Password should be at least 8 chars long'
+            errorMessage: 'La contraseña requiere 8 caracteres como mínimo'
         }
+        // TODO: y que pongan caracteres especiales
         // isStrongPassword: {
         //     minLength: 8,
         //     minLowercase: 1,
@@ -43,10 +54,11 @@ const newTeacherData = {
     },
     role_id: {
         exists: {
-            errorMessage: "The role_id field is required",
+            errorMessage: "El campo rol es obligatorio",
         },
-        isInt: true,
-        errorMessage: "The role field must be a number"
+        isInt: {
+            errorMessage: "El rol debe ser un valor numérico"
+        }        
     },
     phone: {
         exists: {
@@ -76,9 +88,10 @@ const newTeacherData = {
         }
     },
     experience: {
-        exists: true,
-        trim: true,
-        errorMessage: 'El campo experiencia es obligatorio'
+        optional: true,       
+        isInt: {
+            errorMessage: "El campo experiencia debe ser un valor numérico"
+        } 
     },
     validated: {
         exists: {
@@ -133,34 +146,46 @@ const newTeacherData = {
 }
 
 const updateTeacherData = {
+
     name: {
-        exists: true,
-        trim: true,
-        errorMessage: "The name field is required"
+        exists: {
+            errorMessage: 'El campo nombre es obligatorio'
+        },
+        trim: true,       
+        isLength: {
+            options: { min: 3 },
+            errorMessage: 'El nombre debe tener como mínimo 3 caracteres.'
+        } 
     },
     surname: {
-        exists: true,
+        exists: {
+            errorMessage: 'El campo apellidos es obligatorio'
+        },
         trim: true,
-        errorMessage: "The surname field is required"
+        isLength: {
+            options: {min: 3, max: 80},
+            errorMessage: 'La longitud del campo apellidos no es válida'
+        }  
     },
     email: {
         exists: {
-            errorMessage: "The email field is required",
+            errorMessage: 'El campo email es obligatorio'
         },
         trim: true,
         isEmail: {
-            errorMessage: "The email must be valid",
-        }
+            errorMessage: 'Introduzca un email válido'
+        }  
     },
     password: {
         exists: {
-            errorMessage: "The password field is required",
+            errorMessage: "El campo contraseña es obligatorio",
         },
         trim: true,
         isLength: {
             options: { min: 8 },
-            errorMessage: 'Password should be at least 8 chars long'
+            errorMessage: 'La contraseña requiere 8 caracteres como mínimo'
         }
+        // TODO: y que pongan caracteres especiales
         // isStrongPassword: {
         //     minLength: 8,
         //     minLowercase: 1,
@@ -171,10 +196,11 @@ const updateTeacherData = {
     },
     role_id: {
         exists: {
-            errorMessage: "The role_id field is required",
+            errorMessage: "El campo rol es obligatorio",
         },
-        isInt: true,
-        errorMessage: "The role field must be a number"
+        isInt: {
+            errorMessage: "El rol debe ser un valor numérico"
+        }        
     },    
     phone: {
         exists: {
@@ -204,9 +230,10 @@ const updateTeacherData = {
         }
     },
     experience: {
-        exists: true,
-        trim: true,
-        errorMessage: 'El campo experiencia es obligatorio'
+        optional: true,       
+        isInt: {
+            errorMessage: "El campo experiencia debe ser un valor numérico"
+        } 
     },
     validated: {
         exists: {
