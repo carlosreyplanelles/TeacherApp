@@ -53,10 +53,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();   
 
-    // if (filterValue == '') {
-    //   this.applyFilterStatus('');
-    // }
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

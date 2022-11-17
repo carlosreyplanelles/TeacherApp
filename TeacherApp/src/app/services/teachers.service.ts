@@ -36,7 +36,7 @@ export class TeachersService {
 
   update(teacher: Teacher): Promise<any> {
     return lastValueFrom(
-      this.httpClient.put<any>(`${this.baseUrl}${teacher.id}`, teacher)
+      this.httpClient.put<any>(`${this.baseUrl}${teacher.user_id}`, teacher)
     );
   }
 }

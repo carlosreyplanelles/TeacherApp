@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // Delete
-import { STUDENTS } from 'mokdata.students.db';
+import { TEACHERS } from 'mokdata.teachers.db';
 import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { TeachersService } from 'src/app/services/teachers.service';
 @Component({
@@ -13,7 +13,7 @@ export class TeacherListComponent implements OnInit {
   arrTeachers: Teacher[] = [];
   constructor(private teachersService: TeachersService) {
     // Delete
-    this.arrTeachers = STUDENTS;
+    this.arrTeachers = TEACHERS;
   }
 
   ngOnInit(): void {
