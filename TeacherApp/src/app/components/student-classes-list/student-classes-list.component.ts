@@ -16,8 +16,7 @@ export class StudentClassesListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.activeClasses = await this.classesService.getByStudent(this.studentId);
-      console.log(this.activeClasses);      
+      this.activeClasses = await this.classesService.getByStudent(this.studentId);     
     } catch (err) {
       console.log(err);
     }
