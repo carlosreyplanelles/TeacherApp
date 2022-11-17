@@ -2,13 +2,13 @@ const router = require('express').Router();
 
 const { checkSchema } = require('express-validator');
 
-const {checkError, checkUser, checkCity } = require('../../helpers/common.validators');
+const { checkError, checkUser, checkCity, checkLocation, checkRole } = require('../../helpers/common.validators');
+const { newTeacherData, updateTeacherData, checkTeacher, checkBranch } = require('../../helpers/teacher.validator');
 
-const {teacherData, checkTeacher, checkBranch } = require('../../helpers/teacher.validator');
-
+const { createUser, getUserById, updateUser } = require('../../models/user.model');
 const { createLocation, updateLocation } = require('../../models/location.model');
-
 const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getTeacherByEmail, createTeacher, deleteTeacherById, updateTeacher } = require('../../models/teacher.model');
+
 
 /**TODO: Conflicto con nombres de métodos iguales entre users y teachers por eso lo comenté para ver qué necesito y renombré un par mios*/
 //const { getAll, getById, getByPage, create, update, deleteById } = require('../../models/user.model');
@@ -56,21 +56,27 @@ router.get('/:teacherId', async (req, res) => {
 
 /* POST - INSERT*/ 
 router.post('/',     
-   checkSchema(teacherData),
-   checkError,
-   checkUser,
+   checkSchema(newTeacherData),
+   checkError,   
    checkBranch,
    checkCity,
     async (req, res) => {
 
         try {
             console.log("req.body", req.body);
-            const resultLocation = await createLocation(req.body); 
-            /**TODO: Comprobar el location_id aqui. He comentado en el validator*/
-            //req.body.location_id = newLocation.insertId;
-            console.log(resultLocation);
+
+            //Inserción en user
+            const resultUser = await createUser(req.body);
+            req.body.user_id = resultUser.insertId;
+
+            //Insercion en location
+            const resultLocation = await createLocation(req.body);             
+            req.body.location_id = resultLocation.insertId;
+   
+             //Insercion en teacher
             const result = await createTeacher(req.body);            
             const teacher = await getTeacherById(result.insertId);
+
             res.status(200).json(teacher);
         } 
         catch (error) {
@@ -90,17 +96,28 @@ router.post('/',
 /* PUT - UPDATE*/
 router.put('/:teacherId', 
     checkTeacher,
-    checkSchema(teacherData),
+    checkSchema(updateTeacherData),    
     checkError,
     checkUser,
+    checkRole,
     checkBranch,
-   checkCity,
+    checkLocation,
+    checkCity,
     async (req, res) => {
 
         const { teacherId } = req.params;
 
-        try {            
+        try {     
+            //Actualizo user
+            const resultUser = await updateUser(req.body.user_id,req.body);
+            console.log("resultUser", resultUser);
+
+            //Actualizo location
+            const resultLocation = await updateLocation(req.body.location_id,req.body);          
+            console.log("resultLocation", resultLocation);
+
             const result = await updateTeacher(teacherId, req.body);
+            /**TODO: Respuesta: ¿Resultado de la operación o los datos getTeacherbyid?*/
             res.status(200).json(result);
         } 
         catch (error) {      

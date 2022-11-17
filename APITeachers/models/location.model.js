@@ -12,6 +12,10 @@ const getCityById = (cityId) => {
     return executeQueryOne('select * from cities where id = ?', [cityId]);
 }; 
 
+const getLocationById = (locationId) => {
+    return executeQueryOne('select * from locations where id = ?', [locationId]);
+}; 
+
 module.exports = {
-    createLocation, updateLocation, getCityById
+    createLocation, updateLocation, getCityById, getLocationById
 }

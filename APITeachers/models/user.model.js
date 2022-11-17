@@ -4,6 +4,10 @@ const getUserById = (userId) => {
     return executeQueryOne('select * from users where id = ?', [userId]);
 }; 
 
+const getRoleById = (roleId) => {
+    return executeQueryOne('select * from roles where id = ?', [roleId]);
+};
+
 const createUser = ({ name, surname, email, password, role_id }) => {
     return executeQuery('INSERT INTO users (name, surname, email, password, role_id) VALUES (?, ?, ?, ?, ?)', [name, surname, email, password, role_id]);
 };
@@ -13,5 +17,5 @@ const updateUser = (userId, { name, surname, email, password, role_id }) => {
 };
 
 module.exports = {
-    getUserById, createUser, updateUser
+    getUserById, createUser, updateUser, getRoleById
 }
