@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getCitiesByProvince,getAllProvince, getAllCities} = require('../models/location.model');
+const {getCitiesByProvince, getAllProvinces, getAllCities} = require('../models/location.model');
 
 router.get('/provinces/cities/:province_id',(req, res) =>{
     
@@ -15,7 +15,7 @@ router.get('/provinces/cities/:province_id',(req, res) =>{
 
 router.get('/provinces',async  (req, res) =>{
     try{
-        const provinces = await getAllProvince();
+        const provinces = await getAllProvinces();
         res.json(provinces);
     } catch (error) {
         res.json({ fatal: error.message });

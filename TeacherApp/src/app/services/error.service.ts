@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ErrorService {
-  private baseUrl:string ="https://lolcalhost:3000/api/errors"
+  private baseUrl:string ="http://lolcalhost:3000/api/errors"
   constructor(private httpClient:HttpClient) { }
 
   

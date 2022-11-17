@@ -8,6 +8,14 @@ const update = (locationId, { latitude, longitude, city_id, address }) => {
     return executeQuery('UPDATE locations SET latitude = ?, longitude = ?, city_id = ?, address = ? WHERE id = ?', [latitude, longitude, city_id, address, locationId]);
 };
 
+const getAllProvinces = () =>{
+    return executeQuery('SELECT * FROM provinces')
+}
+
+const getAllCities = () => {
+    return executeQuery('SELECT * FROM cities')
+}
+
 module.exports = {
-    create, update
+    create, update, getAllProvinces, getAllCities
 }
