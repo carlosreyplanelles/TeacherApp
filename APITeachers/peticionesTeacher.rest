@@ -1,6 +1,12 @@
 GET http://localhost:3100/api/teachers
-
 ###
+
+GET http://localhost:3100/api/teachers?page=1&limit=3
+###
+
+GET http://localhost:3100/api/teachers/100
+###
+
 POST http://localhost:3100/api/teachers
 Content-Type: application/json
 
@@ -22,3 +28,81 @@ Content-Type: application/json
     "experience": 23,
     "validated": 0 
 }
+###
+
+POST http://localhost:3100/api/teachers
+Content-Type: application/json
+
+{    
+    "name": "Isabel Maria del Pino",
+    "surname": "Haggen Dazn",
+    "email": "isabeli@mgur.com",
+    "password": "CorazonLatino",       
+    "role_id": 2,
+    "phone": "999999999",
+    "avatar": "https://robohash.org/quissintalias.png?size=50x50&set=set1",
+    "latitude": 45.521519,
+    "longitude": 3.5276642,    
+    "city_id": 8991,
+    "address": "7953 Rutledge Way",
+    "price_hour": 16.14,
+    "branch_id": 2,
+    "subjects": "ante ipsum primis in",  
+    "experience": 23,
+    "validated": 0 
+}
+###
+
+PUT http://localhost:3100/api/teachers/103
+Content-Type: application/json
+
+{    
+    "name": "Is",
+    "surname": "T",
+    "email": "isabeli@mgur.com",
+    "password": "CorazonLatino",       
+    "role_id": 2,
+    "phone": "999999999",
+    "avatar": "hps://robohash.org/quissintalias.png?size=50x50&set=set1",
+    "latitude": 45.521519,
+    "longitude": 3.5276642,    
+    "city_id": 8991,
+    "address": "7953 Rutledge Way",
+    "price_hour": 16.14,
+    "branch_id": 2,
+    "subjects": "ante ipsum primis in",  
+    "experience": 23,
+    "validated": 0 
+}
+
+###
+
+PUT http://localhost:3100/api/teachers/103
+Content-Type: application/json
+
+{
+  "user_id": 210,
+  "name": "Isabel Maria Jesús",
+  "surname": "Haggen Dazn Kalise",
+  "email": "isabeli.dazn@outlook.es",
+  "password": "CorazonLatino1987*-+",  
+  "role_id": 2,
+  "phone": "78787878787",
+  "branch_id": 2,
+  "branch_title": "Arte y Humanidades",
+  "branch_description": "Se conoce como artes y humanidades a un área de estudio que agrupa a las profesiones que se dedican a resguardar, comprender y sistematizar el acervo cultural de un país, en sus diferentes épocas y manifestaciones.",
+  "price_hour": 60.85,
+  "experience": 33,
+  "validated": 0,
+  "location_id": 212,
+  "address": "79530 Rutledge Way",
+  "latitude": 175.521519,
+  "longitude": 23.5276642,
+  "city_id": 8991,   
+  "avatar": "https://robohash.org/quissintalias.png?size=50x50&set=set1",
+  "subjects": "Arte moderno, arte contemporáneo, historia"
+}
+
+###
+DELETE http://localhost:3100/api/teachers/103
+

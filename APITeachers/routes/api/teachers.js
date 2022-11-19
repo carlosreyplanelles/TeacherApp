@@ -1,13 +1,15 @@
 const router = require('express').Router();
 
+const dayjs = require('dayjs');
+
 const { checkSchema } = require('express-validator');
 
 const { checkError, checkUser, checkCity, checkLocation, checkRole } = require('../../helpers/common.validators');
 const { newTeacherData, updateTeacherData, checkTeacher, checkBranch } = require('../../helpers/teacher.validator');
 
-const { createUser, getUserById, updateUser } = require('../../models/user.model');
+const { createUser, getUserById, updateUser, cancelUser } = require('../../models/user.model');
 const { createLocation, updateLocation } = require('../../models/location.model');
-const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getTeacherByEmail, createTeacher, deleteTeacherById, updateTeacher } = require('../../models/teacher.model');
+const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getTeacherByEmail, createTeacher, invalidateTeacher, updateTeacher } = require('../../models/teacher.model');
 
 
 /**TODO: Conflicto con nombres de métodos iguales entre users y teachers por eso lo comenté para ver qué necesito y renombré un par mios*/
@@ -40,7 +42,7 @@ router.get('/:teacherId', async (req, res) => {
     const { teacherId } = req.params;
 
     try {
-        const teacher = await getById(teacherId);
+        const teacher = await getTeacherById(teacherId);
 
         if (teacher) {
             res.status(200).json(teacher);
@@ -61,6 +63,8 @@ router.post('/',
    checkBranch,
    checkCity,
     async (req, res) => {
+
+        /**TODO: Mysql transaction process*/
 
         try {
             console.log("req.body", req.body);
@@ -107,6 +111,8 @@ router.put('/:teacherId',
 
         const { teacherId } = req.params;
 
+        /**TODO: Mysql transaction process*/
+
         try {     
             //Carlos nos tiene que enviar el loctationid y el cityid desde el front ya que en la ida se lo enviamos.
             //Actualizo user
@@ -138,13 +144,44 @@ router.delete('/:teacherId',
 
         const { teacherId } = req.params;
 
-        try {      
-            const result = await deleteTeacherByIdId(teacherId);
-            res.status(200).json(result);
+        /**TODO: mysql transaction*/
+
+        try {    
+            //Recupero al profesor
+            const teacher = await getTeacherById(teacherId);
+
+            if (teacher.leaving_date !== null) {
+                res.status(400).json({ error: "El profesor " + teacherId + " ya fue dado de baja en el sistema el " + dayjs(teacher.leaving_date).format('DD/MM/YYYY HH:mm:ss') });
+            }
+
+            //Fecha de baja  
+            const leavingDate = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+          
+            //update user
+            const resultUser = await cancelUser(teacher.user_id, leavingDate);  
+
+            /** TODO: Ver si hacer algo con el affectedRows y changedRows para los 2 updates
+            resultUser ResultSetHeader {
+                        fieldCount: 0,
+                        affectedRows: 1,
+                        insertId: 0,
+                        info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+                        serverStatus: 2,
+                        warningStatus: 0,
+                        changedRows: 1
+                    }
+            */
+                     
+            //Ya el profesor no es válido  //update teacher
+            const resultTeacher = await invalidateTeacher(teacherId);
+            
+            teacher.leaving_date = leavingDate;
+
+            res.status(200).json(teacher);
         } 
         catch (error) {        
             res.status(400).json({ error: "DELETE Error " + error.errno + ": " + error.message,
-                                   result: "No se pudo eliminar el profesor " + teacherId
+                                   result: "No se pudo dar de baja al profesor " + teacherId
                                 });
         }
     }
