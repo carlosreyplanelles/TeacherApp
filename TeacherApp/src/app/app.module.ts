@@ -42,6 +42,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     /* Importing the google maps api key from the environment.ts file. */
     AgmCoreModule.forRoot(environment.googleMaps),
     BrowserAnimationsModule,
+    AgmCoreModule,
+    SweetAlert2Module,
+    BrowserAnimationsModule,
+    
     MaterialModule,
     SweetAlert2Module.forRoot()
   ],
