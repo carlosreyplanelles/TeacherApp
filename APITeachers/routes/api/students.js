@@ -45,6 +45,7 @@ router.post('/', checkSchema(newStudent), checkError, async (req, res) => {
         const student = await Student.getById(response.insertId);
 
         res.json(student);
+        
     } catch (err) {
         res.json({ error: err.message });
     }
