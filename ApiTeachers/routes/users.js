@@ -1,70 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
-const { checkToken } = require('../helpers/midelwares')
-
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
-var allUsers = require('../models/user.model')
+const allUsers = require('../models/user.model')
+const createToken = require('../helpers/utils').createToken
 
-router.get('/', async (req, res) => {
-    try {
-        const users = await allUsers.getAll();
-        res.json(users);
-    } catch (err) {
-        res.json({ error: err.message });
+
+router.post('/login', async (req, res) => {
+    const user = await allUsers.getUserByEmail(req.body.email)
+    if(user == "") {
+        return res.json({ error: "Error en email y/o contraseña" })
     }
-});
 
-/* GET ALL USERS. */
+    const same = bcrypt.compareSync(user[0].password, req.body.password)
 
-router.get('/', async (req, res) => {
-    try {
-        const users = await allUsers.getAll();
-        res.json(users);
-    } catch (err) {
-        res.json({ error: err.message });
+    console.log(typeof user[0].password)
+    console.log(typeof req.body.password)
+
+    if (same) {
+        res.json({ success: "Login correcto", token: createToken(user)})
+    } else {
+        res.json({ error: "Error en email y/o contraseña" })
     }
-});
-
-/* GET USER BY EMAIL. */
-
-router.get('/login', async (req, res) => {
-
-    const {email} = req.body
-    try {
-        const users = await allUsers.getUserByEmail(email);
-        res.json(users);
-    } catch (err) {
-        res.json({ error: err.message });
-    }
-});
-
-//REGISTER(borrar)
-
-/* POST SIGNIN. */
-
-router.post('/signin', async (req, res) => {
-
-    const { email, password } = req.body
-
-    try {
-        const users = await allUsers.getUserByEmail(email, password);
-        let user = users[0]
-        const token = jwt.sign(user, process.env.SECRET_KEY)
-        res.json({token})
-    } catch (err) {
-        res.json("Usuario o clave incorrecta")
-    }
-});
-
-
-/* POST USER. */
-
-router.post('/login', checkToken, async (req, res) => {
-    res.json(req.data)
 })
-    
-
 
 module.exports = router;

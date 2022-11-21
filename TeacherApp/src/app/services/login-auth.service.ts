@@ -18,9 +18,6 @@ export class LoginAuthService {
   private baseURL: string = "http://localhost:3000"
 
   login(loginUser:Users) {
-    return this.httpClient.get(`${this.baseURL}/users/login`)
+    return this.httpClient.post(`${this.baseURL}/users/login`, loginUser)
   }
-
-
-  
 }

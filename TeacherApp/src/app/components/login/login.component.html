@@ -1,10 +1,11 @@
-<div class="all-login">
-    <h2>Iniciar Sesion</h2>
+<div class="all-login card">
+    <h2 class="login-title">Iniciar Sesion</h2>
     <form class="all-form">
         <div class="inputs">
-            <input type="text" [(ngModel)]="user.email" name="email">
-            <input type="password" [(ngModel)]="user.password" name="password">
+            <input class="email" type="text" [(ngModel)]="user.email" name="email" placeholder="Email">
+            <br>
+            <input class="password" type="password" [(ngModel)]="user.password" name="password" placeholder="Contraseña">
         </div>
-        <button class="btn btn-secondary" (click)="login()">Iniciar Sesion</button>
+        <button class="btn btn-primary" (click)="login()">Iniciar Sesion</button>
     </form>
 </div>
