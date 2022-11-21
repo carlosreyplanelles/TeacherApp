@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-//import { Admin } from 'src/app/interfaces/admin.interface';
-//import { AdminsService } from 'src/app/services/admins.service';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Admin } from 'src/app/interfaces/admin.interface';
+import { User } from 'src/app/interfaces/user.interface';
+import { UsersService } from 'src/app/services/users.service';
+import { AdminsService } from 'src/app/services/admins.service';
+import { StudentsService } from 'src/app/services/students.service';
+import { TeachersService } from 'src/app/services/teachers.service';
+
 
 @Component({
   selector: 'app-admin-view',
@@ -9,17 +16,69 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminViewComponent implements OnInit {
 
- // arrAdmins: Admin[] = [];
-  numStudents: Number = 0;
-  numTeachers: Number = 0;
-  numValidated: Number = 0;
-  numPending: Number = 0;
+  currentUser!: Admin | User | any;
 
+  numStudents: number = 0;
+  numInactives: number = 0;
+  numTeachers: number = 0;
+  numPending: number = 0;
 
-  constructor() { }  //private adminService: AdminsService
+  actualTab: string = 'pending';
+
+  constructor(
+    private userService: UsersService,
+    private adminService: AdminsService,
+    private studentsService: StudentsService,
+    private teachersService: TeachersService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(async (params: any) => {
+      //   let adminid: number = parseInt(params.adminid)
+      //   let resAdmin = await this.adminService.getAdminById(206);
+      //   this.currentAdmin = resAdmin;
 
+      this.userService.getById(205)
+        .then(response => {
+          this.currentUser = response;
+        })
+        .catch(error => {
+          console.log('ERROR', error)
+        })
+
+      this.numStudents = await this.getNumStudents();
+      // getNumTeachers();
+      // getNumValidated();
+      // getNumPending();
+    })
+
+
+
+
+  }
+
+  async getNumStudents(): Promise<number> {
+    let response = await this.studentsService.getAll();
+    return response.length;
+
+  }
+
+  getNumTeachers() {
+
+  }
+
+  getNumValidated() {
+
+  }
+
+  getNumPending() {
+
+  }
+
+  chargeTab(tab: string): void {
+    this.actualTab = tab;
   }
 
 }

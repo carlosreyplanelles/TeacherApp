@@ -1,0 +1,37 @@
+<div class="card mt-4">
+    <div class="text-center">
+        <img alt="" class="rounded-circle" [src]="myTeacher.avatar">
+    </div>
+    <div class="card-body text-center">
+        <h4 class="m-b-xs"><strong>{{myTeacher.name}}</strong></h4>
+        <h4 class="m-b-xs mt-0"><strong>{{myTeacher.surname}}</strong></h4>
+
+        <div class="d-flex justify-content-center align-items-center mt-4">
+            <mat-icon fontIcon="school">Rama</mat-icon>
+            <span class="ms-2">{{myTeacher.branch_title}}</span>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <mat-icon fontIcon="location_on">Location</mat-icon>
+            <span class="">{{myTeacher.city}}, {{myTeacher.province}}</span>
+        </div>
+        <span>{{myTeacher.price_hour}} €/hora</span>
+    </div>
+
+    <div class="d-flex justify-content-around p-3">
+        <button type="button" class="btn btn-primary">Detalles</button>
+        <button type="button" class="btn btn-success " alt="Enviar mensaje">Mensaje
+            <mat-icon fontIcon="chat_bubble" class="">Mensaje</mat-icon>
+        </button>
+    </div>
+
+    <div class="card-footer text-center">
+        <div class="m-t-xs btn-group">
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+        </div>
+    </div>
+
+</div>

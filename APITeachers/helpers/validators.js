@@ -1,9 +1,10 @@
 const { validationResult } = require('express-validator');
-//const { getAdminById } = require("../models/admin.model");
+const { getById, getByEmail } = require("../models/user.model");
+const { getAdminById } = require("../models/admin.model");
 const { getTeacherById } = require("../models/teacher.model");
-//const Student = require('../models/student.model');
+const Student = require('../models/student.model');
 
-const newAdmin = {
+const newUser = {
     name: {
         exists: true,
         trim: true,
@@ -50,24 +51,30 @@ const newAdmin = {
 
 }
 
-const updateAdmin = {
+const newAdmin = {
     name: {
-        optional: true,
+        exists: true,
         trim: true,
+        errorMessage: "The name field is required"
     },
     surname: {
-        optional: true,
+        exists: true,
         trim: true,
+        errorMessage: "The surname field is required"
     },
     email: {
-        optional: true,
+        exists: {
+            errorMessage: "The email field is required",
+        },
         trim: true,
         isEmail: {
             errorMessage: "The email must be valid",
         }
     },
     password: {
-        optional: true,
+        exists: {
+            errorMessage: "The password field is required",
+        },
         trim: true,
         isLength: {
             options: { min: 8 },
@@ -82,7 +89,9 @@ const updateAdmin = {
         // errorMessage: "Password must be greater than 8 and contain at least one uppercase letter, one lowercase letter, and one number"
     },
     role_id: {
-        optional: true,
+        exists: {
+            errorMessage: "The role_id field is required",
+        },
         isInt: true,
         errorMessage: "The role field must be a number"
     }
@@ -194,6 +203,28 @@ const checkError = (req, res, next) => {
     next();
 };
 
+const checkUser = async (req, res, next) => {
+    const { userid } = req.params;
+    /* Checking if the admin id exists. */
+    if (await getById(userid)) {
+        /* A function that is used to pass control to the next middleware function. */
+        next();
+    } else {
+        res.status(404).json({ Message: 'That user does not exist' });
+    }
+};
+
+const checkEmail = async (req, res, next) => {
+    const { useremail } = req.params;
+    /* Checking if the admin id exists. */
+    if (await getByEmail(useremail)) {
+        /* A function that is used to pass control to the next middleware function. */
+        next();
+    } else {
+        res.status(404).json({ Message: 'That user does not exist' });
+    }
+};
+
 /**
  * It checks if the admin id exists in the database.
  * @param req - The request object.
@@ -247,5 +278,5 @@ const checkStudent = async (req, res, next) => {
 };
 
 module.exports = {
-    newAdmin, updateAdmin, newStudent, checkError, checkAdmin, checkTeacher, checkStudent
+    newUser, newAdmin, newStudent, checkError, checkAdmin, checkTeacher, checkStudent, checkUser, checkEmail
 }

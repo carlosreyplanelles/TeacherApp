@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Student } from 'src/app/interfaces/student.interface';
+import { StudentsService } from 'src/app/services/students.service';
 
 @Component({
   selector: 'app-student-view',
@@ -7,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentViewComponent implements OnInit {
 
-  currentStudent: any;
-  constructor() { }
+  currentStudent: Student | any;
 
-  ngOnInit(): void {
+  studentId: number = 108;
+
+  constructor(private studentsService: StudentsService) { }
+
+  async ngOnInit(): Promise<void> {
+    try {
+      this.currentStudent = await this.studentsService.getById(this.studentId);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 }

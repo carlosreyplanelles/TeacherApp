@@ -1,0 +1,26 @@
+GET http://localhost:3000/api/ratings/1
+
+###
+GET http://localhost:3000/api/ratings?teacherid=85&studentid=108
+
+###
+POST http://localhost:3000/api/ratings
+Content-Type: application/json
+
+{
+    "rating": 1,
+    "comment": "rating de prueba",
+    "teacher_id": 86,
+    "student_id": 109
+}
+
+###
+PUT http://localhost:3000/api/ratings/7
+Content-Type: application/json
+
+{
+    "rating": 3,
+    "comment": "rating de prueba actualizado",
+    "teacher_id": 86,
+    "student_id": 109
+}

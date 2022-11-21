@@ -1,0 +1,61 @@
+POST http://localhost:3000/users/signin
+Content-Type: application/json
+
+{
+    "email": "felix@gmail.com",
+    "password": "123"
+}
+
+###
+GET http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    "email": "gdobrowolski16@unesco.org",
+    "password": "Spain",
+    "role_id": 1
+}
+
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    "email": "gdobrowolski16@unesco.org",
+    "password": "Spain"
+}
+### GET ALL USERS
+GET http://localhost:3000/api/users
+
+### GET ONE USER
+GET http://localhost:3000/api/users/user=200
+
+### GET USER BY EMAIL
+GET http://localhost:3000/api/users/email=dduck2r@xrea.com
+
+### CREATE NEW USER
+POST http://localhost:3000/api/user/new
+Content-Type: application/json
+
+{
+    "name": " Laura ", 
+    "surname": "Marquinez", 
+    "email": "laura@gmail.com", 
+    "password": "jnsjkadna",
+    "role_id": 1
+}
+
+### UPDATE ONE USER
+PUT http://localhost:3000/api/user/update/user=1
+Content-Type: application/json
+
+{
+    "name": " Laura ", 
+    "surname": "Marquinez", 
+    "email": "lauri@gmail.com", 
+    "password": "Laura2022",
+    "role_id": 1
+}
+
+### DELETE ONE USER
+DELETE http://localhost:3000/api/admin/delete/admin=212

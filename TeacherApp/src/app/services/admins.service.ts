@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Admin } from '../interfaces/admin.interface';
 
@@ -11,7 +11,7 @@ import { Admin } from '../interfaces/admin.interface';
 
 export class AdminsService {
 
-  baseUrl: string = 'https://localhost:300/api/admin/';
+  baseUrl: string = 'http://localhost:3000/api/admin';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -20,27 +20,42 @@ export class AdminsService {
   }
 
   getAdminById(pId: number): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/admin/admin=${pId}`));
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/admin=${pId}`));
   }
 
-  createAdmin(): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/new`));
+  createAdmin(pAdmin: Admin): Promise<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-type": "application/json",
+      })
+    }
+    return lastValueFrom(this.httpClient.post<Admin>(`${this.baseUrl}/new`, pAdmin, httpOptions));
   }
 
   updateAdminById(pId: number): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/update/admin=${pId}`));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-type": "application/json",
+      })
+    }
+    return lastValueFrom(this.httpClient.put<any>(`${this.baseUrl}/update/admin=${pId}`, httpOptions));
   }
 
   validateTeacherById(pId: number): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/validate/teacher=${pId}`));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-type": "application/json",
+      })
+    }
+    return lastValueFrom(this.httpClient.put<any>(`${this.baseUrl}/validate/teacher=${pId}`, httpOptions));
   }
 
   deleteAdminById(pId: number): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/delete/admin=${pId}`));
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/delete/admin=${pId}`));
   }
 
   deleteaAllAdmin(): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/delete/all`));
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/delete/all`));
   }
 
 }

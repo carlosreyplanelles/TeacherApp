@@ -4,8 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 
-//import { Student } from 'src/app/interfaces/student.interface';
-//import { StudentsService } from 'src/app/services/students.service';
+import { Student } from 'src/app/interfaces/student.interface';
+import { StudentsService } from 'src/app/services/students.service';
 import { CustomPaginator } from './CustomPaginatorConfiguration';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 
@@ -17,7 +17,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
     provide: MatPaginatorIntl, useValue: CustomPaginator()
   }]
 })
-export class AdminStudentListComponent { //implements AfterViewInit {
+export class AdminStudentListComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'id',
     'name',
@@ -26,8 +26,6 @@ export class AdminStudentListComponent { //implements AfterViewInit {
     'creation_date',
     'admin',
   ];
- 
-  /*
   dataSource: MatTableDataSource<Student>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -106,5 +104,5 @@ export class AdminStudentListComponent { //implements AfterViewInit {
           );
         }
       });
-  }*/
+  }
 }
