@@ -2,61 +2,19 @@
     <div class="row">
 
         <div class="col-12 col-lg-2 p-4">
-            <!-- BEGIN FILTER BY CATEGORY -->
+           
             <h2>Filtros</h2>
             <form>
 
                 <h5>Rama</h5>
                 <div class="form-check" *ngFor="let branch of branchFilters">
-                    <input class="form-check-input" type="checkbox" value="{{branch.value}}" id="flexCheckDefault" [(ngModel)]="branch.isChecked" name="fl-branch" (change)="changesFilterBranches()">
+                    <input class="form-check-input" type="checkbox" value="{{branch.value}}" id="flexCheckDefault"
+                        [(ngModel)]="branch.isChecked" name="fl-branch" (change)="changesFilterBranches()">
                     <label class="form-check-label" for="{{branch.id}}">
                         {{branch.name}}
                     </label>
                 </div>
 
-                <!-- <h5 class="mt-4">Precio hora</h5>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="fl-price" id="">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        < 10€ </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="fl-price" id="">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        < 10€ </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="fl-price" id="">
-                    <label class="form-check-label" for="">
-                        > 10€
-                    </label>
-                </div>
-
-                <h5 class="mt-4">Experiencia</h5>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="fl-experience" id="">
-                    <label class="form-check-label" for="">
-                        + 10 años</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="fl-experience" id="" checked>
-                    <label class="form-check-label" for="">
-                        + 15 años
-                    </label>
-                </div>
-
-                <h5 class="mt-4">Puntuación</h5>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="fl-rating" id="">
-                    <label class="form-check-label" for="">
-                        + 10</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="fl-rating" id="" checked>
-                    <label class="form-check-label" for="">
-                        + 15
-                    </label>
-                </div> -->
             </form>
 
         </div>

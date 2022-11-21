@@ -10,12 +10,11 @@ import { TeachersService } from 'src/app/services/teachers.service';
   styleUrls: ['./teacher-list.component.css'],
 })
 export class TeacherListComponent implements OnInit {
-  
+
   arrTeachers: Teacher[] = [];
   filterArrTeachers: Teacher[] = [];
 
   priceFilters: any[] = [
-    { name: 'Name (A to Z)', value: 'name' },
     { name: 'Price (low to high)', value: 'priceAsc' },
     { name: 'Price (high to low)', value: 'priceDes' },
   ];
@@ -55,7 +54,6 @@ export class TeacherListComponent implements OnInit {
   };
 
   constructor(private teachersService: TeachersService) {
-    // Delete
   }
 
   ngOnInit(): void {
