@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { getAllAdmin, getAdminById, createAdmin, updateAdminById, validateTeacherById, deleteAdminById, deleteAllAdmin } = require("../../models/admin.model");
 
 const { checkSchema } = require("express-validator");
-const { newAdmin, updateAdmin, checkError, checkAdmin, checkTeacher } = require("../../helpers/validators");
+const { newAdmin, checkError, checkAdmin, checkTeacher } = require("../../helpers/validators");
 const { getTeacherById } = require('../../models/teacher.model');
 
 /* GET ALL ADMINS*/
@@ -54,7 +54,7 @@ router.post("/new", checkSchema(newAdmin), checkError, async (req, res) => {
 });
 
 /*  UPDATE ADMIN BY ID */
-router.put("/update/admin=:adminid", checkSchema(updateAdmin), checkError, checkAdmin, async (req, res) => {
+router.put("/update/admin=:adminid", checkAdmin, async (req, res) => {
     const { adminid } = req.params;
     const newData = req.body;
     try {
