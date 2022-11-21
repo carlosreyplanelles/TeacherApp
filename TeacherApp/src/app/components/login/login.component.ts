@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
   user: Users = {
     email: "",
     password: "",
-    role_id: 1
   }
 
   ngOnInit(): void {
