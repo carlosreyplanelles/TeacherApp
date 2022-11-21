@@ -1,0 +1,25 @@
+.all-login{
+    margin: 5rem 30rem;
+    align-items: center;
+    padding: 2rem;
+}
+.login-title{
+    font-size: 2.5rem;
+}
+.inputs{
+    margin: 2rem;
+    display: block;
+}
+
+.email, .password{
+    margin-bottom: 2rem;
+    padding: 0.5rem 1rem;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+.password{
+    margin-bottom: 0;
+}
+.btn{
+    margin: 0 2rem;
+}

@@ -14,6 +14,10 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
 import { Error404Component } from './components/errors/error404/error404.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
+import { StudentViewComponent } from './components/student-view/student-view.component';
+import { RegisterComponent } from './components/register/register.component';
+import { StudentFormComponent} from './components/register/student-form/student-form.component';
+import { TeacherFormComponent } from './components/register/teacher-form/teacher-form.component';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component'
 import { TeacherListComponent } from './components/teacher-list/teacher-list.component';
 import { AdminTeacherListComponent } from './components/admin-teacher-list/admin-teacher-list.component';
@@ -21,6 +25,9 @@ import { AdminTeacherListComponent } from './components/admin-teacher-list/admin
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { StudentClassesListComponent } from './components/student-classes-list/student-classes-list.component';
+import { RatingFormComponent } from './components/rating-form/rating-form.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +38,13 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AdminViewComponent,
     Error404Component,
     AdminStudentListComponent,
+    StudentViewComponent,
+    StudentClassesListComponent,
+    LoginComponent,
+    RegisterComponent,
+    StudentFormComponent,
+    TeacherFormComponent,
+    RatingFormComponent,
     AdminTeacherListComponent,
     TeacherCardComponent,
     TeacherListComponent,
@@ -48,6 +62,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     /* Importing the google maps api key from the environment.ts file. */
     AgmCoreModule.forRoot(environment.googleMaps),
     BrowserAnimationsModule,
+    AgmCoreModule,
+    SweetAlert2Module,
+    BrowserAnimationsModule,
+    
     MaterialModule,
     SweetAlert2Module.forRoot(),
 

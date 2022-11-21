@@ -1,0 +1,115 @@
+<h1>Formulario de estudiante</h1>
+<section class="container mt-3">
+    <form [formGroup]="studentForm" (ngSubmit)="getDataForm()">
+
+        <input type="hidden" id="role_id" formControlName="role_id" [value]="student_role_id">
+        <div class="row mb-3">
+            <label  class="form-label" for="name">Nombre</label>
+            <input  type="text" [ngClass]="{'border-red': !checkValidControl('name')}" id="name" class="form-control" formControlName="name">
+            <p class="error" *ngIf="checkControl('name', 'required')">
+                El campo es obligatorio
+            </p>
+            <p class="error" *ngIf="checkControl('name', 'pattern')">
+                Formato incorrecto. Por favor introduce solo caracteres alfabeticos. Evita introducir números y caracteres especiales.
+            </p>
+        </div>
+        
+        <div class="row mb-3">
+            <label class="form-label" for="surname">Apellidos</label>
+            <input  [ngClass]="{'border-red': !checkValidControl('surname')}" class="form-label" type="text" id="surname" class="form-control" formControlName="surname">
+            <p class="error" *ngIf="checkControl('surname', 'required')">
+                El campo es obligatorio
+            </p>
+            <p class="error" *ngIf="checkControl('surname', 'pattern')">
+                Formato incorrecto. Por favor introduce solo caracteres alfabeticos. Evita introducir números y caracteres especiales.
+            </p>
+        </div>
+        
+        <div class="row mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input [ngClass]="{'border-red': !checkValidControl('email')}" class="form-label" type="text" id="email" class="form-control" formControlName="email">
+            <p class="error" *ngIf="checkControl('email', 'required')">
+                El campo es obligatorio
+            </p>
+            <p class="error" *ngIf="checkControl('email', 'pattern')">
+                Formato incorrecto. Por favor introduce un email con formato correcto.
+            </p>
+        </div>
+        
+        <div class="row mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input  type="password" [ngClass]="{'border-red': !checkValidControl('password')}" id="password" class="form-control" formControlName="password">
+            <p class="error" *ngIf="checkControl('password', 'required')">
+                El campo es obligatorio
+            </p>
+            <p class="error" *ngIf="checkControl('password', 'minlength')">
+                El password debe tener una longitud minima de 8 caracteres.
+            </p> 
+        </div>
+        
+        <div class="row mb-3">
+            <label class="form-label" for="passwordConfirm">Confirma tu password</label>
+            <input type="password" [ngClass]="{'border-red': !checkValidControl('passwordConfirm')}" id="passwordConfirm" class="form-control" formControlName="passwordConfirm">
+            <p class="error" *ngIf="checkControl('passwordConfirm', 'required')">
+                El campo es obligatorio
+            </p>
+            <p class="error" *ngIf="studentForm.hasError('checkpassword')">
+                Los campos password introducidos no coinciden
+            </p>
+        </div>
+        
+        <div class="row mb-3">
+            <label class="form-label" for="phone">Teléfono</label>
+            <input  type="text" [ngClass]="{'border-red': !checkValidControl('phone')}" id="phone" class="form-control" formControlName="phone">
+            <p class="error" *ngIf="checkControl('phone', 'required')">
+                El campo es obligatorio
+            </p>
+            <p class="error" *ngIf="checkControl('phone', 'minlength')">
+                Telefono de contacto incorrecto.
+            </p> 
+            <p class="error" *ngIf="checkControl('phone', 'maxlength')">
+                Telefono de contacto incorrecto.
+            </p> 
+            <p class="error" *ngIf="checkControl('phone', 'pattern')">
+                Formato incorrecto. Por favor introduce el código numerico del pais precedido por el simbolo '+' seguido del numero de telefono.
+            </p>
+        </div>
+        
+        <div class="row mb-3">
+            <label class="form-label" for="address">Direccion</label>
+            <input class="form-label" type="text" id="address" class="form-control" formControlName="address">
+        </div>
+
+        <div class="row mb-3">
+            <label class="form-label" for="avatar">Avatar</label>
+            <input class="form-label" type="text" id="avatar" class="form-control" formControlName="avatar">
+        </div>
+
+        <div class="row mb-3">
+            <label class="form-label" for="province-selector">Provincia</label>
+            <select (change) = "onSelected($event)" class="form-control" name="province" id="province-selector" formControlName="province_id">
+                <option default>Selecciona una provincia</option>
+                <option *ngFor="let province of provinces"
+                [value]="province.id">{{province.name}}</option>
+                
+            </select>
+            <p class="error" *ngIf="checkControl('province', 'required')">
+                El campo es obligatorio
+            </p>
+        </div>
+
+        <div class="row mb-3">
+            <label  class="form-label" for="city-selector">Ciudad</label>
+            <select class="form-control" name="city" id="city-selector" formControlName="city_id">
+                <option default>Selecciona tu ciudad de residencia</option>
+                <option *ngFor="let city of citiesbyProvince"
+                [value] ="city.id">{{city.name}}</option>
+            </select>
+            <p class="error" *ngIf="checkControl('city', 'required')">
+                El campo es obligatorio
+            </p>
+        </div>
+        
+        <input type="submit" [value]="accion" class="btn btn-success mt-3">
+    </form>
+</section>
