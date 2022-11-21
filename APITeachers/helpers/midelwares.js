@@ -14,6 +14,7 @@ const checkToken = (req, res, next) => {
     let obj;
     try {
         obj = jwt.verify(token, process.env.SECRET_KEY);
+        req.data = obj
     } catch (error) {
         console.log(error);
         return res.status(401)

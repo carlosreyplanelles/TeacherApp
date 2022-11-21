@@ -6,6 +6,11 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
 import { RatingFormComponent } from './components/rating-form/rating-form.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { StudentFormComponent } from './components/register/student-form/student-form.component';
+import { TeacherFormComponent } from './components/register/teacher-form/teacher-form.component';
+
 
 const routes: Routes = [
   /* Redirecting the user to the home page if the user enters the root of the application. */
@@ -16,6 +21,12 @@ const routes: Routes = [
   { path: 'students', component: AdminStudentListComponent },
   { path: 'student-profile', component: StudentViewComponent },
   { path: 'rating/:teacherId', component: RatingFormComponent },
+  { path: 'login', component: LoginComponent},
+  { path: 'registro', component: RegisterComponent, children: [
+    { path: 'estudiante', component:StudentFormComponent},
+    { path: 'profesor', component:TeacherFormComponent}
+  ] },
+  { path:'actualizar/estudiante/:studentId', component:StudentFormComponent},
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
 ];

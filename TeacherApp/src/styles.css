@@ -49,3 +49,12 @@ body {
     height: auto !important;
     display: block !important;
 }
+
+.border-red{
+	border: 1px solid tomato;
+}
+
+.error{
+    color: tomato;
+    font-size: 12px;
+}
