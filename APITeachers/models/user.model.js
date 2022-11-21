@@ -19,3 +19,4 @@ const getUserByEmail = (email) => {
 module.exports = {
     create, update, getAll, getUserByEmail
 }
+

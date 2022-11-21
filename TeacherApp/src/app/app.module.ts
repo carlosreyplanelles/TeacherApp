@@ -14,6 +14,9 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
 import { Error404Component } from './components/errors/error404/error404.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
+import { RegisterComponent } from './components/register/register.component';
+import { StudentFormComponent} from './components/register/student-form/student-form.component';
+import { TeacherFormComponent } from './components/register/teacher-form/teacher-form.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
@@ -29,7 +32,10 @@ import { LoginComponent } from './components/login/login.component';
     AdminViewComponent,
     Error404Component,
     AdminStudentListComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    StudentFormComponent,
+    TeacherFormComponent,
 
   ],
   imports: [
