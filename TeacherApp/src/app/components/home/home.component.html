@@ -13,11 +13,11 @@
                     </div>
                     <div class="user text-center">
                         <div class="profile">
-                            <img [src]='currentStudent.avatar' class="rounded-circle" width="80">
+                            <img [src]='currentUser.avatar' class="rounded-circle" width="80">
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <h4 class="mb-0">{{currentStudent.name}} {{currentStudent.surname}}</h4>
+                        <h4 class="mb-0">{{currentUser.name}} {{currentUser.surname}}</h4>
                         <span class="text-muted d-block mb-2">Madrid</span>
                         <button class="btn btn-primary btn-sm details">Detalles</button>
                         <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
@@ -39,19 +39,20 @@
             </agm-marker>
             <!-- Teacher marker -->
             <!-- FALTA:ngfor con todos los profesores -->
-            <agm-marker [latitude]="lat" [longitude]="long">
+            <agm-marker *ngFor="let teacher of arrTeachers" [latitude]="teacher?.latitude"
+                [longitude]="teacher?.longitude">
                 <agm-info-window class="container d-flex justify-content-center align-items-center card-user">
                     <div class="upper">
                         <img src="https://i.imgur.com/Qtrsrk5.jpg" class="img-fluid">
                     </div>
                     <div class="user text-center">
                         <div class="profile">
-                            <img [src]='currentStudent.avatar' class="rounded-circle" width="80">
+                            <img [src]='teacher?.avatar' class="rounded-circle" width="80">
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <h4 class="mb-0">{{currentTeacher}} {{currentTeacher}}</h4>
-                        <span class="text-muted d-block mb-2">Madrid</span>
+                        <h4 class="mb-0">{{teacher?.name}} {{teacher?.surname}}</h4>
+                        <span class="text-muted d-block mb-2">{{teacher?.city}}</span>
                         <button class="btn btn-danger btn-sm details">Detalles</button>
                         <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
                             <div class="stats">

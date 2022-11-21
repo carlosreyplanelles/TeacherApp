@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Admin } from 'src/app/interfaces/admin.interface';
+import { User } from 'src/app/interfaces/user.interface';
+import { UsersService } from 'src/app/services/users.service';
 import { AdminsService } from 'src/app/services/admins.service';
 import { StudentsService } from 'src/app/services/students.service';
 import { TeachersService } from 'src/app/services/teachers.service';
@@ -14,22 +16,17 @@ import { TeachersService } from 'src/app/services/teachers.service';
 })
 export class AdminViewComponent implements OnInit {
 
-  arrAdmins: Admin[] = [];
-  currentAdmin!: Admin | any;
+  currentUser!: Admin | User | any;
 
   numStudents: number = 0;
-  // arrStudents: Student[] = [];
   numInactives: number = 0;
-  // arrInactives: Teacher[] = [];
   numTeachers: number = 0;
-  // arrTeachers: Teacher[] = [];
   numPending: number = 0;
-  // arrPending: Teacher[] = [];
 
-  adminid: number = 205;
   actualTab: string = 'pending';
 
   constructor(
+    private userService: UsersService,
     private adminService: AdminsService,
     private studentsService: StudentsService,
     private teachersService: TeachersService,
@@ -43,10 +40,9 @@ export class AdminViewComponent implements OnInit {
       //   let resAdmin = await this.adminService.getAdminById(206);
       //   this.currentAdmin = resAdmin;
 
-      this.adminService.getAdminById(this.adminid)
+      this.userService.getById(205)
         .then(response => {
-          this.currentAdmin = response;
-          console.log(this.currentAdmin);
+          this.currentUser = response;
         })
         .catch(error => {
           console.log('ERROR', error)
