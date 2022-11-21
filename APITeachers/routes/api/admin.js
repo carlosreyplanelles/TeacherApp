@@ -76,7 +76,7 @@ router.put("/validate/teacher=:teacherid", checkTeacher, async (req, res) => {
     try {
         /* Updating the teacher by the id. */
         const result = await validateTeacherById(teacherid, newData);
-        const teacher = await getTeacherById(teacherid);
+        const teacher = await getTeacherByUserId(teacherid);
         res.json({ Message: 'The teacher status has been changed', teacher });
     } catch (error) {
         /* Sending the error message to the client. */

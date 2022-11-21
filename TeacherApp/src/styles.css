@@ -11,6 +11,19 @@
 
 
 /* You can add global styles to this file, and also import other style files */
+
+/* Importing the Poppins font from Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap');
+
+/* Importing the Roboto font from Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap');
+
+/* Importing the font-awesome library. */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css');
+
+/* Importing the ionicons library. */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css');
+
 :root {
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
