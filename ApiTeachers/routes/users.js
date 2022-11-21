@@ -16,14 +16,26 @@ router.post('/login', async (req, res) => {
 
     const same = bcrypt.compareSync(user[0].password, req.body.password)
 
-    console.log(typeof user[0].password)
-    console.log(typeof req.body.password)
-
     if (same) {
         res.json({ success: "Login correcto", token: createToken(user)})
     } else {
         res.json({ error: "Error en email y/o contraseña" })
     }
 })
+
+
+//¿Registro?
+
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body
+    try {
+        const users = await allUsers.getUserByEmail(email, password);
+        let user = users[0]
+        const token = jwt.sign(user, process.env.SECRET_KEY)
+        res.json({token})
+    } catch (err) {
+        res.json("Usuario o clave incorrecta")
+    }
+});
 
 module.exports = router;
