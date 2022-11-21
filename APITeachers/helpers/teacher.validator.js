@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator');
 const { getTeacherById, getBranchById } = require("../models/teacher.model");
-//const Student = require('../models/student.model');
 
 //Schema Validation
 const newTeacherData = {

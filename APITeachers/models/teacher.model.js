@@ -53,7 +53,6 @@ const createTeacher = ({ phone, branch_id, price_hour, experience, validated, lo
                        [phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects]);
 }
 
-/*Delete es un borrado lógico: validate a 0 y completar la fecha de baja en la tabla de usuarios. Aquí no hacemos delete de las 3 tablas*/
 const invalidateTeacher = (teacherId) => {    
     return executeQuery('update teachers set validated = 0 where id = ?', [teacherId]);
 }

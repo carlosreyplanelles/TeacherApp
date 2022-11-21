@@ -12,10 +12,6 @@ const { createLocation, updateLocation } = require('../../models/location.model'
 const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getTeacherByEmail, createTeacher, invalidateTeacher, updateTeacher } = require('../../models/teacher.model');
 
 
-/**TODO: Conflicto con nombres de métodos iguales entre users y teachers por eso lo comenté para ver qué necesito y renombré un par mios*/
-//const { getAll, getById, getByPage, create, update, deleteById } = require('../../models/user.model');
-
-
 /* GET - READ */
 router.get('/', async (req, res) => {
  
@@ -114,7 +110,7 @@ router.put('/:teacherId',
         /**TODO: Mysql transaction process*/
 
         try {     
-            //Carlos nos tiene que enviar el loctationid y el cityid desde el front ya que en la ida se lo enviamos.
+            
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
             console.log("resultUser", resultUser);
@@ -159,18 +155,6 @@ router.delete('/:teacherId',
           
             //update user
             const resultUser = await cancelUser(teacher.user_id, leavingDate);  
-
-            /** TODO: Ver si hacer algo con el affectedRows y changedRows para los 2 updates
-            resultUser ResultSetHeader {
-                        fieldCount: 0,
-                        affectedRows: 1,
-                        insertId: 0,
-                        info: 'Rows matched: 1  Changed: 1  Warnings: 0',
-                        serverStatus: 2,
-                        warningStatus: 0,
-                        changedRows: 1
-                    }
-            */
                      
             //Ya el profesor no es válido  //update teacher
             const resultTeacher = await invalidateTeacher(teacherId);
