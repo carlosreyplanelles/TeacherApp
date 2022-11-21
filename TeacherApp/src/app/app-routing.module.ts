@@ -4,6 +4,8 @@ import { AdminViewComponent } from './components/admin-view/admin-view.component
 import { Error404Component } from './components/errors/error404/error404.component';
 import { HomeComponent } from './components/home/home.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
+import { StudentViewComponent } from './components/student-view/student-view.component';
+import { RatingFormComponent } from './components/rating-form/rating-form.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { StudentFormComponent } from './components/register/student-form/student-form.component';
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: AdminViewComponent },
   { path: 'students', component: AdminStudentListComponent },
+  { path: 'student-profile', component: StudentViewComponent },
+  { path: 'rating/:teacherId', component: RatingFormComponent },
   { path: 'login', component: LoginComponent},
   { path: 'registro', component: RegisterComponent, children: [
     { path: 'estudiante', component:StudentFormComponent},

@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
 import { Error404Component } from './components/errors/error404/error404.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
+import { StudentViewComponent } from './components/student-view/student-view.component';
 import { RegisterComponent } from './components/register/register.component';
 import { StudentFormComponent} from './components/register/student-form/student-form.component';
 import { TeacherFormComponent } from './components/register/teacher-form/teacher-form.component';
@@ -21,6 +22,8 @@ import { TeacherFormComponent } from './components/register/teacher-form/teacher
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { StudentClassesListComponent } from './components/student-classes-list/student-classes-list.component';
+import { RatingFormComponent } from './components/rating-form/rating-form.component';
 import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
@@ -32,11 +35,13 @@ import { LoginComponent } from './components/login/login.component';
     AdminViewComponent,
     Error404Component,
     AdminStudentListComponent,
+    StudentViewComponent,
+    StudentClassesListComponent,
     LoginComponent,
     RegisterComponent,
     StudentFormComponent,
     TeacherFormComponent,
-
+    RatingFormComponent
   ],
   imports: [
     BrowserModule,

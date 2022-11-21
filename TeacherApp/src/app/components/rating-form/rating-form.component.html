@@ -1,0 +1,41 @@
+<div class="container d-flex justify-content-center mt-5">
+
+    <div class="card text-center mb-5">
+
+        <div class="circle-image">
+            <img src="https://i.imgur.com/hczKIze.jpg" width="50">
+        </div>
+
+        <span class="name mb-1 fw-500">-Nombre profesor-</span>
+        <small class="text-black-50">-Rama de conocimiento-</small>
+        <small class="text-black-50 font-weight-bold">-Asignaturas que imparte-</small>
+
+
+        <div class="rate bg-dark py-3 text-white mt-3">
+
+            <form [formGroup]="ratingForm" (ngSubmit)="getRating()">
+                <p class="text-danger px-1" *ngIf="currentRating">Existe una valoración anterior para este profesor. Si valoras de nuevo al profesor, la nueva información sobrescribirá la valoración anterior</p>
+
+                <h6 class="mb-0">Valora a este profesor</h6>
+                <div class="rating">
+                    <input type="radio" formControlName="rating" value="5" id="5" [checked]="currentRating?.rating === 5"><label for="5">☆</label>
+                    <input type="radio" formControlName="rating" value="4" id="4" [checked]="currentRating?.rating === 4"><label for="4">☆</label>
+                    <input type="radio" formControlName="rating" value="3" id="3" [checked]="currentRating?.rating === 3"><label for="3">☆</label>
+                    <input type="radio" formControlName="rating" value="2" id="2" [checked]="currentRating?.rating === 2"><label for="2">☆</label>
+                    <input type="radio" formControlName="rating" value="1" id="1" [checked]="currentRating?.rating === 1"><label for="1">☆</label>
+                </div>
+
+                <h6 class="mb-2">Comentarios</h6>
+                <div class="rating-text px-3">
+                    <textarea class="form-control" formControlName="comment" cols="30" rows="10"></textarea>
+                </div>
+
+                <div class="buttons px-4 mt-0">
+                    <input type="submit" value="Enviar valoración" class="btn btn-primary btn-block rating-submit">
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
