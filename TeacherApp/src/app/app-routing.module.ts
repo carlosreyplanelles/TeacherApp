@@ -31,6 +31,8 @@ const routes: Routes = [
   { path: 'admin-estudiantes', component: AdminStudentListComponent },
   { path: 'admin-profesores', component: AdminTeacherListComponent },
   { path: 'profesores', component: TeacherListComponent },
+  { path: 'profile-admin', component: AdminViewComponent },
+  { path: 'admin-students', component: AdminStudentListComponent },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
 ];
@@ -38,4 +40,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

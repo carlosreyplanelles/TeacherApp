@@ -1,32 +1,75 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark border-5 border-bottom border-primary">
+<nav class="navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" [routerLink]="['/home']">TeacherApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+            aria-controls="offcanvasDarkNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#"> Nombre Usuario</a>
+
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+            aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">TeacherApp</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
+                            [routerLink]="['/profile-teacher']" class="nav-item nav-link text-white">Perfil Profesor</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
+                            [routerLink]="['/profile-student']" class="nav-item nav-link text-white">Perfil
+                            Estudiante</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
+                            [routerLink]="['/profile-admin']" class="nav-item nav-link text-white">Perfil Admin</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/students']"
+                            class="nav-item nav-link text-white">Listar Usuarios</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
+                            [routerLink]="['/students-inactive']" class="nav-item nav-link text-white">Listar
+                            Estudiantes Inactivos</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/teachers']"
+                            class="nav-item nav-link text-white">Listar Profesores</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
+                            [routerLink]="['/teachers-pending']" class="nav-item nav-link text-white">Listar Profesores
+                            Pendientes</a>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
+                            [routerLink]="['/admin-students']" class="nav-item nav-link text-white"> Estudiantes
+                            Admin</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
+                            [routerLink]="['/admin-teachers']" class="nav-item nav-link text-white">Profesores Admin</a>
+                    </li>
+                    <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/map']"
+                            class="nav-item nav-link text-white"> Mapa</a>
+                    </li>
+                </ul>
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg border-5 border-bottom border-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white fw-bold" [routerLink]="['/home']">TeacherApp</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link fw-bold text-white"
-                        routerLinkActive="active fs-5 border-1 border-bottom border-primary"
-                        [routerLink]="['/home']">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-bold text-white"
-                        routerLinkActive="active fs-5 border-1 border-bottom border-primary"
-                        [routerLink]="['/login']">Iniciar Sesión</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-bold text-white"
-                        routerLinkActive="active fs-5 border-1 border-bottom border-primary"
-                        [routerLink]="['/register']">Registrarse</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-bold text-white"
-                        routerLinkActive="active fs-5 border-1 border-bottom border-primary"
-                        [routerLink]="['/profile']">Mi Perfil</a>
-                </li>
+                <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/login']"
+                        class="nav-item nav-link active text-white">Login</a></li>
+                <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/register']"
+                        class="nav-item nav-link text-white">Registrarse</a></li>
             </ul>
         </div>
     </div>

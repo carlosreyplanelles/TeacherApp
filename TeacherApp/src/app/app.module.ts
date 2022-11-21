@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +14,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
 import { Error404Component } from './components/errors/error404/error404.component';
+import { Error500Component } from './components/errors/error500/error500.component';
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -37,6 +39,7 @@ import { LoginComponent } from './components/login/login.component';
     HomeComponent,
     AdminViewComponent,
     Error404Component,
+    Error500Component,
     AdminStudentListComponent,
     StudentViewComponent,
     StudentClassesListComponent,
@@ -52,6 +55,7 @@ import { LoginComponent } from './components/login/login.component';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     /* A module that is used to make HTTP requests. */
     HttpClientModule,
@@ -74,4 +78,4 @@ import { LoginComponent } from './components/login/login.component';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

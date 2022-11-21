@@ -105,3 +105,6 @@ dist
 
 #It's a file that macOS creates in every folder
 .DS_Store
+
+# It's a folder that contains the settings for the VSCode editor.
+.vscode
