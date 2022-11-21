@@ -8,6 +8,12 @@ const update = (userId, { name, surname, email, password, role_id }) => {
     return executeQuery('UPDATE users SET name = ?, surname = ?, email = ?, password = ?, role_id = ? WHERE id = ?', [name, surname, email, password, role_id, userId]);
 };
 
+const getUserbyEmail = (email) =>{
+    return executeQueryOne("SELECT email FROM users u WHERE u.email = ?", [email])
+}
+
 module.exports = {
-    create, update
+    create, 
+    update, 
+    getUserbyEmail
 }

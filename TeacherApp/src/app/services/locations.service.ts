@@ -14,9 +14,10 @@ export class LocationsService {
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/provinces`))
   }
 
-  getCitiesByProvince(province_id: string){
+  getCitiesByProvince(province_id: number){
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/provinces/cities/${province_id}`))
   }
+
   getAllCities(){
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/cities`))
   }

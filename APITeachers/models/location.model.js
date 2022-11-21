@@ -16,6 +16,10 @@ const getAllCities = () => {
     return executeQuery('SELECT * FROM cities')
 }
 
+const getCitiesByProvince = (provinceId) =>{
+    return executeQuery('SELECT * FROM cities WHERE province_id = ?', [provinceId])
+}
+
 module.exports = {
-    create, update, getAllProvinces, getAllCities
+    create, update, getAllProvinces, getAllCities,getCitiesByProvince
 }

@@ -2,7 +2,7 @@
 <section class="container mt-3">
     <form [formGroup]="studentForm" (ngSubmit)="getDataForm()">
 
-        <input type="hidden" id="role_id" [(ngModel)]="role_id" formControlName="role_id">
+        <input type="hidden" id="role_id" formControlName="role_id" [value]="student_role_id">
         <div class="row mb-3">
             <label  class="form-label" for="name">Nombre</label>
             <input  type="text" [ngClass]="{'border-red': !checkValidControl('name')}" id="name" class="form-control" formControlName="name">
@@ -87,50 +87,29 @@
 
         <div class="row mb-3">
             <label class="form-label" for="province-selector">Provincia</label>
-            <select (change) = "onSelected($event)" class="form-control" name="province" id="province-selector">
+            <select (change) = "onSelected($event)" class="form-control" name="province" id="province-selector" formControlName="province_id">
                 <option default>Selecciona una provincia</option>
-                <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
+                <option *ngFor="let province of provinces"
+                [value]="province.id">{{province.name}}</option>
+                
             </select>
-            <p class="error" *ngIf="checkControl('first_name', 'required')">
+            <p class="error" *ngIf="checkControl('province', 'required')">
                 El campo es obligatorio
             </p>
         </div>
-        
+
         <div class="row mb-3">
             <label  class="form-label" for="city-selector">Ciudad</label>
             <select class="form-control" name="city" id="city-selector" formControlName="city_id">
                 <option default>Selecciona tu ciudad de residencia</option>
-                <option *ngFor="let city of citiesbyProvince" [value]="city.id">{{city.name}}</option>
+                <option *ngFor="let city of citiesbyProvince"
+                [value] ="city.id">{{city.name}}</option>
             </select>
-            <p class="error" *ngIf="checkControl('first_name', 'required')">
+            <p class="error" *ngIf="checkControl('city', 'required')">
                 El campo es obligatorio
             </p>
-    
         </div>
         
-        <div *ngIf="role_id == 2" class="row mb-3">
-            <label class="form-label"  for="price_hour">precio/hora</label>
-            <input class="form-label" type="text" id="price_hour" class="form-control" formControlName="price_hour">
-        </div>
-        <p class="error" *ngIf="checkControl('price_hour', 'required')">
-            El campo nombre es obligatorio
-        </p>
-        <p class="error" *ngIf="checkControl('price_hour', 'pattern')">
-            Formato de nombre incorrecto. Por favor introduce solo caracteres alfabeticos. Evita introducir números y caracteres especiales.
-        </p>
-
-        <div *ngIf="role_id == 2" class="row mb-3">
-            <label class="form-label"  for="branch">Rama</label>
-            <select class="form-control" name="branch" id="branch-selector" formControlName="branch_id">
-                <option default>Selecciona una rama</option>
-                <option *ngFor="let branch of branches" [value]="branch.id">{{branch.title}}</option>
-            </select>
-        </div>
-        <p class="error" *ngIf="checkControl('branch', 'required')">
-            El campo es obligatorio
-        </p>
-
-        
-        <input type="submit" value="Registrar" class="btn btn-success mt-3">
+        <input type="submit" [value]="accion" class="btn btn-success mt-3">
     </form>
 </section>

@@ -12,8 +12,4 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  btnClick(){
-    this.router.navigateByUrl('/registro/estudiante');
-  }
 }

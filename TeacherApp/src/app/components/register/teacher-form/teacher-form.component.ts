@@ -1,42 +1,33 @@
-import { Component, Input, OnInit } from '@angular/core';
-import{ User } from 'src/app/interfaces/user.interface';
-import{ Student } from 'src/app/interfaces/student.interface';
+import { Component, OnInit } from '@angular/core';
 import { City } from 'src/app/interfaces/city.interface';
 import { Province } from 'src/app/interfaces/province.interface';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import {LocationsService } from 'src/app/services/locations.service';
 import { Branch } from 'src/app/interfaces/branch.interface';
 import { BranchesService } from 'src/app/services/branches.service';
-import { StudentsService } from 'src/app/services/students.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-student-register',
-  templateUrl: './student-register.component.html',
-  styleUrls: ['./student-register.component.css']
+  selector: 'app-teacher-form',
+  templateUrl: './teacher-form.component.html',
+  styleUrls: ['./teacher-form.component.css']
 })
-export class StudentRegisterComponent implements OnInit {
+export class TeacherFormComponent implements OnInit {
   
-  studentForm:FormGroup;
-  student_role_id = 3
+  registrationForm:FormGroup;
   teacher_role_id = 2
   provinces: Province[] = [];
   cities: City[] = [];
   citiesbyProvince: City[] = [];
   province_id!:string;
   branches:Branch[] = []
-  branch_id!: string;
-  city_id!:string;
-  role !: string;
-  role_id: number = this.student_role_id
 
 
   constructor( 
     private locationsService: LocationsService,
     private branchesService: BranchesService,
-    private studentsServince: StudentsService,
-    private activatedRoute: ActivatedRoute) { 
-    this.studentForm  = new FormGroup({
+    private usersService: UsersService) { 
+    this.registrationForm  = new FormGroup({
       role_id: new FormControl('',[]),
       email: new FormControl('', [
         Validators.required,
@@ -57,16 +48,17 @@ export class StudentRegisterComponent implements OnInit {
       passwordConfirm: new FormControl('',[
         Validators.required
       ]),
-      phone: new FormControl('',[
-        Validators.required,
+      address: new FormControl('',[]),
+      phone: new FormControl('',[Validators.required,
         Validators.pattern(/^[+][0-9]+$/),
         Validators.maxLength(13),
-        Validators.minLength(11)
-      ]),
-      city_id: new FormControl('',[]),
-      address: new FormControl('',[]),
-      
+        Validators.minLength(11)]),
+      city_id: new FormControl('',[Validators.required]),
       avatar: new FormControl('',[]),
+      price_hour: new FormControl('',[Validators.required]),
+      branch_id: new FormControl('',[Validators.required]),
+      experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
+      subject: new FormControl('',[])
     }, []);
   }
   
@@ -74,12 +66,6 @@ export class StudentRegisterComponent implements OnInit {
     this.getProvinces()
     this.getCities()
     this.getBranches()
-    this.activatedRoute.params.subscribe((params: any) => {
-      if(params.role === 'profesor'){
-        this.studentForm.addControl('price_hour', new FormControl('', Validators.required));
-        this.studentForm.addControl('branch_id', new FormControl('', Validators.required));
-      }
-    })
   }
 
   async getProvinces() {
@@ -115,21 +101,22 @@ export class StudentRegisterComponent implements OnInit {
   }
 
   async getDataForm() {
-    if (this.studentForm.status === "VALID") {
-      let formValues = this.studentForm.value;
-      let response
-      if (formValues.role_id == this.student_role_id) {
+    if (this.registrationForm.status === "VALID") {
+      const user = this.usersService.findByEmail(this.registrationForm.value.email)
+      if (user != null) {
+        alert("Error al registrar el usuario.El correo utilizado ya existe.")
+      } else {
+        let formValues = this.registrationForm.value;
+        let response
         let newStudent = formValues
-        newStudent.role_id = this.role_id
         newStudent.latitude = 41.6704100
         newStudent.longitude = -3.6892000
-        response = await this.studentsServince.create(newStudent)
-      } 
-      console.log(response)
-      if (response?.id) {
-        alert("El usuario ha sido creado correctamente.")
-      } else {
-        alert("Ha ocurrido un error intentelo de nuevo más tarde")
+        /*response = await this.teachersServince.create(newStudent)
+        if (response?.id) {
+          alert("El usuario ha sido creado correctamente.")
+        } else {
+          alert("Ha ocurrido un error intentelo de nuevo más tarde")
+        }*/
       }
     } else {
       alert("Los datos introducidos son incorrectos. Por favor revise la información introducida.")
@@ -138,7 +125,7 @@ export class StudentRegisterComponent implements OnInit {
 
   checkControl(controlName: string, Error: string): boolean{
     let noErrors = false;
-    if (this.studentForm.get(controlName)?.hasError(Error) && this.studentForm.get(controlName)?.touched) {
+    if (this.registrationForm.get(controlName)?.hasError(Error) && this.registrationForm.get(controlName)?.touched) {
       noErrors = true;
     }
     return noErrors;
@@ -146,7 +133,7 @@ export class StudentRegisterComponent implements OnInit {
 
   checkValidControl(controlName: string): boolean{
     let valid = true
-    if (this.studentForm.get(controlName)?.status==="INVALID" && this.studentForm.get(controlName)?.touched){
+    if (this.registrationForm.get(controlName)?.status==="INVALID" && this.registrationForm.get(controlName)?.touched){
       valid = false
     }
     return valid;
@@ -154,16 +141,11 @@ export class StudentRegisterComponent implements OnInit {
 
   checkPassword(pFormValue: AbstractControl) {
     const password: string = pFormValue.get('password')?.value;
-    const passwordConfirm: string = pFormValue.get('repeatpassword')?.value;
+    const passwordConfirm: string = pFormValue.get('confirmPassword')?.value;
     if (password !== passwordConfirm) {
       return { 'checkpassword': true }
     } else {
       return null
     }
-  }
-
-
-  changeType(e:any){
-    this.role = e.target.value;
   }
 }

@@ -4,7 +4,8 @@ const {getCitiesByProvince, getAllProvinces, getAllCities} = require('../models/
 
 router.get('/provinces/cities/:province_id',(req, res) =>{
     
-    const {province_id} = req.query;
+    const {province_id} = req.params;
+    console.log(req.params)
     try{
         const cities = getCitiesByProvince(province_id);
         res.json(cities);
@@ -30,6 +31,5 @@ router.get('/cities',async  (req, res) =>{
         res.json({ fatal: error.message });
     }
 })
-
 
 module.exports = router
