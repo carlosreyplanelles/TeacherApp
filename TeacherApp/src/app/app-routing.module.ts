@@ -19,22 +19,21 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   /* Telling the router to load the UserListComponent when the user navigates to the home page. */
   { path: 'home', component: HomeComponent },
-  { path: 'profile', component: AdminViewComponent },
-  { path: 'students', component: AdminStudentListComponent },
-  { path: 'student-profile', component: StudentViewComponent },
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'register', component: RegisterComponent, children: [
+      { path: 'estudiante', component: StudentFormComponent },
+      { path: 'profesor', component: TeacherFormComponent }
+    ]
+  },
+  { path: 'actualizar/estudiante/:studentId', component: StudentFormComponent },
+  { path: 'teachers', component: TeacherListComponent },
   { path: 'rating/:teacherId', component: RatingFormComponent },
-  { path: 'login', component: LoginComponent},
-  { path: 'registro', component: RegisterComponent, children: [
-    { path: 'estudiante', component:StudentFormComponent},
-    { path: 'profesor', component:TeacherFormComponent}
-  ] },
-  { path:'actualizar/estudiante/:studentId', component:StudentFormComponent},
-  { path: 'admin-estudiantes', component: AdminStudentListComponent },
-  { path: 'admin-profesores', component: AdminTeacherListComponent },
-  { path: 'profesores', component: TeacherListComponent },
+  { path: 'profile-student', component: StudentViewComponent },
+  { path: 'profile-teacher/:teacherId', component: TeacherViewComponent },
   { path: 'profile-admin', component: AdminViewComponent },
+  { path: 'admin-teachers', component: AdminTeacherListComponent },
   { path: 'admin-students', component: AdminStudentListComponent },
-  { path: 'teacher/:teacherId', component: TeacherViewComponent },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
 ];

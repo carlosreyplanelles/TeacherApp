@@ -49,8 +49,8 @@ export class AdminViewComponent implements OnInit {
         })
 
       this.numStudents = await this.getNumStudents();
-      // getNumTeachers();
-      // getNumValidated();
+      this.numTeachers = await this.getNumTeachers();
+      // getNumInactives();
       // getNumPending();
     })
 
@@ -62,15 +62,16 @@ export class AdminViewComponent implements OnInit {
   async getNumStudents(): Promise<number> {
     let response = await this.studentsService.getAll();
     return response.length;
+  }
+
+  getNumInactives() {
 
   }
 
-  getNumTeachers() {
-
-  }
-
-  getNumValidated() {
-
+  async getNumTeachers(): Promise<number> {
+    let response = await this.teachersService.getAll();
+    console.log(response);
+    return response.length;
   }
 
   getNumPending() {
