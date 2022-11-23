@@ -1,0 +1,78 @@
+.landing-page{
+    width: 100%;
+    height: 100vh;
+    background-image: url('../../../assets/assets-lp/fondo.jpg');
+}
+
+.center-text{
+    padding-top: 8rem;
+    text-align: center;  
+    color: white;
+}
+
+.coming{
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.app-name{
+    font-size: 5rem;
+    text-transform: capitalize;
+    margin-bottom: 5rem;
+}
+.register-btn{
+    border: 4px solid rgb(0, 9, 86);
+    color: white;
+    width: 250px;
+    height: 60px;
+    border-radius: 50px;
+}
+.register-btn:hover{
+    background-color: rgba(38, 255, 38, 0.3);
+    transition: background-color 1s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.planet{
+    position: absolute;
+}
+.planet-1{
+    bottom: -100px;
+    width: 450px;
+    height: 450px;
+}
+.planet-2{
+    bottom: 100px;
+    right: 300px;
+    width: 300px;
+    height: 300px
+}
+.planet-3{
+    bottom: 175px;
+    left: 250px;
+    width: 150px;
+    height: 150px;
+}
+.planet-4{
+    right: 0;
+    bottom: -150px;
+    width: 500px;
+    height: 500px;
+}
