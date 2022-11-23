@@ -8,7 +8,6 @@ import { TeachersService } from 'src/app/services/teachers.service';
   styleUrls: ['./teacher-list.component.css'],
 })
 export class TeacherListComponent implements OnInit {
-
   arrTeachers: Teacher[] = [];
   filterArrTeachers: Teacher[] = [];
 
@@ -39,6 +38,14 @@ export class TeacherListComponent implements OnInit {
     },
   ];
 
+  experienceFilters: any = [
+    { name: 'Todos los', value: '55', id: 'exp55', isChecked: false },
+    { name: '5', value: '5', id: 'exp5', isChecked: false },
+    { name: '10', value: '10', id: 'exp10', isChecked: false },
+    { name: '15', value: '15', id: 'exp15', isChecked: false },
+    { name: '20', value: '20', id: 'exp20', isChecked: false },
+  ];
+
   selectedFilters = {
     branches: [
       'Ciencias',
@@ -51,8 +58,7 @@ export class TeacherListComponent implements OnInit {
     exp: 100,
   };
 
-  constructor(private teachersService: TeachersService) {
-  }
+  constructor(private teachersService: TeachersService) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -60,9 +66,8 @@ export class TeacherListComponent implements OnInit {
       this.arrTeachers = response;
       this.filterArrTeachers = this.arrTeachers;
       this.filteredTeachers();
-    }
-    catch (err: any) {
-      console.log(err.error)
+    } catch (err: any) {
+      console.log(err.error);
     }
   }
 
@@ -77,6 +82,8 @@ export class TeacherListComponent implements OnInit {
         price_hour > priceMin &&
         experience <= exp
     );
+
+    console.log(this.selectedFilters);
   }
 
   changesFilterBranches() {
@@ -100,6 +107,26 @@ export class TeacherListComponent implements OnInit {
     this.filteredTeachers();
   }
 
+  changesFilterExperiens() {
+    this.selectedFilters.exp = 25;
+    console.log(this.selectedFilters.exp);
+
+
+    for (let i = 0; i < this.experienceFilters.length; i++) {
+      if (this.experienceFilters[i].isChecked) {
+        this.selectedFilters.exp = parseInt(this.experienceFilters[i].value);
+        console.log('⭐ if', this.selectedFilters.exp);
+      }
+    }
+    console.log(this.selectedFilters.exp);
+
+    // if ((this.selectedFilters.exp == 0)) {
+    //   this.selectedFilters.exp = 25;
+    // }
+
+    this.filteredTeachers();
+
+  }
 
   chanPrice() {}
   chanExperience() {}
