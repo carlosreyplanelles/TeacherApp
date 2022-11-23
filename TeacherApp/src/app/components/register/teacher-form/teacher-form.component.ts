@@ -6,6 +6,8 @@ import {LocationsService } from 'src/app/services/locations.service';
 import { Branch } from 'src/app/interfaces/branch.interface';
 import { BranchesService } from 'src/app/services/branches.service';
 import { UsersService } from 'src/app/services/users.service';
+import { ActivatedRoute } from '@angular/router';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-teacher-form',
@@ -14,20 +16,24 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class TeacherFormComponent implements OnInit {
   
-  registrationForm:FormGroup;
+  teacherForm:FormGroup;
   teacher_role_id = 2
   provinces: Province[] = [];
   cities: City[] = [];
   citiesbyProvince: City[] = [];
   province_id!:string;
   branches:Branch[] = []
+  storedTeacher:any
+  accion:string = "Registrar"
 
 
   constructor( 
     private locationsService: LocationsService,
     private branchesService: BranchesService,
-    private usersService: UsersService) { 
-    this.registrationForm  = new FormGroup({
+    private usersService: UsersService,
+    private activatedRoute:ActivatedRoute,
+    private teachersService: TeachersService) { 
+    this.teacherForm  = new FormGroup({
       role_id: new FormControl('',[]),
       email: new FormControl('', [
         Validators.required,
@@ -66,6 +72,32 @@ export class TeacherFormComponent implements OnInit {
     this.getProvinces()
     this.getCities()
     this.getBranches()
+    this.activatedRoute.params.subscribe(async (params: any) => {
+
+      this.accion="Actualizar"
+
+      if (params.teacherId) {
+        this.accion = "Actualizar"
+        this.storedTeacher = await this.teachersService.getById(params.teacherId)
+        this.citiesbyProvince = this.cities.filter(c => c.province_id == parseInt(this.storedTeacher.province_id))
+
+        this.teacherForm.patchValue({
+          name: this.storedTeacher.name,
+          surname: this.storedTeacher.surname,
+          email: this.storedTeacher.email,
+          password: this.storedTeacher.password,
+          address: this.storedTeacher.address,
+          avatar: this.storedTeacher.avatar,
+          phone: this.storedTeacher.phone,
+          city_id: this.storedTeacher.city_id,
+          province_id: this.storedTeacher.province_id,
+          subject: this.storedTeacher.subject,
+          branch_id : this.storedTeacher.branch_id,
+          experience : this.storedTeacher.experience,
+          price_hour : this.storedTeacher.price_hour
+        })
+      }
+    })
   }
 
   async getProvinces() {
@@ -101,23 +133,43 @@ export class TeacherFormComponent implements OnInit {
   }
 
   async getDataForm() {
-    if (this.registrationForm.status === "VALID") {
-      const user = this.usersService.findByEmail(this.registrationForm.value.email)
-      if (user != null) {
-        alert("Error al registrar el usuario.El correo utilizado ya existe.")
-      } else {
-        let formValues = this.registrationForm.value;
+    if (this.teacherForm.status === "VALID") {
+      this.activatedRoute.params.subscribe(async (params: any) => {
+        const user = this.usersService.findByEmail(this.teacherForm.value.email)
         let response
-        let newStudent = formValues
-        newStudent.latitude = 41.6704100
-        newStudent.longitude = -3.6892000
-        /*response = await this.teachersServince.create(newStudent)
-        if (response?.id) {
-          alert("El usuario ha sido creado correctamente.")
-        } else {
-          alert("Ha ocurrido un error intentelo de nuevo más tarde")
-        }*/
-      }
+        let teacher = this.teacherForm.value
+        if (!params.teacherId) {
+          if (user != null) {
+            alert("Error al registrar el usuario.El correo utilizado ya existe.")
+          } else {
+            response = await this.teachersService.create(teacher)
+            if (response.id) {
+              alert("El usuario ha sido creado correctamente.")
+            } else {
+              alert("Ha ocurrido un error intentelo de nuevo más tarde")
+            }
+          }
+        } else{
+          this.storedTeacher.name = teacher.name,
+          this.storedTeacher.surname = teacher.surname,
+          this.storedTeacher.email = teacher.email,
+          this.storedTeacher.password = teacher.password,
+          this.storedTeacher.address = teacher.address,
+          this.storedTeacher.avatar = teacher.avatar,
+          this.storedTeacher.phone = teacher.phone,
+          this.storedTeacher.city_id = teacher.city_id,
+          this.storedTeacher.province_id = teacher.province_id
+          this.storedTeacher.subject = teacher.subject
+          this.storedTeacher.branch_id = teacher.branch_id
+          this.storedTeacher.experience = teacher.experience
+          this.storedTeacher.price_hour = teacher.price_hour
+          try{
+            const respone = this.teachersService.update(this.storedTeacher)
+          } catch(error) {
+            alert("Ha ocurrido un error intentelo de nuevo más tarde")
+          }
+        }
+      })
     } else {
       alert("Los datos introducidos son incorrectos. Por favor revise la información introducida.")
     }
@@ -125,7 +177,7 @@ export class TeacherFormComponent implements OnInit {
 
   checkControl(controlName: string, Error: string): boolean{
     let noErrors = false;
-    if (this.registrationForm.get(controlName)?.hasError(Error) && this.registrationForm.get(controlName)?.touched) {
+    if (this.teacherForm.get(controlName)?.hasError(Error) && this.teacherForm.get(controlName)?.touched) {
       noErrors = true;
     }
     return noErrors;
@@ -133,7 +185,7 @@ export class TeacherFormComponent implements OnInit {
 
   checkValidControl(controlName: string): boolean{
     let valid = true
-    if (this.registrationForm.get(controlName)?.status==="INVALID" && this.registrationForm.get(controlName)?.touched){
+    if (this.teacherForm.get(controlName)?.status==="INVALID" && this.teacherForm.get(controlName)?.touched){
       valid = false
     }
     return valid;
@@ -141,7 +193,7 @@ export class TeacherFormComponent implements OnInit {
 
   checkPassword(pFormValue: AbstractControl) {
     const password: string = pFormValue.get('password')?.value;
-    const passwordConfirm: string = pFormValue.get('confirmPassword')?.value;
+    const passwordConfirm: string = pFormValue.get('passwordConfirm')?.value;
     if (password !== passwordConfirm) {
       return { 'checkpassword': true }
     } else {
