@@ -59,7 +59,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
   }
 
   applyFilterStatus(event: Event | string) {
-    console.log('😊', event);
     this.dataSource.filter = event.toString();
 
     if (this.dataSource.paginator) {

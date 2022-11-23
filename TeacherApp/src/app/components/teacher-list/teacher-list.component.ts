@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-// Delete
-import { TEACHERS } from 'mokdata.teachers.db';
 import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { TeachersService } from 'src/app/services/teachers.service';
 @Component({
@@ -56,24 +54,20 @@ export class TeacherListComponent implements OnInit {
   constructor(private teachersService: TeachersService) {
   }
 
-  ngOnInit(): void {
-    this.arrTeachers = TEACHERS;
-    this.filterArrTeachers = this.arrTeachers;
-    this.filteredTeachers();
-
-    // try {
-    //   let response = await this.teachersService.getAll(1);
-    //   this.arrTeachers = response.data;
-    //   console.log(this.arrTeachers)
-    // }
-    // catch (err: any) {
-    //   console.log(err.error)
-    // }
+  async ngOnInit(): Promise<void> {
+    try {
+      let response = await this.teachersService.getAll();
+      this.arrTeachers = response;
+      this.filterArrTeachers = this.arrTeachers;
+      this.filteredTeachers();
+    }
+    catch (err: any) {
+      console.log(err.error)
+    }
   }
 
   filteredTeachers() {
     this.filterArrTeachers = this.arrTeachers;
-
     const { branches, priceMax, priceMin, exp } = this.selectedFilters;
 
     this.filterArrTeachers = this.arrTeachers.filter(
