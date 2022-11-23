@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt'
+import { lastValueFrom } from 'rxjs';
 import { Users } from '../interfaces/users.interface';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class LoginAuthService {
 
   private baseURL: string = "http://localhost:3000"
 
-  login(loginUser:Users) {
-    return this.httpClient.post(`${this.baseURL}/users/login`, loginUser)
+  login(loginUser: Users): Promise<any> {
+    return lastValueFrom(this.httpClient.post<any>(`${this.baseURL}/users/login`, loginUser));
   }
 }

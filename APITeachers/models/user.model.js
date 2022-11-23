@@ -60,8 +60,8 @@ const update = (userId, { name, surname, email, password, role_id }) => {
 };
 
 const getUserByEmail = (email) => {
-    return executeQuery('SELECT * FROM users where email = ?', [email])
-}
+    return executeQueryOne('SELECT * FROM users where email = ?', [email]);
+};
 
 module.exports = {
     create, update, getUserByEmail, getAll, getById, getByEmail, getUserById, createUser, updateUser, getRoleById, cancelUser

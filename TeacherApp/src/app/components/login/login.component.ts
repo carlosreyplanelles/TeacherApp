@@ -27,11 +27,20 @@ export class LoginComponent implements OnInit {
 
   //LOGIN
 
-  login() {
-    const token: any = localStorage.getItem('token')!
+  async login(): Promise<void> {
+    let response = await this.loginAuthService.login(this.user);
 
-    this.loginAuthService.login(this.user).subscribe( (res:any) => {
-      localStorage.setItem('token', res.token)
-    })
+    console.log(response);
+
+    if (response.success) {
+      localStorage.setItem('user-token', response.token);
+      localStorage.setItem('user-id', response.user_id);
+      localStorage.setItem('user-role', response.user_role);
+
+      // TODO: Se redirige a un perfil genérico, y con guardas de role (canLoad) se cargan o no los componentes
+      //this.router.navigate(['/profile']);
+    } else {
+      alert(response.error);
+    }
   }
 }
