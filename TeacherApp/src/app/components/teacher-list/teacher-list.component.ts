@@ -11,11 +11,6 @@ export class TeacherListComponent implements OnInit {
   arrTeachers: Teacher[] = [];
   filterArrTeachers: Teacher[] = [];
 
-  priceFilters: any[] = [
-    { name: 'Price (low to high)', value: 'priceAsc' },
-    { name: 'Price (high to low)', value: 'priceDes' },
-  ];
-
   branchFilters: any = [
     { name: 'Ciencias', value: 'Ciencias', id: 'ciencias', isChecked: false },
     {
@@ -39,13 +34,13 @@ export class TeacherListComponent implements OnInit {
   ];
 
   experienceFilters: any = [
-    { name: 'Todos los', value: '55', id: 'exp55', isChecked: false },
-    { name: '5', value: '5', id: 'exp5', isChecked: false },
-    { name: '10', value: '10', id: 'exp10', isChecked: false },
-    { name: '15', value: '15', id: 'exp15', isChecked: false },
-    { name: '20', value: '20', id: 'exp20', isChecked: false },
+    { name: 'Todos los', value: '0', id: 'exp0'},
+    { name: 'de 0 a 5', value: '5', id: 'exp5' },
+    { name: 'de 5 a 10', value: '10', id: 'exp10' },
+    { name: 'de 10 a 15', value: '15', id: 'exp15' },
+    { name: 'de 15 a 20', value: '20', id: 'exp20' },
   ];
-
+  
   selectedFilters = {
     branches: [
       'Ciencias',
@@ -55,7 +50,8 @@ export class TeacherListComponent implements OnInit {
     ],
     priceMax: 1199,
     priceMin: 1,
-    exp: 100,
+    expMax: 100,
+    expMin: 0,
   };
 
   constructor(private teachersService: TeachersService) {}
@@ -73,14 +69,16 @@ export class TeacherListComponent implements OnInit {
 
   filteredTeachers() {
     this.filterArrTeachers = this.arrTeachers;
-    const { branches, priceMax, priceMin, exp } = this.selectedFilters;
+    const { branches, priceMax, priceMin, expMin, expMax } =
+      this.selectedFilters;
 
     this.filterArrTeachers = this.arrTeachers.filter(
       ({ branch_title, price_hour, experience }) =>
         branches.includes(branch_title) &&
         price_hour < priceMax &&
         price_hour > priceMin &&
-        experience <= exp
+        experience > expMin &&
+        experience <= expMax
     );
 
     console.log(this.selectedFilters);
@@ -107,27 +105,14 @@ export class TeacherListComponent implements OnInit {
     this.filteredTeachers();
   }
 
-  changesFilterExperiens() {
-    this.selectedFilters.exp = 25;
-    console.log(this.selectedFilters.exp);
-
-
-    for (let i = 0; i < this.experienceFilters.length; i++) {
-      if (this.experienceFilters[i].isChecked) {
-        this.selectedFilters.exp = parseInt(this.experienceFilters[i].value);
-        console.log('⭐ if', this.selectedFilters.exp);
-      }
+  changesFilterExperiens($event: any) {
+    if ($event == 0) {
+      this.selectedFilters.expMax = 25;
+      this.selectedFilters.expMin = 0;
+    } else {
+      this.selectedFilters.expMax = parseInt($event);
+      this.selectedFilters.expMin = parseInt($event) - 5;
     }
-    console.log(this.selectedFilters.exp);
-
-    // if ((this.selectedFilters.exp == 0)) {
-    //   this.selectedFilters.exp = 25;
-    // }
-
     this.filteredTeachers();
-
   }
-
-  chanPrice() {}
-  chanExperience() {}
 }
