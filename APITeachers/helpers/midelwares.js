@@ -7,7 +7,7 @@ const checkToken = async (req, res, next) => {
     // Check included token
     if (!req.headers['authorization']) {
         return res.status(401)
-            .json({ fatal: 'Debes incluir el token de autenticación' });
+            .json({ error: 'Debes incluir el token de autenticación' });
     }
 
     const { authorization: token } = req.headers;
@@ -20,25 +20,22 @@ const checkToken = async (req, res, next) => {
     } catch (error) {
         console.log(error);
         return res.status(401)
-            .json({ fatal: 'El token incluido no es válido' });
+            .json({ error: 'El token incluido no es válido' });
     }
 
     // Check expiration date
     if (obj.expiration_date < dayjs().unix()) {
         return res.status(401)
-            .json({ fatal: 'El token está caducado' });
+            .json({ error: 'El token está caducado' });
     }
-
-    // Add user info to the request
-    req.user = await User.getById(req.data.user_id);
 
     next();
 }
 
 const checkRole = (role) => {
     return (req, res, next) => {
-        if (req.user.title !== role) {
-            return res.status(401).json({ fatal: `Restringido el acceso. Solo usuarios con role: ${role}` });
+        if (req.data.user_role !== role) {
+            return res.status(401).json({ error: `Restringido el acceso. Solo usuarios con role: ${role}` });
         }
 
         next();

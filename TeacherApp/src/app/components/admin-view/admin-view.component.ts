@@ -46,8 +46,6 @@ export class AdminViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.adminId);
-
     this.activatedRoute.params.subscribe(async (params: any) => {
       //   let adminid: number = parseInt(params.adminid)
       //   let resAdmin = await this.adminService.getAdminById(206);

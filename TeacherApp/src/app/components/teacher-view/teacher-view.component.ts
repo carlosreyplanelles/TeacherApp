@@ -28,8 +28,6 @@ export class TeacherViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.teacherId);
-
     this.activatedRoute.params.subscribe(async (params: any) => {
       //Recupero el parámetro de la url
       //this.teacherId = parseInt(params['teacherId']);

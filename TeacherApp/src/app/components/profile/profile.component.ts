@@ -10,7 +10,7 @@ export class ProfileComponent implements OnInit {
 
   token: string | null = localStorage.getItem('user-token');
   tokenInfo: any;
-  userRole!: number;
+  userRole!: string;
 
   constructor() {
     if (this.token) {

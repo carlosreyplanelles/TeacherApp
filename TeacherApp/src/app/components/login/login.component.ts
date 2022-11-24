@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     // console.log(response);
 
     const tokenInfo = this.getDecodedAccessToken(response.token);
-    // console.log(tokenInfo);
+    console.log(tokenInfo);
 
     if (response.success) {
       localStorage.setItem('user-token', response.token);

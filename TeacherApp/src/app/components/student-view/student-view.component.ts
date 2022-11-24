@@ -29,12 +29,11 @@ export class StudentViewComponent implements OnInit {
     }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.studentId);
-
     try {
       this.currentStudent = await this.studentsService.getById(this.studentId);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      alert(err.error.error);
+      this.router.navigate(['/login']);
     }
   }
 

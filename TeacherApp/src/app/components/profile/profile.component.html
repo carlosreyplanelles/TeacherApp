@@ -1,3 +1,3 @@
-<app-admin-view *ngIf="userRole === 1"></app-admin-view>
-<app-teacher-view *ngIf="userRole === 2"></app-teacher-view>
-<app-student-view *ngIf="userRole === 3"></app-student-view>
+<app-admin-view *ngIf="userRole === 'admin'"></app-admin-view>
+<app-teacher-view *ngIf="userRole === 'teacher'"></app-teacher-view>
+<app-student-view *ngIf="userRole === 'student'"></app-student-view>

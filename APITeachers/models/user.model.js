@@ -40,7 +40,7 @@ const getById = (userid) => {
 
 const getByEmail = (useremail) => {
     return executeQueryOne(
-        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.email = ?',
+        'SELECT u.*, r.title, r.description FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.email = ?',
         [useremail]
     );
 };

@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const Student = require('../models/student.model');
 const Teacher = require('../models/teacher.model');
-const { getUserByEmail } = require('../models/user.model');
+const { getByEmail } = require('../models/user.model');
 const { createToken } = require('../helpers/utils');
 
 
@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     // Checks if email exists
-    const user = await getUserByEmail(email);
+    const user = await getByEmail(email);
     if(!user) {
         return res.json({ error: "Error en email y/o contraseña" });
     }
@@ -40,17 +40,11 @@ router.post('/login', async (req, res) => {
             break;
     };
 
-
     res.json({
         success: true,
-        // user_id: id,
-        // user_role: user.role_id,
-        token: createToken(id, user.role_id)
+        token: createToken(id, user.title)
     });
 })
-
-
-// TODO: REGISTER
 
 router.get('/:email',async  (req, res) =>{
   try{
