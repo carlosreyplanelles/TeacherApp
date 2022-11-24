@@ -33,14 +33,21 @@ export class TeacherListComponent implements OnInit {
     },
   ];
 
-  experienceFilters: any = [
-    { name: 'Todos los', value: '0', id: 'exp0'},
-    { name: 'de 0 a 5', value: '5', id: 'exp5' },
-    { name: 'de 5 a 10', value: '10', id: 'exp10' },
-    { name: 'de 10 a 15', value: '15', id: 'exp15' },
-    { name: 'de 15 a 20', value: '20', id: 'exp20' },
+  priceFilters: any = [
+    { name: 'Todos los precios', value: 'all', id: 'price0' },
+    { name: 'Entre 0€ y 5€', value: '5', id: 'price5' },
+    { name: 'Entre 5€ y 10€', value: '10', id: 'price10' },
+    { name: 'Mas de 10€', value: 'max', id: 'price15' },
   ];
-  
+
+  experienceFilters: any = [
+    { name: 'Todos', value: '0', id: 'exp0' },
+    { name: 'De 0 a 5', value: '5', id: 'exp5' },
+    { name: 'De 5 a 10', value: '10', id: 'exp10' },
+    { name: 'De 10 a 15', value: '15', id: 'exp15' },
+    { name: 'De 15 a 20', value: '20', id: 'exp20' },
+  ];
+
   selectedFilters = {
     branches: [
       'Ciencias',
@@ -48,7 +55,7 @@ export class TeacherListComponent implements OnInit {
       'Ciencias de la Salud',
       'Ingieniería y Arquitectura',
     ],
-    priceMax: 1199,
+    priceMax: 1000,
     priceMin: 1,
     expMax: 100,
     expMin: 0,
@@ -80,8 +87,6 @@ export class TeacherListComponent implements OnInit {
         experience > expMin &&
         experience <= expMax
     );
-
-    console.log(this.selectedFilters);
   }
 
   changesFilterBranches() {
@@ -89,6 +94,7 @@ export class TeacherListComponent implements OnInit {
 
     for (let i = 0; i < this.branchFilters.length; i++) {
       if (this.branchFilters[i].isChecked) {
+        console.log(this.branchFilters[i]);
         this.selectedFilters.branches.push(this.branchFilters[i].name);
       }
     }
@@ -100,9 +106,9 @@ export class TeacherListComponent implements OnInit {
         'Ciencias de la Salud',
         'Ingieniería y Arquitectura',
       ];
+      
+      this.filteredTeachers();
     }
-
-    this.filteredTeachers();
   }
 
   changesFilterExperiens($event: any) {
@@ -112,6 +118,20 @@ export class TeacherListComponent implements OnInit {
     } else {
       this.selectedFilters.expMax = parseInt($event);
       this.selectedFilters.expMin = parseInt($event) - 5;
+    }
+    this.filteredTeachers();
+  }
+
+  changesFilterPrices($event: any) {
+    if ($event == 'all') {
+      this.selectedFilters.priceMax = 1000;
+      this.selectedFilters.priceMin = 0;
+    } else if ($event == 'max') {
+      this.selectedFilters.priceMax = 1000;
+      this.selectedFilters.priceMin = 10;
+    } else {
+      this.selectedFilters.priceMax = parseInt($event);
+      this.selectedFilters.priceMin = parseInt($event) - 5;
     }
     this.filteredTeachers();
   }

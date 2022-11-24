@@ -2,13 +2,13 @@
     <div class="row">
 
         <div class="col-12 col-lg-2 p-4">
-           
+
             <h2>Filtros</h2>
             <form>
 
                 <h5>Rama</h5>
                 <div class="form-check" *ngFor="let branch of branchFilters">
-                    <input class="form-check-input" type="checkbox" value="{{branch.value}}" id="flexCheckDefault"
+                    <input class="form-check-input" type="checkbox" value="{{branch.value}}"
                         [(ngModel)]="branch.isChecked" name="fl-branch" (change)="changesFilterBranches()">
                     <label class="form-check-label" for="{{branch.id}}">
                         {{branch.name}}
@@ -17,10 +17,19 @@
 
                 <h5 class="mt-4">Experiencia</h5>
                 <div class="form-check" *ngFor="let exp of experienceFilters">
-                    <input class="form-check-input" type="radio" value="{{exp.value}}" id="flexCheckDefault"
+                    <input class="form-check-input" type="radio" value="{{exp.value}}"
                         [(ngModel)]="exp.isChecked" name="fl-experience" (change)="changesFilterExperiens(exp.value)">
                     <label class="form-check-label" for="{{exp.id}}">
                         {{exp.name}} años
+                    </label>
+                </div>
+
+                <h5 class="mt-4">Precio / hora</h5>
+                <div class="form-check" *ngFor="let price of priceFilters">
+                    <input class="form-check-input" type="radio" value="{{price.value}}"
+                        name="fl-price" (change)="changesFilterPrices(price.value)">
+                    <label class="form-check-label" for="{{price.id}}">
+                        {{price.name}}
                     </label>
                 </div>
 
