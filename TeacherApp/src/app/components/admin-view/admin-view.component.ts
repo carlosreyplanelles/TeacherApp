@@ -69,7 +69,7 @@ export class AdminViewComponent implements OnInit {
   }
 
   async getNumTeachers(): Promise<number> {
-    let response = await this.teachersService.getAll();
+    let response = await this.teachersService.getAllTeachers();
     console.log(response);
     return response.length;
   }
