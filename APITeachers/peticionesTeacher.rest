@@ -4,7 +4,13 @@ GET http://localhost:3100/api/teachers
 GET http://localhost:3100/api/teachers?page=1&limit=3
 ###
 
-GET http://localhost:3100/api/teachers/100
+GET http://localhost:3100/api/teachers/filters/1
+###
+
+GET http://localhost:3100/api/teachers/filters/3
+###
+
+GET http://localhost:3100/api/teachers/85
 ###
 
 POST http://localhost:3100/api/teachers
