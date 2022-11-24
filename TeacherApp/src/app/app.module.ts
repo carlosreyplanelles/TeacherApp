@@ -31,6 +31,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { StudentClassesListComponent } from './components/student-classes-list/student-classes-list.component';
 import { RatingFormComponent } from './components/rating-form/rating-form.component';
 import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { LoginComponent } from './components/login/login.component';
     AdminTeacherListComponent,
     TeacherCardComponent,
     TeacherListComponent,
-    TeacherViewComponent
+    TeacherViewComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+
 import { Admin } from 'src/app/interfaces/admin.interface';
 import { User } from 'src/app/interfaces/user.interface';
 import { UsersService } from 'src/app/services/users.service';
@@ -25,6 +27,10 @@ export class AdminViewComponent implements OnInit {
 
   actualTab: string = 'pending';
 
+  token: string | null = localStorage.getItem('user-token');
+  tokenInfo: any;
+  adminId!: number;
+
   constructor(
     private userService: UsersService,
     private adminService: AdminsService,
@@ -32,15 +38,22 @@ export class AdminViewComponent implements OnInit {
     private teachersService: TeachersService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    if (this.token) {
+      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.adminId = this.tokenInfo.user_id;
+    }
+  }
 
   ngOnInit(): void {
+    console.log(this.adminId);
+
     this.activatedRoute.params.subscribe(async (params: any) => {
       //   let adminid: number = parseInt(params.adminid)
       //   let resAdmin = await this.adminService.getAdminById(206);
       //   this.currentAdmin = resAdmin;
 
-      this.userService.getById(205)
+      this.userService.getById(this.adminId)
         .then(response => {
           this.currentUser = response;
         })
@@ -53,10 +66,6 @@ export class AdminViewComponent implements OnInit {
       // getNumInactives();
       // getNumPending();
     })
-
-
-
-
   }
 
   async getNumStudents(): Promise<number> {
@@ -80,6 +89,19 @@ export class AdminViewComponent implements OnInit {
 
   chargeTab(tab: string): void {
     this.actualTab = tab;
+  }
+
+  logout() {
+    localStorage.removeItem('user-token');
+    this.router.navigate(['/login']);
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch(Error) {
+      return null;
+    }
   }
 
 }
