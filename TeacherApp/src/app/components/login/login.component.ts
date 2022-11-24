@@ -34,11 +34,15 @@ export class LoginComponent implements OnInit {
 
     if (response.success) {
       localStorage.setItem('user-token', response.token);
-      localStorage.setItem('user-id', response.user_id);
-      localStorage.setItem('user-role', response.user_role);
+      //localStorage.setItem('user-id', response.user_id);
+      //localStorage.setItem('user-role', response.user_role);
+      localStorage.setItem('user-data', JSON.stringify({
+        id: Number(response.user_id),
+        role: Number(response.user_role)
+      }));
 
       // TODO: Se redirige a un perfil genérico, y con guardas de role (canLoad) se cargan o no los componentes
-      //this.router.navigate(['/profile']);
+      //this.router.navigate(['/profile-teacher', response.user_id]);
     } else {
       alert(response.error);
     }

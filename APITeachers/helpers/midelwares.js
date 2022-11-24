@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const dayjs = require('dayjs');
 
-const checkToken = (req, res, next) => {
+const User = require('../models/user.model');
+
+const checkToken = async (req, res, next) => {
     // Check included token
     if (!req.headers['authorization']) {
         return res.status(401)
@@ -14,22 +16,35 @@ const checkToken = (req, res, next) => {
     let obj;
     try {
         obj = jwt.verify(token, process.env.SECRET_KEY);
-        req.data = obj
+        req.data = obj;
     } catch (error) {
         console.log(error);
         return res.status(401)
             .json({ fatal: 'El token incluido no es válido' });
     }
 
-    // Chack expiration date
+    // Check expiration date
     if (obj.expiration_date < dayjs().unix()) {
         return res.status(401)
             .json({ fatal: 'El token está caducado' });
     }
 
+    // Add user info to the request
+    req.user = await User.getById(req.data.user_id);
+
     next();
 }
 
+const checkRole = (role) => {
+    return (req, res, next) => {
+        if (req.user.title !== role) {
+            return res.status(401).json({ fatal: `Restringido el acceso. Solo usuarios con role: ${role}` });
+        }
+
+        next();
+    };
+};
+
 module.exports = {
-    checkToken
+    checkToken, checkRole
 }

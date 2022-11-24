@@ -11,13 +11,14 @@ export class StudentViewComponent implements OnInit {
 
   currentStudent: Student | any;
 
-  studentId: number = 108;
+  userData: any = localStorage.getItem('user-data');
+  user: any = JSON.parse(this.userData);
 
-  constructor(private studentsService: StudentsService) { }
+  constructor(private studentsService: StudentsService) {  }
 
   async ngOnInit(): Promise<void> {
     try {
-      this.currentStudent = await this.studentsService.getById(this.studentId);
+      this.currentStudent = await this.studentsService.getById(this.user.id);
     } catch (err) {
       console.log(err);
     }

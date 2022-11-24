@@ -17,7 +17,7 @@ export class StudentsService {
     );
   }
 
-  getById(studentId: number): Promise<any> {
+  getById(studentId: number | null): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}${studentId}`)
     );
