@@ -4,8 +4,9 @@ export interface Teacher extends User {
     teacher_id?: number;   
     phone: string;
     branch_id: number;
+    branch_title: string;
     price_hour: number;
-    experience: string;
+    experience: number;
     validated: number;
     location_id: number;
     avatar: string;
@@ -17,6 +18,7 @@ export interface Teacher extends User {
     city: string;
     province_id: number;
     province: string;    
+    avg_rating: number;
   }
 
 /*

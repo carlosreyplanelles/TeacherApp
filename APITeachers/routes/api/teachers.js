@@ -58,8 +58,6 @@ router.get('/:teacherId', async (req, res) => {
 
 router.get('/filters/:filterId', async (req, res) => {
    
-    console.log(req.params);
-
     const { filterId } = req.params;
 
     /**TODO: A una tabla en BBDD numero - filtro*/
@@ -98,8 +96,7 @@ router.post('/',
         /**TODO: Mysql transaction process*/
 
         try {
-            console.log("req.body", req.body);
-
+            
             //Inserción en user
             const resultUser = await createUser(req.body);
             req.body.user_id = resultUser.insertId;
@@ -114,8 +111,7 @@ router.post('/',
 
             res.status(200).json(teacher);
         } 
-        catch (error) {
-            console.log(error);
+        catch (error) {            
             if (error.code === 'ECONNREFUSED') {
                 res.status(503);
             }
@@ -147,11 +143,11 @@ router.put('/:teacherId',
             
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
-            console.log("resultUser", resultUser);
+            //console.log("resultUser", resultUser);
 
             //Actualizo location
             const resultLocation = await updateLocation(req.body.location_id,req.body);          
-            console.log("resultLocation", resultLocation);
+            //console.log("resultLocation", resultLocation);
 
             //Actualizo teacher
             const result = await updateTeacher(teacherId, req.body);

@@ -25,7 +25,8 @@ export const TEACHERS: Teacher[] = [
     latitude: 45.521519,
     longitude: 3.5276642,
     avatar: 'https://robohash.org/quissintalias.png?size=50x50&set=set1',
-    subjects: 'ante ipsum primis in'
+    subjects: 'ante ipsum primis in',
+    avg_rating: 4.2
   },
   {
     user_id: 116,
@@ -52,7 +53,8 @@ export const TEACHERS: Teacher[] = [
     longitude: 128.9615888,
     avatar:
       'https://robohash.org/blanditiisvelitaccusantium.png?size=50x50&set=set1',
-    subjects: 'odio condimentum id luctus'
+    subjects: 'odio condimentum id luctus',
+    avg_rating: 8.2
   },
   {
     user_id: 118,
@@ -79,6 +81,7 @@ export const TEACHERS: Teacher[] = [
     longitude: 113.1882767,
     avatar: 'https://robohash.org/estvoluptatemquidem.png?size=50x50&set=set1',
     subjects: 'sapien a',
+    avg_rating: 3.8
   },
   {
     user_id: 122,
@@ -105,6 +108,7 @@ export const TEACHERS: Teacher[] = [
     longitude: 36.0064582,
     avatar: 'https://robohash.org/dolorumnobisnon.png?size=50x50&set=set1',
     subjects: 'etiam vel augue vestibulum',
+    avg_rating: -1
   },
   {
     user_id: 124,
@@ -131,6 +135,7 @@ export const TEACHERS: Teacher[] = [
     longitude: 15.5562304,
     avatar: 'https://robohash.org/rerumfugavoluptatem.png?size=50x50&set=set1',
     subjects: 'lectus in quam fringilla rhoncus',
+    avg_rating: 10
   },
   {
     user_id: 130,
@@ -157,6 +162,7 @@ export const TEACHERS: Teacher[] = [
     longitude: -5.1262689,
     avatar: 'https://robohash.org/consequaturipsamillum.png?size=50x50&set=set1',
     subjects: 'massa tempor convallis',
+    avg_rating: -1
   },
   {
     user_id: 139,
@@ -183,6 +189,7 @@ export const TEACHERS: Teacher[] = [
     longitude: 15.4900234,
     avatar: 'https://robohash.org/velomnisnemo.png?size=50x50&set=set1',
     subjects: 'aliquam',
+    avg_rating: 5
   },
   {
     user_id: 144,
@@ -209,5 +216,6 @@ export const TEACHERS: Teacher[] = [
     longitude: 25.7693535,
     avatar: 'https://robohash.org/essequiexcepturi.png?size=50x50&set=set1',
     subjects: 'tincidunt nulla mollis molestie',
+    avg_rating: 7
   }
 ];

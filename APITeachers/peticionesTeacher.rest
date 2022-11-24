@@ -1,19 +1,19 @@
-GET http://localhost:3100/api/teachers
+GET http://localhost:3000/api/teachers
 ###
 
-GET http://localhost:3100/api/teachers?page=1&limit=3
+GET http://localhost:3000/api/teachers?page=1&limit=3
 ###
 
-GET http://localhost:3100/api/teachers/filters/1
+GET http://localhost:3000/api/teachers/filters/1
 ###
 
-GET http://localhost:3100/api/teachers/filters/3
+GET http://localhost:3000/api/teachers/filters/3
 ###
 
-GET http://localhost:3100/api/teachers/85
+GET http://localhost:3000/api/teachers/85
 ###
 
-POST http://localhost:3100/api/teachers
+POST http://localhost:3000/api/teachers
 Content-Type: application/json
 
 {    
@@ -36,7 +36,7 @@ Content-Type: application/json
 }
 ###
 
-POST http://localhost:3100/api/teachers
+POST http://localhost:3000/api/teachers
 Content-Type: application/json
 
 {    
@@ -59,7 +59,7 @@ Content-Type: application/json
 }
 ###
 
-PUT http://localhost:3100/api/teachers/103
+PUT http://localhost:3000/api/teachers/103
 Content-Type: application/json
 
 {    
@@ -83,7 +83,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3100/api/teachers/103
+PUT http://localhost:3000/api/teachers/103
 Content-Type: application/json
 
 {
@@ -110,5 +110,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3100/api/teachers/103
+DELETE http://localhost:3000/api/teachers/103
 
