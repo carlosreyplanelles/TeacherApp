@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -75,6 +76,7 @@ import { TeacherClassesListComponent } from './components/teacher-classes-list/t
     
     MaterialModule,
     SweetAlert2Module.forRoot(),
+    NgxPaginationModule,
 
 
   ],

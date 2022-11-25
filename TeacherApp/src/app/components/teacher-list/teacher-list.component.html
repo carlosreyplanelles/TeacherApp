@@ -17,8 +17,8 @@
 
                 <h5 class="mt-4">Experiencia</h5>
                 <div class="form-check" *ngFor="let exp of experienceFilters">
-                    <input class="form-check-input" type="radio" value="{{exp.value}}"
-                        [(ngModel)]="exp.isChecked" name="fl-experience" (change)="changesFilterExperiens(exp.value)">
+                    <input class="form-check-input" type="radio" value="{{exp.value}}" [(ngModel)]="exp.isChecked"
+                        name="fl-experience" (change)="changesFilterExperiens(exp.value)">
                     <label class="form-check-label" for="{{exp.id}}">
                         {{exp.name}} años
                     </label>
@@ -26,8 +26,8 @@
 
                 <h5 class="mt-4">Precio / hora</h5>
                 <div class="form-check" *ngFor="let price of priceFilters">
-                    <input class="form-check-input" type="radio" value="{{price.value}}"
-                        name="fl-price" (change)="changesFilterPrices(price.value)">
+                    <input class="form-check-input" type="radio" value="{{price.value}}" name="fl-price"
+                        (change)="changesFilterPrices(price.value)">
                     <label class="form-check-label" for="{{price.id}}">
                         {{price.name}}
                     </label>
@@ -35,8 +35,8 @@
 
                 <h5 class="mt-4">Rating</h5>
                 <div class="form-check" *ngFor="let rating of ratingFilters">
-                    <input class="form-check-input" type="radio" value="{{rating.value}}"
-                        name="fl-price" (change)="changesFilterPrices(rating.value)">
+                    <input class="form-check-input" type="radio" value="{{rating.value}}" name="fl-price"
+                        (change)="changesFilterPrices(rating.value)">
                     <label class="form-check-label" for="{{rating.id}}">
                         {{rating.name}}
                     </label>
@@ -46,10 +46,15 @@
 
         </div>
         <div class="col-12 col-lg-10 ps-4">
-            <div class="row">
-                <app-teacher-card class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngFor="let teacher of filterArrTeachers"
+
+            <div class="row mb-3">
+                <app-teacher-card class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+                    *ngFor="let teacher of filterArrTeachers | paginate: { itemsPerPage: 8, currentPage: p }"
                     [myTeacher]="teacher">
                 </app-teacher-card>
+            </div>
+            <div class="mt-4 d-flex justify-content-center">
+                <pagination-controls class="mt-4" (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
             </div>
         </div>
     </div>

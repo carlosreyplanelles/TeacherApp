@@ -26,9 +26,9 @@ export class TeacherListComponent implements OnInit {
       isChecked: false,
     },
     {
-      name: 'Ingieniería y Arquitectura',
-      value: 'Ingieniería y Arquitectura',
-      id: 'ingieneriaArquitactura',
+      name: 'Ingenieria y Arquitectura',
+      value: 'Ingenieria y Arquitectura',
+      id: 'ingenieriaArquitactura',
       isChecked: false,
     },
   ];
@@ -50,6 +50,7 @@ export class TeacherListComponent implements OnInit {
 
   ratingFilters: any = [
     { name: 'Todos', value: 'all', id: 'ra0' },
+    { name: 'Sin valoración', value: '-1', id: 'ra0' },
     { name: '⭐', value: '1', id: 'ra1' },
     { name: '⭐⭐', value: '2', id: 'ra2' },
     { name: '⭐⭐⭐', value: '3', id: 'ra3' },
@@ -71,7 +72,7 @@ export class TeacherListComponent implements OnInit {
     ratMax: 5,
     ratMin: 0,
   };
-
+  p: number = 1
   constructor(private teachersService: TeachersService) {}
 
   async ngOnInit(): Promise<void> {
