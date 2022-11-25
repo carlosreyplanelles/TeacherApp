@@ -3,5 +3,25 @@
 }
 
 .navbar {
-    background-color: #292929 !important;
+    background-color: #001033 !important;
+}
+.register-btn{
+    color: white;
+    width: 250px;
+    height: 60px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    margin-left: 1rem;
+}
+.student-btn{
+    background-color: transparent;
+}
+.student-btn:hover{
+    background-color: rgba(38, 255, 38, 0.3);
+    transition: all 1s;
+}
+.teacher-btn:hover{
+    background-color: rgba(38, 255, 38, 0.3);
+    font-size: 1.1rem;
+    transition: all 1s;
 }
