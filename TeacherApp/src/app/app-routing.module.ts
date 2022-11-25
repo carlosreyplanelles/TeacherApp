@@ -13,11 +13,14 @@ import { TeacherFormComponent } from './components/register/teacher-form/teacher
 import { TeacherListComponent } from './components/teacher-list/teacher-list.component';
 import { AdminTeacherListComponent } from './components/admin-teacher-list/admin-teacher-list.component';
 import { TeacherViewComponent } from './components/teacher-view/teacher-view.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+
 
 const routes: Routes = [
   /* Redirecting the user to the home page if the user enters the root of the application. */
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   /* Telling the router to load the UserListComponent when the user navigates to the home page. */
+  { path: 'landing-page', component: LandingPageComponent},
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   {
