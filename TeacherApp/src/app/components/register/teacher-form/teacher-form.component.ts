@@ -66,6 +66,7 @@ export class TeacherFormComponent implements OnInit {
     this.getProvinces()
     this.getCities()
     this.getBranches()
+    console.log("Hola");
   }
 
   async getProvinces() {
