@@ -23,6 +23,10 @@ const sqlAllTeachersData = 'select u.id as user_id, u.name, u.surname, u.email, 
                         'where (u.id=t.user_id) and (t.branch_id=b.id) and (t.location_id=l.id) and (l.city_id=c.id) and (c.province_id=p.id) and (u.role_id=2) ' +
                         'and not exists (select distinct teacher_id from ratings where ratings.teacher_id = t.id) ';
 
+const sqlTeacherClasses = 'select  c.id as class_id, c.student_id, u.name, u.surname, b.title as branch, c.class_datetime ' +
+                          'from classes c, teachers t, students s, users u, branches b ' +
+                          'where (c.teacher_id = t.id) and (c.student_id = s.id) and (t.branch_id = b.id) and (t.user_id = u.id) and (t.id=?) order by class_datetime';
+
 
 /**
  * Get the teacher with the given id.
@@ -84,6 +88,11 @@ const updateTeacher = (teacherId, { phone, branch_id, price_hour, experience, va
                        [phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects, teacherId]);
 }
 
+const getTeacherClasses = (teacherId) => {
+    return executeQuery(sqlTeacherClasses, [teacherId]);    
+}
+
+
 module.exports = {
-    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, updateTeacher
+    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, updateTeacher, getTeacherClasses
 }

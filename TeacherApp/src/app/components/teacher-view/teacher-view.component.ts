@@ -13,7 +13,7 @@ export class TeacherViewComponent implements OnInit {
 
   teacherId: number = 0;
   
-  teacherData!: Teacher;
+  teacherData: Teacher | any;  /**TODO: Para no usar any !  (repasar). Aparecen warnings sin any*/
 
   constructor(
     private teachersService: TeachersService,

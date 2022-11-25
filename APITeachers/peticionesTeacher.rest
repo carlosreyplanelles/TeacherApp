@@ -13,6 +13,9 @@ GET http://localhost:3000/api/teachers/filters/3
 GET http://localhost:3000/api/teachers/85
 ###
 
+GET http://localhost:3000/api/teacher-classes/85
+###
+
 POST http://localhost:3000/api/teachers
 Content-Type: application/json
 
