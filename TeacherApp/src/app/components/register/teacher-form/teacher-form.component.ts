@@ -65,7 +65,7 @@ export class TeacherFormComponent implements OnInit {
       branch_id: new FormControl('',[Validators.required]),
       experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
       subject: new FormControl('',[])
-    }, []);
+    }, [this.checkPassword]);
   }
   
   ngOnInit(): void {
