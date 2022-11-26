@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { create, update, getAll, getById, getByEmail } = require('../../models/user.model');
+const { create, update, getAll, getById, getByEmail, updateLocation } = require('../../models/user.model');
 
 const { checkSchema } = require("express-validator");
 const { newUser, checkUser, checkError, checkEmail } = require("../../helpers/validators");
@@ -59,7 +59,21 @@ router.put("/update/user=:userid", checkUser, async (req, res) => {
     const newData = req.body;
     try {
         const result = await update(userid, newData);
-        const user = await getByID(userid);
+        const user = await getById(userid);
+        res.json(user);
+    } catch (error) {
+        res.json({ Error: error.message });
+    }
+});
+
+/* UPDATE THE LOCATION OF A USER BY ID */
+router.put("/location/user=:userid", checkUser, async (req, res) => {
+    const { userid } = req.params;
+    const newLocation = req.body;
+    try {
+        const result = await updateLocation(userid, newLocation);
+        const user = await getById(userid);
+        console.log(user);
         res.json(user);
     } catch (error) {
         res.json({ Error: error.message });
