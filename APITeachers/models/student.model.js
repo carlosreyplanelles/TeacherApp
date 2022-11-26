@@ -13,6 +13,10 @@ const get = (studentId) => {
     return executeQueryOne('SELECT * FROM students WHERE id = ?', [studentId]);
 };
 
+const getIdByUserId = (userId) => {
+    return executeQueryOne('SELECT id FROM students WHERE user_id = ?', [userId]);
+};
+
 const create = ({ phone, avatar, user_id, location_id }) => {
     return executeQuery('INSERT INTO students (phone, avatar, user_id, location_id) VALUES (?, ?, ?, ?)', [phone, avatar, user_id, location_id]);
 };
@@ -26,5 +30,5 @@ const deleteById = (studentId) => {
 };
 
 module.exports = {
-    getAll, getById, get, create, update, deleteById
+    getAll, getById, get, getIdByUserId, create, update, deleteById
 };
