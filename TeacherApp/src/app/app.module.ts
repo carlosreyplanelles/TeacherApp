@@ -32,6 +32,7 @@ import { StudentClassesListComponent } from './components/student-classes-list/s
 import { RatingFormComponent } from './components/rating-form/rating-form.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     TeacherCardComponent,
     TeacherListComponent,
     TeacherViewComponent,
-    ProfileComponent
+    ProfileComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

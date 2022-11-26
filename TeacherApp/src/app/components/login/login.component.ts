@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
       //   role: Number(response.user_role)
       // }));
 
-      // TODO: Se redirige a un perfil genérico, y con guardas de role (canLoad) se cargan o no los componentes
       this.router.navigate(['/perfil']);
     } else {
       alert(response.error);
