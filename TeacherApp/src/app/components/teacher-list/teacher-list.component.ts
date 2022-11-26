@@ -72,7 +72,9 @@ export class TeacherListComponent implements OnInit {
     ratMax: 5,
     ratMin: 0,
   };
-  p: number = 1
+  
+  pageStart: number = 1
+
   constructor(private teachersService: TeachersService) {}
 
   async ngOnInit(): Promise<void> {
@@ -97,8 +99,9 @@ export class TeacherListComponent implements OnInit {
         price_hour < priceMax &&
         price_hour > priceMin &&
         experience > expMin &&
-        experience <= expMax
+        experience <= expMax 
     );
+
   }
 
   changesFilterBranches() {
