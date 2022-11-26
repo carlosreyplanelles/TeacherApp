@@ -35,16 +35,27 @@ export class HomeComponent implements OnInit {
       //   this.currentStudent = await this.studentsService.getById(params.id);
       let response = await this.usersService.getById(101);
       this.currentUser = response;
+      console.log(this.currentUser);
     })
 
     /* SI ACEPTA UTILIZAR SU UBICACION */
     navigator.geolocation.getCurrentPosition(position => {
       this.userlat = position.coords.latitude;
-      this.userlong = position.coords.longitude
-      /* GUARDAR UBICACION BBDD */
-    })
-    /* SINO COGER COORDENADAS DE LA BASE DE DATOS DEL ESTUDIANTE */
+      this.userlong = position.coords.longitude;
 
+      /* GUARDAR UBICACION BBDD */
+      let newLocation = {
+        role: this.currentUser.title,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      }
+      this.usersService.saveLocation(this.currentUser, newLocation);
+    })
+
+    /* SINO COGER COORDENADAS DE LA BASE DE DATOS DEL ESTUDIANTE */
+    if (this.userlat === 0 && this.userlong === 0) {
+      this.getGeoUser(this.currentUser.id);
+    }
 
     /* AÑADIR PROFESORES EN EL MAPA */
     this.getAllTeachers();
@@ -52,8 +63,18 @@ export class HomeComponent implements OnInit {
   }
 
   async getAllTeachers() {
-    this.arrTeachers = await this.studentsService.getAll();
-    console.log(this.arrTeachers);
+    this.arrTeachers = await this.teachersService.getAllTeachers();
+  }
+
+  async getGeoUser(userid: number) {
+    let geoUser;
+    if (this.currentUser.title === 'student') {
+      geoUser = await this.studentsService.getById(userid);
+    } else if (this.currentUser.title === 'teacher') {
+      geoUser = await this.teachersService.getById(userid);
+    }
+    this.userlat = geoUser.latitude;
+    this.userlong = geoUser.longitude;
   }
 
 }

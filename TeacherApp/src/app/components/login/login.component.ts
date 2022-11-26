@@ -27,11 +27,32 @@ export class LoginComponent implements OnInit {
 
   //LOGIN
 
-  login() {
-    const token: any = localStorage.getItem('token')!
+  async login(): Promise<void> {
+    let response = await this.loginAuthService.login(this.user);
 
-    this.loginAuthService.login(this.user).subscribe( (res:any) => {
-      localStorage.setItem('token', res.token)
-    })
+    // console.log(response);
+
+    const tokenInfo = this.getDecodedAccessToken(response.token);
+    console.log(tokenInfo);
+
+    if (response.success) {
+      localStorage.setItem('user-token', response.token);
+      // localStorage.setItem('user-data', JSON.stringify({
+      //   id: Number(response.user_id),
+      //   role: Number(response.user_role)
+      // }));
+
+      this.router.navigate(['/perfil']);
+    } else {
+      alert(response.error);
+    }
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch(Error) {
+      return null;
+    }
   }
 }

@@ -20,6 +20,7 @@
 // }
 
 export interface Teacher {
+  id?:number,
   user_id?: number;
   name: string;
   surname: string;

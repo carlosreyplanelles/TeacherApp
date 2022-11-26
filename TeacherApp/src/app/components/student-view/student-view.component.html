@@ -11,7 +11,12 @@
                                 <h4>{{ currentStudent?.name }} {{ currentStudent?.surname }}</h4>
                                 <p class="text-secondary mb-1">Estudiante</p>
                                 <p class="text-muted font-size-sm">{{ currentStudent?.city }}, {{ currentStudent?.province }}</p>
-                                <a class="btn btn-primary" target="__blank" href="">Editar mi perfil</a>
+                                <div>
+                                    <a class="btn btn-primary" href="">Editar mi perfil</a>
+                                </div>
+                                <div class="mt-1">
+                                    <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
+                                </div>
                             </div>
                         </div>
                     </div>
