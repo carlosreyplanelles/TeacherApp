@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Student } from '../interfaces/student.interface';
@@ -18,8 +18,19 @@ export class StudentsService {
   }
 
   getById(studentId: number): Promise<any> {
+    const token = localStorage.getItem('user-token');
+    let httpOptions;
+
+    if (token) {
+      httpOptions = {
+        headers: new HttpHeaders({
+          "authorization": token
+        })
+      }
+    }
+
     return lastValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}${studentId}`)
+      this.httpClient.get<any>(`${this.baseUrl}${studentId}`, httpOptions)
     );
   }
 

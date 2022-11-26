@@ -31,6 +31,10 @@ const getAll = () => {
     );
 };
 
+const getAllUsers = () => {
+    return executeQuery('SELECT * FROM users')
+}
+
 const getById = (userid) => {
     return executeQueryOne(
         'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.id = ?',
@@ -40,7 +44,7 @@ const getById = (userid) => {
 
 const getByEmail = (useremail) => {
     return executeQueryOne(
-        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.email = ?',
+        'SELECT u.*, r.title, r.description FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.email = ?',
         [useremail]
     );
 };
@@ -60,9 +64,9 @@ const update = (userId, { name, surname, email, password, role_id }) => {
 };
 
 const getUserByEmail = (email) => {
-    return executeQuery('SELECT * FROM users where email = ?', [email])
-}
+    return executeQueryOne('SELECT * FROM users where email = ?', [email]);
+};
 
 module.exports = {
-    create, update, getUserByEmail, getAll, getById, getByEmail, getUserById, createUser, updateUser, getRoleById, cancelUser
+    create, update, getUserByEmail, getAll, getById, getByEmail, getUserById, createUser, updateUser, getRoleById, cancelUser, getAllUsers
 };

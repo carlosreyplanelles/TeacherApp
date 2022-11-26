@@ -19,11 +19,8 @@ export class StudentFormComponent implements OnInit {
   provinces: Province[] = [];
   cities: City[] = [];
   citiesbyProvince: City[] = []
-  province_name!:string
-  city_name!:string
   accion:string = "Registrar"
   storedStudent: any
-  city_id!:number
 
   constructor( 
     private locationsService: LocationsService,
@@ -74,9 +71,6 @@ export class StudentFormComponent implements OnInit {
         this.accion = "Actualizar"
         this.storedStudent = await this.studentsService.getById(params.studentId)
         this.citiesbyProvince = this.cities.filter(c => c.province_id == parseInt(this.storedStudent.province_id))
-        this.city_name = this.storedStudent.city
-        this.province_name = this.storedStudent.province
-        this.city_id = this.storedStudent.city_id
 
         this.studentForm.patchValue({
           name: this.storedStudent.name,
@@ -123,9 +117,6 @@ export class StudentFormComponent implements OnInit {
         const user = this.usersService.findByEmail(this.studentForm.value.email)
         let response
         let student = this.studentForm.value
-        student.latitude = 41.6704100
-        student.longitude = -3.6892000
-        console.log(params.studentId)
         if (!params.studentId) {
           if (user != null) {
             alert("Error al registrar el usuario.El correo utilizado ya existe.")
