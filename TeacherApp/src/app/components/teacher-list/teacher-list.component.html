@@ -3,9 +3,15 @@
 
         <div class="col-12 col-lg-2 p-4">
 
-            <h2>Filtros</h2>
+            <h2>Filtros</h2>             
             <form>
                 <button mat-stroked-button (click)="resetfilters()">Borrar filtros</button>
+
+                <select class="form-select form-select-sm mt-1 " aria-label="Default select example" #order (change)="orderTeachers(order.value)" >
+                    <option *ngFor="let o of orderFilter" [value]="o.value">{{o.name}}</option>
+                  </select>
+
+
                 <h5 class="mt-4">Rama</h5>
                 <div class="form-check" *ngFor="let branch of branchFilters">
                     <input #checkboxes class="form-check-input" type="checkbox" value="{{branch.value}}"

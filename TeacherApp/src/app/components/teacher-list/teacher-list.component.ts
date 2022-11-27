@@ -5,6 +5,8 @@ import {
   QueryList,
   ElementRef,
 } from '@angular/core';
+import * as _ from 'lodash';
+import { iteratee } from 'lodash';
 
 import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { TeachersService } from 'src/app/services/teachers.service';
@@ -64,7 +66,13 @@ export class TeacherListComponent implements OnInit {
     { name: '⭐⭐⭐⭐', value: '4', id: 'ra4' },
     { name: '⭐⭐⭐⭐⭐', value: '5', id: 'ra5' },
     { name: 'Valorados', value: 'rallRating', id: 'ra-1' },
-    { name: 'Sin valoración', value: '0', id: 'ra0' }
+    { name: 'Sin valoración', value: '0', id: 'ra0' },
+  ];
+
+  orderFilter: any = [
+    { name: 'Precio: ascendente ', value: '1' },
+    { name: 'Precio: descendente ', value: '2' },
+    { name: 'Valoración', value: '3' },
   ];
 
   selectedFilters = {
@@ -176,7 +184,6 @@ export class TeacherListComponent implements OnInit {
       this.selectedFilters.ratMin = parseInt($event);
     }
     this.filteredTeachers();
-    console.log(this.selectedFilters);
   }
 
   resetfilters() {
@@ -200,5 +207,27 @@ export class TeacherListComponent implements OnInit {
     };
 
     this.filteredTeachers();
+  }
+
+  orderTeachers($event: any): void {
+    if ($event == 1) {
+      this.filterArrTeachers = _.orderBy(
+        this.filterArrTeachers,
+        ['price_hour'],
+        ['asc']
+      );
+    } else if ($event == 2) {
+      this.filterArrTeachers = _.orderBy(
+        this.filterArrTeachers,
+        ['price_hour'],
+        ['desc']
+      );
+    } else {
+      this.filterArrTeachers = _.orderBy(
+        this.filterArrTeachers,
+        ['avg_rating'],
+        ['desc']
+      );
+    }
   }
 }
