@@ -1,4 +1,4 @@
-GET http://localhost:3100/api/teachers
+GET http://localhost:3000/api/teachers
 ###
 
 GET http://localhost:3100/api/teachers?page=1&limit=3

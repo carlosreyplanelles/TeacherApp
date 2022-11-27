@@ -10,8 +10,14 @@ import { Teacher } from '../interfaces/teacher.interface';
 export class TeachersService {
 
   baseUrl = 'http://localhost:3000/api/teachers/';
+
   constructor(private httpClient: HttpClient) { }
 
+  getAllTeachers(): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrl}`)
+    );
+  }
   getAll(page: number = 1): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}?page=${page}`)

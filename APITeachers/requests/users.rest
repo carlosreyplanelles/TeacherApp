@@ -58,4 +58,17 @@ Content-Type: application/json
 }
 
 ### DELETE ONE USER
-DELETE http://localhost:3000/api/admin/delete/admin=212
+DELETE http://localhost:3000/api/users/delete/admin=212
+
+###
+GET http://localhost:3000/users
+
+### UPDATE ONE USERS LOCATION
+PUT http://localhost:3000/api/users/location/user=1
+Content-Type: application/json
+
+{
+    "role": "student", 
+    "latitude": 1, 
+    "longitude": 1
+}

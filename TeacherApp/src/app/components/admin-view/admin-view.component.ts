@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+
 import { Admin } from 'src/app/interfaces/admin.interface';
 import { User } from 'src/app/interfaces/user.interface';
 import { UsersService } from 'src/app/services/users.service';
@@ -25,6 +27,10 @@ export class AdminViewComponent implements OnInit {
 
   actualTab: string = 'pending';
 
+  token: string | null = localStorage.getItem('user-token');
+  tokenInfo: any;
+  adminId!: number;
+
   constructor(
     private userService: UsersService,
     private adminService: AdminsService,
@@ -32,7 +38,12 @@ export class AdminViewComponent implements OnInit {
     private teachersService: TeachersService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    if (this.token) {
+      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.adminId = this.tokenInfo.user_id;
+    }
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(async (params: any) => {
@@ -40,7 +51,8 @@ export class AdminViewComponent implements OnInit {
       //   let resAdmin = await this.adminService.getAdminById(206);
       //   this.currentAdmin = resAdmin;
 
-      this.userService.getById(205)
+      // this.userService.getById(this.adminId)
+      this.userService.getById(201)
         .then(response => {
           this.currentUser = response;
         })
@@ -54,8 +66,7 @@ export class AdminViewComponent implements OnInit {
       // getNumPending();
     })
 
-
-
+    console.log(this.currentUser);
 
   }
 
@@ -69,7 +80,7 @@ export class AdminViewComponent implements OnInit {
   }
 
   async getNumTeachers(): Promise<number> {
-    let response = await this.teachersService.getAll();
+    let response = await this.teachersService.getAllTeachers();
     console.log(response);
     return response.length;
   }
@@ -80,6 +91,19 @@ export class AdminViewComponent implements OnInit {
 
   chargeTab(tab: string): void {
     this.actualTab = tab;
+  }
+
+  logout() {
+    localStorage.removeItem('user-token');
+    this.router.navigate(['/login']);
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 
 }

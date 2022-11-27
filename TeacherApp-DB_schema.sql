@@ -78,7 +78,7 @@ DROP TABLE IF EXISTS `classes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `classes` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `class_datetime` datetime DEFAULT NULL,
+  `class_datetime` datetime NOT NULL,
   `teacher_id` int NOT NULL,
   `student_id` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -314,7 +314,7 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `creation_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `leaving_date` datetime DEFAULT NULL,
   `name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `surname` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -347,4 +347,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-22 11:57:25
+-- Dump completed on 2022-11-26 19:29:20

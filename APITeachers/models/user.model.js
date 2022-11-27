@@ -3,7 +3,7 @@ const { executeQuery, executeQueryOne } = require('../helpers/utils');
 
 const getUserById = (userId) => {
     return executeQueryOne('select * from users where id = ?', [userId]);
-}; 
+};
 
 const getRoleById = (roleId) => {
     return executeQueryOne('select * from roles where id = ?', [roleId]);
@@ -31,6 +31,10 @@ const getAll = () => {
     );
 };
 
+const getAllUsers = () => {
+    return executeQuery('SELECT * FROM users')
+}
+
 const getById = (userid) => {
     return executeQueryOne(
         'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.id = ?',
@@ -40,7 +44,7 @@ const getById = (userid) => {
 
 const getByEmail = (useremail) => {
     return executeQueryOne(
-        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.email = ?',
+        'SELECT u.*, r.title, r.description FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.email = ?',
         [useremail]
     );
 };
@@ -60,9 +64,16 @@ const update = (userId, { name, surname, email, password, role_id }) => {
 };
 
 const getUserByEmail = (email) => {
-    return executeQueryOne('SELECT * FROM users WHERE email = ?', [email])
+    return executeQueryOne('SELECT * FROM users where email = ?', [email]);
+};
+
+const updateLocation = (userid, { role, latitude, longitude }) => {
+    return executeQuery(
+        'UPDATE users AS u INNER JOIN ' + role + 's AS r ON r.user_id = u.id INNER JOIN locations AS l ON l.id = r.location_id SET latitude = ?, longitude = ? WHERE u.id = ?',
+        [latitude, longitude, userid]
+    );
 }
 
 module.exports = {
-    create, update, getUserByEmail, getAll, getById, getByEmail, getUserById, createUser, updateUser, getRoleById, cancelUser
+    create, update, getUserByEmail, getAll, getById, getByEmail, getUserById, createUser, updateUser, getRoleById, cancelUser, getAllUsers, updateLocation
 };
