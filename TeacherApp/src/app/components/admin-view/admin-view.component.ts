@@ -51,7 +51,8 @@ export class AdminViewComponent implements OnInit {
       //   let resAdmin = await this.adminService.getAdminById(206);
       //   this.currentAdmin = resAdmin;
 
-      this.userService.getById(this.adminId)
+      // this.userService.getById(this.adminId)
+      this.userService.getById(201)
         .then(response => {
           this.currentUser = response;
         })
@@ -64,6 +65,9 @@ export class AdminViewComponent implements OnInit {
       // getNumInactives();
       // getNumPending();
     })
+
+    console.log(this.currentUser);
+
   }
 
   async getNumStudents(): Promise<number> {
@@ -97,7 +101,7 @@ export class AdminViewComponent implements OnInit {
   getDecodedAccessToken(token: string): any {
     try {
       return jwt_decode(token);
-    } catch(Error) {
+    } catch (Error) {
       return null;
     }
   }

@@ -6,7 +6,7 @@ const { executeQuery, executeQueryOne } = require('../helpers/utils');
  */
 const getAllAdmin = () => {
     return executeQuery(
-        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.title = "admin"',
+        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.id = 1',
         []
     );
 };
@@ -18,7 +18,7 @@ const getAllAdmin = () => {
  */
 const getAdminById = (adminid) => {
     return executeQueryOne(
-        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.title = "admin" AND u.id = ?',
+        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.id = 1 AND u.id = ?',
         [adminid]
     );
 };
@@ -63,7 +63,7 @@ const validateTeacherById = (teacherid, { validated }) => {
  */
 const deleteAdminById = (adminid) => {
     return executeQuery(
-        'DELETE u FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.title = "admin" AND u.id = ?',
+        'DELETE u FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.id = 1 AND u.id = ?',
         [adminid]
     );
 };
@@ -74,7 +74,7 @@ const deleteAdminById = (adminid) => {
  */
 const deleteAllAdmin = () => {
     return executeQuery(
-        'DELETE u FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.title = "admin"',
+        'DELETE u FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE r.id = 1',
         []
     );
 };
