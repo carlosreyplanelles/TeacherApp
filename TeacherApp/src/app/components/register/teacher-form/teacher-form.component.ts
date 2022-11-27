@@ -64,7 +64,8 @@ export class TeacherFormComponent implements OnInit {
       price_hour: new FormControl('',[Validators.required]),
       branch_id: new FormControl('',[Validators.required]),
       experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
-      subject: new FormControl('',[])
+      subjects: new FormControl('',[]),
+      validated: new FormControl(0,[Validators.required])
     }, [this.checkPassword]);
   }
   
@@ -143,7 +144,7 @@ export class TeacherFormComponent implements OnInit {
             alert("Error al registrar el usuario.El correo utilizado ya existe.")
           } else {
             response = await this.teachersService.create(teacher)
-            if (response.id) {
+            if (response.teacher_id) {
               alert("El usuario ha sido creado correctamente.")
             } else {
               alert("Ha ocurrido un error intentelo de nuevo más tarde")
@@ -159,7 +160,7 @@ export class TeacherFormComponent implements OnInit {
           this.storedTeacher.phone = teacher.phone,
           this.storedTeacher.city_id = teacher.city_id,
           this.storedTeacher.province_id = teacher.province_id
-          this.storedTeacher.subject = teacher.subject
+          this.storedTeacher.subjects = teacher.subjects
           this.storedTeacher.branch_id = teacher.branch_id
           this.storedTeacher.experience = teacher.experience
           this.storedTeacher.price_hour = teacher.price_hour
