@@ -38,7 +38,6 @@
                 </agm-info-window>
             </agm-marker>
             <!-- Teacher marker -->
-            <!-- FALTA:ngfor con todos los profesores -->
             <agm-marker *ngFor="let teacher of arrTeachers" [latitude]="teacher?.latitude"
                 [longitude]="teacher?.longitude">
                 <agm-info-window class="container d-flex justify-content-center align-items-center card-user">

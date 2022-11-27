@@ -20,22 +20,24 @@
                             <div class="mt-3">
                                 <h4>{{currentUser?.name}} {{currentUser?.surname}}</h4>
                                 <!-- REDES SOCIALES PROFESOR -->
-                                <p *ngIf="this.currentUser?.title ==='teacher'" class="text-secondary mb-1">RAMA
+                                <p *ngIf="this.currentUser?.role_id === 2" class="text-secondary mb-1">RAMA
                                     CONOCIMIENTO
                                 </p>
                                 <!-- REDES SOCIALES PROFESOR Y ESTUDIANTE -->
-                                <p *ngIf="currentUser?.title !=='admin'" class="text-muted font-size-sm">
+                                <p *ngIf="currentUser?.role_id !== 1" class="text-muted font-size-sm">
                                     LOCALIDAD
                                 </p>
-                                <button *ngIf="currentUser?.title !=='admin'" class="btn btn-primary">Seguir</button>
-                                <button *ngIf="currentUser?.title !=='admin'"
-                                    class="btn btn-outline-primary">Mensaje</button>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- REDES SOCIALES PROFESOR -->
-                <div *ngIf="this.currentUser?.title ==='teacher'" class="card mt-3">
+                <div *ngIf="this.currentUser?.role_id === 2" class="card mt-3">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -129,16 +131,14 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                <a class="btn btn-info " target="__blank"
-                                    href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                                <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
+                                <a class="btn btn-info " target="__blank" href="">Edit</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- LISTAS FILTROS ADMIN -->
-                <section *ngIf="currentUser?.title === 'admin'" class=" section about-section gray-bg" id="about">
+                <section *ngIf="currentUser?.role_id === 1" class=" section about-section gray-bg" id="about">
                     <div class="container">
                         <div class="counter">
                             <div class="row">
