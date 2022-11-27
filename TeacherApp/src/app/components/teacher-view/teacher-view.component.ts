@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Teacher } from 'src/app/interfaces/teacher.interface';
+import { ActivatedRoute, Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
 
+import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
@@ -11,21 +12,27 @@ import { TeachersService } from 'src/app/services/teachers.service';
 })
 export class TeacherViewComponent implements OnInit {
 
-  teacherId: number = 0;
+  token: string | null = localStorage.getItem('user-token');
+  tokenInfo: any;
+  teacherId!: number;
   
   teacherData: Teacher | any;  /**TODO: Para no usar any !  (repasar). Aparecen warnings sin any*/
 
   constructor(
     private teachersService: TeachersService,
-    private activatedRoute: ActivatedRoute
-  ) { }
-
-
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
+    if (this.token) {
+      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.teacherId = this.tokenInfo.user_id;
+    }
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(async (params: any) => {
       //Recupero el parámetro de la url
-      this.teacherId = parseInt(params['teacherId']);
+      //this.teacherId = parseInt(params['teacherId']);
 
       console.log("teacherId" , this.teacherId);
 
@@ -42,6 +49,19 @@ export class TeacherViewComponent implements OnInit {
 
 
     });
+  }
+
+  logout() {
+    localStorage.removeItem('user-token');
+    this.router.navigate(['/login']);
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch(Error) {
+      return null;
+    }
   }
 
 }

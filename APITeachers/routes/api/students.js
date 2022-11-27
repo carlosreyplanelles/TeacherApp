@@ -4,8 +4,8 @@ const { checkSchema } = require('express-validator');
 const Student = require('../../models/student.model');
 const Location = require('../../models/location.model');
 const User = require('../../models/user.model');
-
 const { newStudent, checkError, checkStudent } = require('../../helpers/validators');
+const { checkToken, checkRole } = require('../../helpers/midelwares');
 
 // GET ALL
 router.get('/', async (req, res) => {
@@ -18,7 +18,10 @@ router.get('/', async (req, res) => {
 });
 
 // GET BY ID
-router.get('/:studentId', checkStudent, async (req, res) => {
+router.get('/:studentId',
+            // checkToken,
+            // checkRole('student'),
+            checkStudent, async (req, res) => {
     const { studentId } = req.params;
 
     try {

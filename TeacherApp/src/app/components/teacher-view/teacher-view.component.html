@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="main-body">
 
@@ -12,6 +13,7 @@
                                 <p class="text-secondary mb-1">Profesor {{ teacherData.branch_title }}</p>
                                 <p class="text-muted font-size-sm">{{ teacherData?.city }}</p>
                                 <a class="btn btn-primary" [routerLink]="['/actualizar/profesor', teacherData?.teacher_id]" target="__blank">Editar mi perfil</a>
+                                <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
                             </div>
                         </div>
                     </div>

@@ -1,52 +1,71 @@
-var express = require('express');
-var router = express.Router();
-let { getUserbyEmail } = require('../models/user.model')
+var router = require('express').Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-
-const allUsers = require('../models/user.model')
-const createToken = require('../helpers/utils').createToken
+const Student = require('../models/student.model');
+const Teacher = require('../models/teacher.model');
+const { getByEmail, getUserByEmail } = require('../models/user.model');
+const { createToken } = require('../helpers/utils');
 
 
 router.post('/login', async (req, res) => {
-    const user = await allUsers.getUserByEmail(req.body.email)
-    if(user == "") {
-        return res.json({ error: "Error en email y/o contraseña" })
+    const { email, password } = req.body;
+
+    // Checks if email exists
+    const user = await getByEmail(email);
+    if(!user) {
+        return res.json({ error: "Error en email y/o contraseña" });
     }
 
-    const same = bcrypt.compareSync(user[0].password, req.body.password)
-
-    if (same) {
-        res.json({ success: "Login correcto", token: createToken(user)})
-    } else {
-        res.json({ error: "Error en email y/o contraseña" })
+    // Checks if the passwords are the same
+    //const same = bcrypt.compareSync(password, user.password)
+    const same = (password === user.password);
+    if (!same) {
+        return res.json({ error: "Error en email y/o contraseña" });
     }
+    
+    // Login success
+    let id;
+    res_student = await Student.getIdByUserId(user.id);
+    res_teacher = await Teacher.getIdByUserId(user.id);
+    switch (user.role_id) {
+        case 1:
+            id = user.id;
+            break;
+        case 2:
+            id = res_teacher.id;
+            break;
+        case 3:
+            id = res_student.id;
+            break;
+    };
+
+    res.json({
+        success: true,
+        token: createToken(id, user.title)
+    });
 })
-
-
-//¿Registro?
-
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body
-    try {
-        const users = await allUsers.getUserByEmail(email, password);
-        let user = users[0]
-        const token = jwt.sign(user, process.env.SECRET_KEY)
-        res.json({token})
-    } catch (err) {
-        res.json("Usuario o clave incorrecta")
-    }
-});
 
 router.get('/:email',async  (req, res) =>{
   try{
-      const user = await getUserbyEmail(req.params.email);
+      const user = await getUserByEmail(req.params.email);
       res.json(user);
   } catch (error) {
       res.json({ fatal: error.message });
   }
 })
+
+
+router.get('/', async (req, res) => {
+    try{
+        const users = await allUsers.getAllUsers()
+        res.json(users)
+    } catch (error) {
+        res.json({ error: error.message })
+    }
+})
+
+
 
 module.exports = router;
 

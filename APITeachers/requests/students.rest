@@ -1,7 +1,8 @@
 GET http://localhost:3000/api/students
 
 ###
-GET http://localhost:3000/api/students/201
+GET http://localhost:3000/api/students/108
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMDgsInVzZXJfcm9sZSI6InN0dWRlbnQiLCJleHBpcmF0aW9uX2RhdGUiOjE2NjkzMjg2OTYsImlhdCI6MTY2OTMxMDY5Nn0.ruma0HQ30Fw9wdwXlsR5VLxca4j532eGGC4Y7shr4iw
 
 ###
 POST http://localhost:3000/api/students

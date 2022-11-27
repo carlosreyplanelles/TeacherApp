@@ -73,6 +73,10 @@ const getBranchById = (branchId) => {
     return executeQueryOne('select * from branches where id=?', [branchId]);
 }
 
+const getIdByUserId = (userId) => {
+    return executeQueryOne('SELECT id FROM teachers WHERE user_id = ?', [userId]);
+};
+
 const createTeacher = ({ phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects }) => {
     return executeQuery('insert into teachers (phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects) '+
                         'values  (?, ?, ?, ?, ?, ?, ?, ?, ?)',

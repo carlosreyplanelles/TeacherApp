@@ -33,6 +33,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { StudentClassesListComponent } from './components/student-classes-list/student-classes-list.component';
 import { RatingFormComponent } from './components/rating-form/rating-form.component';
 import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { TeacherClassesListComponent } from './components/teacher-classes-list/teacher-classes-list.component';
 
 @NgModule({
@@ -56,6 +58,8 @@ import { TeacherClassesListComponent } from './components/teacher-classes-list/t
     TeacherCardComponent,
     TeacherListComponent,
     TeacherViewComponent,
+    ProfileComponent,
+    LandingPageComponent,
     TeacherClassesListComponent
   ],
   imports: [
@@ -73,8 +77,7 @@ import { TeacherClassesListComponent } from './components/teacher-classes-list/t
     BrowserAnimationsModule,
     AgmCoreModule,
     SweetAlert2Module,
-    BrowserAnimationsModule,
-    
+    BrowserAnimationsModule,    
     MaterialModule,
     SweetAlert2Module.forRoot(),
     NgxPaginationModule,

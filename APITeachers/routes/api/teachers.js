@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     try {
 
         if (Object.keys(req.query).length !== 0) {            
-            const { page , limit } = req.query;
+            const { page = 1 , limit = 10 } = req.query;
             teachers = await getTeachersByPage(parseInt(page), parseInt(limit));
         }
         else {            

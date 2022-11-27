@@ -13,11 +13,16 @@ import { TeacherFormComponent } from './components/register/teacher-form/teacher
 import { TeacherListComponent } from './components/teacher-list/teacher-list.component';
 import { AdminTeacherListComponent } from './components/admin-teacher-list/admin-teacher-list.component';
 import { TeacherViewComponent } from './components/teacher-view/teacher-view.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { LoginGuard } from './guards/login.guard';
+import { ProfileComponent } from './components/profile/profile.component';
+
 
 const routes: Routes = [
   /* Redirecting the user to the home page if the user enters the root of the application. */
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'landing-page' },
   /* Telling the router to load the UserListComponent when the user navigates to the home page. */
+  { path: 'landing-page', component: LandingPageComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   {
@@ -40,11 +45,13 @@ const routes: Routes = [
   { path: 'admin-profesores', component: AdminTeacherListComponent },
   { path: 'profesores', component: TeacherListComponent },
   { path: 'profile-student', component: StudentViewComponent },
+  { path: 'profile-student', component: StudentViewComponent, canActivate: [LoginGuard] },
   { path: 'profile-teacher/:teacherId', component: TeacherViewComponent },
   { path: 'profile-admin', component: AdminViewComponent },
   { path: 'admin-teachers', component: AdminTeacherListComponent },
   { path: 'admin-students', component: AdminStudentListComponent },
   { path: 'profesor/:teacherId', component: TeacherViewComponent },
+  { path: 'perfil', component: ProfileComponent, canActivate: [LoginGuard] },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
 ];
