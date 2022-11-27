@@ -9,4 +9,7 @@ router.use('/ratings', require('./api/ratings'));
 router.use('/teachers', require('./api/teachers'));
 router.use('/teacher-classes', require('./api/teacher-classes'));
 
+/*Isabel Para probar transacciones*/
+router.use('/teachers-trans', require('./api/teachers-trans'));
+
 module.exports = router;

@@ -25,12 +25,6 @@ require('../config/db');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-// ENV file loda
-require('dotenv').config();
-
-// DB Config
-require('../config/db');
-
 /**
  * Create HTTP server.
  */

@@ -7,7 +7,7 @@ const pool = mysql.createPool({
     port: process.env.DB_PORT,
     database: process.env.DB_DATABASE,  
     socketPath: process.env.DB_SOCKETPATH,
-    decimalNumbers: true  
+    decimalNumbers: true
 });
 
 global.db = pool;
