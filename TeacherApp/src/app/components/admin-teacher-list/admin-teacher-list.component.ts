@@ -4,10 +4,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 
-import { Student } from 'src/app/interfaces/student.interface';
-import { StudentsService } from 'src/app/services/students.service';
+import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { CustomPaginator } from './CustomPaginatorConfiguration';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-admin-teacher-list',
@@ -21,6 +21,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
   ],
 })
 export class AdminTeacherListComponent implements AfterViewInit {
+  
   selectStatus: any[] = [
     { value: '', viewValue: 'Todos' },
     { value: '0', viewValue: 'Desactivado' },
@@ -28,19 +29,20 @@ export class AdminTeacherListComponent implements AfterViewInit {
   ];
 
   displayedColumns: string[] = [
-    'id',
+    'teacher_id',
     'name',
     'city',
+    'branch_title',
     'contact',
-    'active',
+    'validated',
     'admin',
   ];
-  dataSource: MatTableDataSource<Student>;
+  dataSource: MatTableDataSource<Teacher>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private studentsService: StudentsService) {
+  constructor(private teachersService: TeachersService) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -60,7 +62,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   applyFilterStatus(event: Event | string) {
     this.dataSource.filter = event.toString();
-
+    console.log(this.dataSource.filter);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -68,25 +70,26 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   async ngOnInit(): Promise<void> {
     this.dataSource.filterPredicate = function (
-      student: Student,
+      teacher: Teacher,
       filter: string
     ): boolean {
       return (
-        student.name.toLowerCase().includes(filter) ||
-        student.active.toString() === filter
+        teacher.name.toLowerCase().includes(filter) ||
+        teacher.validated.toString() === filter
       );
     };
 
     try {
-      let response = await this.studentsService.getAll();
+      let response = await this.teachersService.getAll();
       this.dataSource.data = response;
     } catch (err: any) {
       console.log(err.error);
     }
   }
 
-  deleteStudent(studentId: number) {
-    const idStudent = studentId;
+  deleteTeacher(teacherId: number) {
+    const idTeacher = teacherId;
+    console.log("AdminTeacherListComponent ~ idTeacher", idTeacher);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-primary',
@@ -107,7 +110,8 @@ export class AdminTeacherListComponent implements AfterViewInit {
       .then(async (result) => {
         if (result.isConfirmed) {
           try {
-            let response = await this.studentsService.delete(idStudent);
+            let response = await this.teachersService.delete(idTeacher);
+            console.log("⭐AdminTeacherListComponent ~ response", response);
             if (response.affectedRows > 0) {
               swalWithBootstrapButtons.fire('Usuario borrado');
               this.ngOnInit();
