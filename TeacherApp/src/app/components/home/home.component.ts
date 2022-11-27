@@ -53,12 +53,14 @@ export class HomeComponent implements OnInit {
     })
 
     /* SINO COGER COORDENADAS DE LA BASE DE DATOS DEL ESTUDIANTE */
-    if (this.userlat === 0 && this.userlong === 0) {
+    if (this.userlat === undefined && this.userlong === undefined) {
       this.getGeoUser(this.currentUser.id);
     }
 
     /* AÑADIR PROFESORES EN EL MAPA */
     this.getAllTeachers();
+    console.log(this.arrTeachers);
+
 
   }
 
