@@ -20,9 +20,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   /* Redirecting the user to the home page if the user enters the root of the application. */
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'landing-page' },
   /* Telling the router to load the UserListComponent when the user navigates to the home page. */
-  { path: 'landing-page', component: LandingPageComponent},
+  { path: 'landing-page', component: LandingPageComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   {
