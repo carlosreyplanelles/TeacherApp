@@ -18,7 +18,7 @@ const sqlAllTeachersData = 'select u.id as user_id, u.name, u.surname, u.email, 
                         'UNION ' +
                         'select u.id as user_id, u.name, u.surname, u.email, u.password, u.creation_date, u.role_id, t.id as teacher_id, ' +
                         't.phone, t.branch_id, b.title as branch_title, b.description as branch_description, t.price_hour, t.experience, ' +
-                        't.validated, t.location_id, l.address, l.latitude, l.longitude, l.city_id, c.name as city, c.province_id, p.name as province, t.avatar,t.subjects, -1 as avg_rating ' +
+                        't.validated, t.location_id, l.address, l.latitude, l.longitude, l.city_id, c.name as city, c.province_id, p.name as province, t.avatar,t.subjects, 0 as avg_rating ' +
                         'from users u, teachers t, branches b, locations l, cities c, provinces p ' +
                         'where (u.id=t.user_id) and (t.branch_id=b.id) and (t.location_id=l.id) and (l.city_id=c.id) and (c.province_id=p.id) and (u.role_id=2) ' +
                         'and not exists (select distinct teacher_id from ratings where ratings.teacher_id = t.id) ';

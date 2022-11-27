@@ -26,8 +26,8 @@ export class TeacherListComponent implements OnInit {
       isChecked: false,
     },
     {
-      name: 'Ingenieria y Arquitectura',
-      value: 'Ingenieria y Arquitectura',
+      name: 'Ingieniería y Arquitectura',
+      value: 'Ingieniería y Arquitectura',
       id: 'ingenieriaArquitactura',
       isChecked: false,
     },
@@ -50,12 +50,12 @@ export class TeacherListComponent implements OnInit {
 
   ratingFilters: any = [
     { name: 'Todos', value: 'all', id: 'ra0' },
-    { name: 'Sin valoración', value: '-1', id: 'ra0' },
     { name: '⭐', value: '1', id: 'ra1' },
     { name: '⭐⭐', value: '2', id: 'ra2' },
     { name: '⭐⭐⭐', value: '3', id: 'ra3' },
     { name: '⭐⭐⭐⭐', value: '4', id: 'ra4' },
     { name: '⭐⭐⭐⭐⭐', value: '5', id: 'ra5' },
+    { name: 'Sin valoración', value: '0', id: 'ra0' },
   ];
 
   selectedFilters = {
@@ -70,10 +70,10 @@ export class TeacherListComponent implements OnInit {
     expMax: 100,
     expMin: 0,
     ratMax: 5,
-    ratMin: 0,
+    ratMin: -1,
   };
-  
-  pageStart: number = 1
+
+  pageStart: number = 1;
 
   constructor(private teachersService: TeachersService) {}
 
@@ -94,14 +94,17 @@ export class TeacherListComponent implements OnInit {
       this.selectedFilters;
 
     this.filterArrTeachers = this.arrTeachers.filter(
-      ({ branch_title, price_hour, experience }) =>
+      ({ branch_title, price_hour, experience, avg_rating }) =>
         branches.includes(branch_title) &&
         price_hour < priceMax &&
         price_hour > priceMin &&
         experience > expMin &&
-        experience <= expMax 
+        experience <= expMax &&
+        avg_rating >= ratMin &&
+        avg_rating <= ratMax
     );
 
+    this.pageStart = 1;
   }
 
   changesFilterBranches() {
@@ -153,9 +156,12 @@ export class TeacherListComponent implements OnInit {
     if ($event == 'all') {
       this.selectedFilters.ratMax = 5;
       this.selectedFilters.ratMin = 0;
+    } else if ($event === 0) {
+      this.selectedFilters.priceMax = 0;
+      this.selectedFilters.priceMin = 0;
     } else {
-      this.selectedFilters.ratMax = Math.round(parseInt($event));
-      this.selectedFilters.ratMin = Math.round(parseInt($event));
+      this.selectedFilters.ratMax = parseInt($event);
+      this.selectedFilters.ratMin = parseInt($event);
     }
     this.filteredTeachers();
   }

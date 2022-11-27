@@ -44,7 +44,7 @@ router.get('/:teacherId', async (req, res) => {
         if (teacher) {
             //Añadir su puntuación media
             const averageRating = await getAverageRatingByTeacher(teacherId);
-            teacher.avg_rating = (averageRating.avg_rating !== null ? averageRating.avg_rating : -1);        
+            teacher.avg_rating = Math.round((averageRating.avg_rating !== null ? averageRating.avg_rating : 0));        
             res.status(200).json(teacher);
         } 
         else {
