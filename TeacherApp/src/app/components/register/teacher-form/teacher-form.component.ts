@@ -92,7 +92,7 @@ export class TeacherFormComponent implements OnInit {
           phone: this.storedTeacher.phone,
           city_id: this.storedTeacher.city_id,
           province_id: this.storedTeacher.province_id,
-          subject: this.storedTeacher.subject,
+          subjects: this.storedTeacher.subjects,
           branch_id : this.storedTeacher.branch_id,
           experience : this.storedTeacher.experience,
           price_hour : this.storedTeacher.price_hour

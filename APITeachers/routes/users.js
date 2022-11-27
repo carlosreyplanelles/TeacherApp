@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const Student = require('../models/student.model');
 const Teacher = require('../models/teacher.model');
-const { getByEmail } = require('../models/user.model');
+const { getByEmail, getUserByEmail } = require('../models/user.model');
 const { createToken } = require('../helpers/utils');
 
 
