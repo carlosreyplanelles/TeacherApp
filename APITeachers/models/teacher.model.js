@@ -3,7 +3,7 @@ const { executeQuery, executeQueryOne } = require('../helpers/utils');
 
 //sqlTeachersData para un profesor y luego consultar su rating avg
 const sqlTeachersData = 'select u.id as user_id, u.name, u.surname, u.email, u.password,  DATE_FORMAT(u.creation_date,\'%d/%m/%Y %H:%i\') as creation_date, DATE_FORMAT(u.leaving_date,\'%d/%m/%Y   %H:%i\') as leaving_date, u.role_id, t.id as teacher_id, ' +
-                        't.phone, t.branch_id, b.title as branch_title, b.description as branch_description, CONCAT(FORMAT(t.price_hour, 2, \'es_ES\'), \' €\') as price_hour, t.experience, ' +
+                        't.phone, t.branch_id, b.title as branch_title, b.description as branch_description, t.price_hour, t.experience, ' +
                         't.validated, t.location_id, l.address, l.latitude, l.longitude, l.city_id, c.name as city, c.province_id, p.name as province, t.avatar,t.subjects '+
                         'from users u, teachers t, branches b, locations l, cities c, provinces p ' +
                         'where (u.id=t.user_id) and (t.branch_id=b.id) and (t.location_id=l.id) and (l.city_id=c.id) and (c.province_id=p.id) and (u.role_id=2)';
@@ -98,5 +98,5 @@ const getTeacherClasses = (teacherId) => {
 
 
 module.exports = {
-    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, updateTeacher, getTeacherClasses
+    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, updateTeacher, getTeacherClasses, getIdByUserId
 }

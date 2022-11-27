@@ -32,8 +32,8 @@ export class StudentViewComponent implements OnInit {
     try {
       this.currentStudent = await this.studentsService.getById(this.studentId);
     } catch (err: any) {
+      console.log(err);
       alert(err.error.error);
-      this.router.navigate(['/login']);
     }
   }
 

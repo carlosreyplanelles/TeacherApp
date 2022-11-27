@@ -12,7 +12,7 @@
                                 <p class="text-secondary mb-1">Estudiante</p>
                                 <p class="text-muted font-size-sm">{{ currentStudent?.city }}, {{ currentStudent?.province }}</p>
                                 <div>
-                                    <a class="btn btn-primary" href="">Editar mi perfil</a>
+                                    <a class="btn btn-primary" [routerLink]="['/actualizar/estudiante', currentStudent?.id]">Editar mi perfil</a>
                                 </div>
                                 <div class="mt-1">
                                     <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>

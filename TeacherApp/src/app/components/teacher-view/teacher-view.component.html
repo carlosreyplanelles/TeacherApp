@@ -10,10 +10,14 @@
                             <img [src]="teacherData?.avatar" [alt]="teacherData?.name" class="rounded-circle" width="150">
                             <div class="mt-3">
                                 <h4>{{ teacherData?.name }} {{ teacherData?.surname }}</h4>
-                                <p class="text-secondary mb-1">Profesor {{ teacherData.branch_title }}</p>
+                                <p class="text-secondary mb-1">Profesor {{ teacherData?.branch_title }}</p>
                                 <p class="text-muted font-size-sm">{{ teacherData?.city }}</p>
-                                <a class="btn btn-primary" [routerLink]="['/actualizar/profesor', teacherData?.teacher_id]" target="__blank">Editar mi perfil</a>
-                                <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
+                                <div>
+                                    <a class="btn btn-primary" [routerLink]="['/actualizar/profesor', teacherData?.teacher_id]">Editar mi perfil</a>
+                                </div>
+                                <div class="mt-1">
+                                    <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
+                                </div>
                             </div>
                         </div>
                     </div>
