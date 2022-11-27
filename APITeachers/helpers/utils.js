@@ -1,8 +1,8 @@
 const dayjs = require('dayjs');
 const jwt = require('jsonwebtoken');
 
-const executeQuery = (sql, params = []) => {    
-    return new Promise((resolve, reject) => {
+const executeQuery = (sql, params = []) => {        
+    return new Promise((resolve, reject) => {                
         db.query(sql, params, (err, result) => {
             if (err) return reject(err);
             resolve(result);

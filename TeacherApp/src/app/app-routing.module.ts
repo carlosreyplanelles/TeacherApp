@@ -29,12 +29,13 @@ const routes: Routes = [
     { path: 'profesor', component:TeacherFormComponent}
   ] },
   { path:'actualizar/estudiante/:studentId', component:StudentFormComponent},
+  { path:'actualizar/profesor/:teacherId', component:TeacherFormComponent},
   { path: 'admin-estudiantes', component: AdminStudentListComponent },
   { path: 'admin-profesores', component: AdminTeacherListComponent },
   { path: 'profesores', component: TeacherListComponent },
   { path: 'profile-admin', component: AdminViewComponent },
   { path: 'admin-students', component: AdminStudentListComponent },
-  { path: 'profesores/:teacherId', component: TeacherViewComponent },
+  { path: 'profesor/:teacherId', component: TeacherViewComponent },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
 ];
