@@ -57,13 +57,14 @@ export class TeacherListComponent implements OnInit {
   ];
 
   ratingFilters: any = [
-    { name: 'Todos', value: 'all', id: 'ra0' },
+    { name: 'Todos', value: 'all', id: 'raAll' },
     { name: '⭐', value: '1', id: 'ra1' },
     { name: '⭐⭐', value: '2', id: 'ra2' },
     { name: '⭐⭐⭐', value: '3', id: 'ra3' },
     { name: '⭐⭐⭐⭐', value: '4', id: 'ra4' },
     { name: '⭐⭐⭐⭐⭐', value: '5', id: 'ra5' },
-    { name: 'Sin valoración', value: '0', id: 'ra0' },
+    { name: 'Valorados', value: 'rallRating', id: 'ra-1' },
+    { name: 'Sin valoración', value: '0', id: 'ra0' }
   ];
 
   selectedFilters = {
@@ -165,13 +166,17 @@ export class TeacherListComponent implements OnInit {
       this.selectedFilters.ratMax = 5;
       this.selectedFilters.ratMin = 0;
     } else if ($event === 0) {
-      this.selectedFilters.priceMax = 0;
-      this.selectedFilters.priceMin = 0;
+      this.selectedFilters.ratMax = 0;
+      this.selectedFilters.ratMin = 0;
+    } else if ($event == 'rallRating') {
+      this.selectedFilters.ratMax = 5;
+      this.selectedFilters.ratMin = 1;
     } else {
       this.selectedFilters.ratMax = parseInt($event);
       this.selectedFilters.ratMin = parseInt($event);
     }
     this.filteredTeachers();
+    console.log(this.selectedFilters);
   }
 
   resetfilters() {
