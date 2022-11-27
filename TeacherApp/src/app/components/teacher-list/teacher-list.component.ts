@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+} from '@angular/core';
 
 import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { TeachersService } from 'src/app/services/teachers.service';
@@ -8,6 +14,8 @@ import { TeachersService } from 'src/app/services/teachers.service';
   styleUrls: ['./teacher-list.component.css'],
 })
 export class TeacherListComponent implements OnInit {
+  @ViewChildren('checkboxes') checkboxes!: QueryList<ElementRef>;
+
   arrTeachers: Teacher[] = [];
   filterArrTeachers: Teacher[] = [];
 
@@ -163,6 +171,29 @@ export class TeacherListComponent implements OnInit {
       this.selectedFilters.ratMax = parseInt($event);
       this.selectedFilters.ratMin = parseInt($event);
     }
+    this.filteredTeachers();
+  }
+
+  resetfilters() {
+    this.checkboxes.forEach((element) => {
+      element.nativeElement.checked = false;
+    });
+
+    this.selectedFilters = {
+      branches: [
+        'Ciencias',
+        'Arte y Humanidades',
+        'Ciencias de la Salud',
+        'Ingieniería y Arquitectura',
+      ],
+      priceMax: 1000,
+      priceMin: 1,
+      expMax: 100,
+      expMin: 0,
+      ratMax: 5,
+      ratMin: -1,
+    };
+
     this.filteredTeachers();
   }
 }
