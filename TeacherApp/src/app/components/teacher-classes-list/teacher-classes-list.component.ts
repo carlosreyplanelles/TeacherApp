@@ -11,13 +11,13 @@ export class TeacherClassesListComponent implements OnInit {
   
   @Input() teacherId!: number;
 
-  activeClasses: any[] = [];
+  studentsClasses: any[] = [];
 
   constructor(private teachersService: TeachersService) { }
 
   async ngOnInit(): Promise<void> {
     try {
-      this.activeClasses = await this.teachersService.getClassesByTeacherId(this.teacherId);
+      this.studentsClasses = await this.teachersService.getClassesByTeacherId(this.teacherId);
     } 
     catch (err) {
       console.log(err);

@@ -1,9 +1,9 @@
 <div class="container">
     <div class="main-body">
 
-        <div class="row gutters-sm">
+        <div class="row gutters-sm h-100">
             <div class="col-md-4 mb-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
                             <img [src]="teacherData?.avatar" [alt]="teacherData?.name" class="rounded-circle" width="150">
@@ -11,7 +11,7 @@
                                 <h4>{{ teacherData?.name }} {{ teacherData?.surname }}</h4>
                                 <p class="text-secondary mb-1">Profesor {{ teacherData.branch_title }}</p>
                                 <p class="text-muted font-size-sm">{{ teacherData?.city }}</p>
-                                <a class="btn btn-primary" target="__blank" href="">Editar mi perfil</a>
+                                <a class="btn btn-primary" [routerLink]="['/actualizar/profesor', teacherData?.teacher_id]" target="__blank">Editar mi perfil</a>
                             </div>
                         </div>
                     </div>
