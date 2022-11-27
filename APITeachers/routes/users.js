@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let { getUserbyEmail } = require('../models/user.model')
+let { getUserByEmail } = require('../models/user.model')
 
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -41,7 +41,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/:email',async  (req, res) =>{
   try{
-      const user = await getUserbyEmail(req.params.email);
+      const user = await getUserByEmail(req.params.email);
       res.json(user);
   } catch (error) {
       res.json({ fatal: error.message });

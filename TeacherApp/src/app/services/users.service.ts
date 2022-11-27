@@ -11,6 +11,7 @@ export class UsersService {
   apiUrl: string = 'http://localhost:3000/api/users';
 
   constructor(private httpClient: HttpClient) { }
+  
   findByEmail(email: String): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}/${email}`)
