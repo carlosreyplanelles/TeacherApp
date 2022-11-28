@@ -61,6 +61,7 @@ export class TeacherFormComponent implements OnInit {
         Validators.maxLength(13),
         Validators.minLength(11)]),
       city_id: new FormControl('',[Validators.required]),
+      province_id: new FormControl('',[Validators.required]),
       avatar: new FormControl('',[]),
       price_hour: new FormControl('',[Validators.required]),
       branch_id: new FormControl('',[Validators.required]),
