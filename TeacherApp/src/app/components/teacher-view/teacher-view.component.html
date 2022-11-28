@@ -1,22 +1,23 @@
-<p>teacher-view works!</p>
-<p>Es el profesor {{ teacherId }}</p>
-<a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
 
-<!--
 <div class="container">
     <div class="main-body">
 
-        <div class="row gutters-sm">
+        <div class="row gutters-sm h-100">
             <div class="col-md-4 mb-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img [src]="currentStudent?.avatar" [alt]="currentStudent?.name" class="rounded-circle" width="150">
+                            <img [src]="teacherData?.avatar" [alt]="teacherData?.name" class="rounded-circle" width="150">
                             <div class="mt-3">
-                                <h4>{{ currentStudent?.name }} {{ currentStudent?.surname }}</h4>
-                                <p class="text-secondary mb-1">Estudiante</p>
-                                <p class="text-muted font-size-sm">{{ currentStudent?.city }}, {{ currentStudent?.province }}</p>
-                                <a class="btn btn-primary" target="__blank" href="">Editar mi perfil</a>
+                                <h4>{{ teacherData?.name }} {{ teacherData?.surname }}</h4>
+                                <p class="text-secondary mb-1">Profesor {{ teacherData?.branch_title }}</p>
+                                <p class="text-muted font-size-sm">{{ teacherData?.city }}</p>
+                                <div>
+                                    <a class="btn btn-primary" [routerLink]="['/actualizar/profesor', teacherData?.teacher_id]">Editar mi perfil</a>
+                                </div>
+                                <div class="mt-1">
+                                    <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -31,7 +32,7 @@
                                 <h6 class="mb-0">Nombre completo</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ currentStudent?.name }} {{ currentStudent?.surname }}
+                                {{ teacherData?.name }} {{ teacherData?.surname }}
                             </div>
                         </div>
                         <hr>
@@ -40,7 +41,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ currentStudent?.email }}
+                                {{ teacherData?.email }}
                             </div>
                         </div>
                         <hr>
@@ -49,7 +50,7 @@
                                 <h6 class="mb-0">Teléfono</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ currentStudent?.phone }}
+                                {{ teacherData?.phone }}
                             </div>
                         </div>
                         <hr>
@@ -58,7 +59,7 @@
                                 <h6 class="mb-0">Dirección</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ currentStudent?.address }}
+                                {{ teacherData?.address }}
                             </div>
                         </div>
                         <hr>
@@ -67,7 +68,7 @@
                                 <h6 class="mb-0">Localidad</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ currentStudent?.city }}
+                                {{ teacherData?.city }}
                             </div>
                         </div>
                         <hr>
@@ -76,14 +77,22 @@
                                 <h6 class="mb-0">Provincia</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ currentStudent?.province }}
+                                {{ teacherData?.province }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Asignaturas</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ teacherData?.subjects }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        -->
-       <!-- <app-student-classes-list [studentId]="studentId"></app-student-classes-list>-->
-<!--   </div>
-</div> -->
+       <app-teacher-classes-list [teacherId] = "teacherId"></app-teacher-classes-list>       
+   </div>
+</div> 

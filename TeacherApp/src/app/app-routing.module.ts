@@ -26,19 +26,23 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   {
-    path: 'register', component: RegisterComponent, children: [
+    path: 'registro', component: RegisterComponent, children: [
       { path: 'estudiante', component: StudentFormComponent },
       { path: 'profesor', component: TeacherFormComponent }
     ]
   },
-  { path: 'actualizar/estudiante/:studentId', component: StudentFormComponent },
-  { path: 'teachers', component: TeacherListComponent },
-  { path: 'rating/:teacherId', component: RatingFormComponent },
-  { path: 'profile-student', component: StudentViewComponent, canActivate: [LoginGuard] },
-  { path: 'profile-teacher/:teacherId', component: TeacherViewComponent },
-  { path: 'profile-admin', component: AdminViewComponent },
-  { path: 'admin-teachers', component: AdminTeacherListComponent },
-  { path: 'admin-students', component: AdminStudentListComponent },
+  { path: 'valorar/:teacherId', component: RatingFormComponent },
+  { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent},
+  { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent},
+  //{ path: 'admin-estudiantes', component: AdminStudentListComponent },
+  //{ path: 'admin-profesores', component: AdminTeacherListComponent },
+  { path: 'profesores', component: TeacherListComponent },
+  //{ path: 'profile-student', component: StudentViewComponent, canActivate: [LoginGuard] },
+  //{ path: 'profile-teacher/:teacherId', component: TeacherViewComponent },
+  //{ path: 'profile-admin', component: AdminViewComponent },
+  // TODO - Vista pública del perfil de profesor
+  { path: 'profesor/:teacherId', component: TeacherViewComponent },
+  { path: 'estudiante/:studentId', component: StudentViewComponent },
   { path: 'perfil', component: ProfileComponent, canActivate: [LoginGuard] },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }

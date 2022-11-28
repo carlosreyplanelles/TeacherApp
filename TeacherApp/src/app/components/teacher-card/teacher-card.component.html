@@ -3,11 +3,11 @@
         <img alt="" class="rounded-circle" [src]="myTeacher.avatar">
     </div>
     <div class="card-body text-center">
-        <h4 class="m-b-xs"><strong>{{myTeacher.name}}</strong></h4>
-        <h4 class="m-b-xs mt-0"><strong>{{myTeacher.surname}}</strong></h4>
+        <h5 class="m-b-xs m-0"><strong>{{myTeacher.name}}</strong></h5>
+        <h5 class="m-b-xs mt-0 "><strong>{{myTeacher.surname}}</strong></h5>
 
-        <div class="d-flex justify-content-center align-items-center mt-4">
-            <mat-icon fontIcon="school">Rama</mat-icon>
+        <div class="d-flex justify-content-center align-items-center mb-2">
+            <!-- <mat-icon fontIcon="school">Rama</mat-icon> -->
             <span class="ms-2">{{myTeacher.branch_title}}</span>
         </div>
 
@@ -16,21 +16,21 @@
             <span class="">{{myTeacher.city}}, {{myTeacher.province}}</span>
         </div>
         <span>{{myTeacher.price_hour}} €/hora</span>
+        <p>{{myTeacher.experience}} años de Experiencia</p>
+       
     </div>
 
-    <div class="d-flex justify-content-around p-3">
-        <button type="button" class="btn btn-primary">Detalles</button>
+    <div class="d-flex justify-content-around p-2">
+        <button type="button" class="btn btn-primary" [routerLink]="['/profesores', myTeacher?.teacher_id]">Detalles</button>
         <button type="button" class="btn btn-success " alt="Enviar mensaje">Mensaje
             <mat-icon fontIcon="chat_bubble" class="">Mensaje</mat-icon>
         </button>
     </div>
 
     <div class="card-footer text-center">
-        <div class="m-t-xs btn-group">
-            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
-            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
-            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
-            <a class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+        <div class="m-t-xs btn-group" >
+            <span class="btn btn-xs" *ngIf="myTeacher.avg_rating == 0">No valorado</span>
+            <a *ngFor="let i of ' '.repeat(myTeacher.avg_rating).split('')" class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
         </div>
     </div>
 

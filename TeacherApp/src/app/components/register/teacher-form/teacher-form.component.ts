@@ -6,7 +6,7 @@ import {LocationsService } from 'src/app/services/locations.service';
 import { Branch } from 'src/app/interfaces/branch.interface';
 import { BranchesService } from 'src/app/services/branches.service';
 import { UsersService } from 'src/app/services/users.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
@@ -32,7 +32,8 @@ export class TeacherFormComponent implements OnInit {
     private branchesService: BranchesService,
     private usersService: UsersService,
     private activatedRoute:ActivatedRoute,
-    private teachersService: TeachersService) { 
+    private teachersService: TeachersService,
+    private router: Router) { 
     this.teacherForm  = new FormGroup({
       role_id: new FormControl(this.teacher_role_id,[]),
       email: new FormControl('', [
@@ -159,15 +160,18 @@ export class TeacherFormComponent implements OnInit {
           this.storedTeacher.avatar = teacher.avatar,
           this.storedTeacher.phone = teacher.phone,
           this.storedTeacher.city_id = teacher.city_id,
-          this.storedTeacher.province_id = teacher.province_id
-          this.storedTeacher.subjects = teacher.subjects
-          this.storedTeacher.branch_id = teacher.branch_id
-          this.storedTeacher.experience = teacher.experience
-          this.storedTeacher.price_hour = teacher.price_hour
+          this.storedTeacher.province_id = teacher.province_id,
+          this.storedTeacher.subjects = teacher.subjects,
+          this.storedTeacher.branch_id = teacher.branch_id,
+          this.storedTeacher.experience = teacher.experience,
+          this.storedTeacher.price_hour = teacher.price_hour,
+          this.storedTeacher.role_id = this.teacher_role_id
           try{
-            const respone = this.teachersService.update(this.storedTeacher)
+            const respone = await this.teachersService.update(this.storedTeacher);
+            this.router.navigate(['/perfil']);
           } catch(error) {
-            alert("Ha ocurrido un error intentelo de nuevo más tarde")
+            console.log(error);
+            alert("Ha ocurrido un error intentelo de nuevo más tarde 2")
           }
         }
       })

@@ -9,7 +9,7 @@ import { TeachersService } from 'src/app/services/teachers.service';
 })
 export class TeacherCardComponent implements OnInit {
 
-  @Input() myTeacher!: Teacher;
+  @Input() myTeacher!: Teacher | any;
   constructor(private teachersService: TeachersService) {}
 
   ngOnInit(): void {}
