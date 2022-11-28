@@ -2,8 +2,7 @@
 <section class="container mt-3 border">
     <h1>Formulario de profesor</h1>
     <form [formGroup]="teacherForm" (ngSubmit)="getDataForm()">
-
-        <input type="hidden" id="role_id" formControlName="role_id" [value]="teacher_role_id">
+        
         <div class="row mb-3 m-2">
             <label  class="form-label" for="name">Nombre</label>
             <input  type="text" [ngClass]="{'border-red': !checkValidControl('name')}" id="name" class="form-control " formControlName="name">
@@ -132,8 +131,8 @@
         </p>
 
         <div class="row mb-3 m-2">
-            <label class="form-label"  for="subject">Especialidad </label>
-            <input class="form-label" type="text" id="subject" class="form-control " formControlName="subject">
+            <label class="form-label"  for="subjects">Especialidad </label>
+            <input class="form-label" type="text" id="subjects" class="form-control " formControlName="subjects">
         </div>
 
         <div class="row mb-3 m-2">

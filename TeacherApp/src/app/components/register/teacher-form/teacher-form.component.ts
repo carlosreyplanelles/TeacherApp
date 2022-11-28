@@ -34,7 +34,7 @@ export class TeacherFormComponent implements OnInit {
     private activatedRoute:ActivatedRoute,
     private teachersService: TeachersService) { 
     this.teacherForm  = new FormGroup({
-      role_id: new FormControl('',[]),
+      role_id: new FormControl(this.teacher_role_id,[]),
       email: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
@@ -64,7 +64,8 @@ export class TeacherFormComponent implements OnInit {
       price_hour: new FormControl('',[Validators.required]),
       branch_id: new FormControl('',[Validators.required]),
       experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
-      subject: new FormControl('',[])
+      subjects: new FormControl('',[]),
+      validated: new FormControl(0,[Validators.required])
     }, [this.checkPassword]);
   }
   
@@ -91,7 +92,7 @@ export class TeacherFormComponent implements OnInit {
           phone: this.storedTeacher.phone,
           city_id: this.storedTeacher.city_id,
           province_id: this.storedTeacher.province_id,
-          subject: this.storedTeacher.subject,
+          subjects: this.storedTeacher.subjects,
           branch_id : this.storedTeacher.branch_id,
           experience : this.storedTeacher.experience,
           price_hour : this.storedTeacher.price_hour
@@ -135,7 +136,7 @@ export class TeacherFormComponent implements OnInit {
   async getDataForm() {
     if (this.teacherForm.status === "VALID") {
       this.activatedRoute.params.subscribe(async (params: any) => {
-        const user = this.usersService.findByEmail(this.teacherForm.value.email)
+        const user = await this.usersService.findByEmail(this.teacherForm.value.email)
         let response
         let teacher = this.teacherForm.value
         if (!params.teacherId) {
@@ -143,7 +144,7 @@ export class TeacherFormComponent implements OnInit {
             alert("Error al registrar el usuario.El correo utilizado ya existe.")
           } else {
             response = await this.teachersService.create(teacher)
-            if (response.id) {
+            if (response.teacher_id) {
               alert("El usuario ha sido creado correctamente.")
             } else {
               alert("Ha ocurrido un error intentelo de nuevo más tarde")
@@ -159,7 +160,7 @@ export class TeacherFormComponent implements OnInit {
           this.storedTeacher.phone = teacher.phone,
           this.storedTeacher.city_id = teacher.city_id,
           this.storedTeacher.province_id = teacher.province_id
-          this.storedTeacher.subject = teacher.subject
+          this.storedTeacher.subjects = teacher.subjects
           this.storedTeacher.branch_id = teacher.branch_id
           this.storedTeacher.experience = teacher.experience
           this.storedTeacher.price_hour = teacher.price_hour
