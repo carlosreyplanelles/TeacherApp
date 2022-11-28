@@ -59,9 +59,6 @@ export class HomeComponent implements OnInit {
 
     /* AÑADIR PROFESORES EN EL MAPA */
     this.getAllTeachers();
-    console.log(this.arrTeachers);
-
-
   }
 
   async getAllTeachers() {
