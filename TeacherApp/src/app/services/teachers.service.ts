@@ -31,7 +31,8 @@ export class TeachersService {
   }
 
   create(teacher: Teacher): Promise<Teacher> {
-    return lastValueFrom(this.httpClient.post<Teacher>(this.baseUrl, teacher));
+    const url = 'http://localhost:3000/register/teacher'
+    return lastValueFrom(this.httpClient.post<Teacher>(url, teacher));
   }
 
   delete(teacherId: number): Promise<any> {

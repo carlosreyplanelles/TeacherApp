@@ -29,7 +29,7 @@ export class StudentFormComponent implements OnInit {
     private activatedRoute:ActivatedRoute,
     private formBuilder:FormBuilder) { 
     this.studentForm  = new FormGroup({
-      role_id: new FormControl('',[]),
+      role_id: new FormControl(this.student_role_id,[]),
       email: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
@@ -114,7 +114,7 @@ export class StudentFormComponent implements OnInit {
   async getDataForm() {
     if (this.studentForm.status === "VALID") {
       this.activatedRoute.params.subscribe(async (params: any) => {
-        const user = this.usersService.findByEmail(this.studentForm.value.email)
+        const user = await this.usersService.findByEmail(this.studentForm.value.email)
         let response
         let student = this.studentForm.value
         if (!params.studentId) {
