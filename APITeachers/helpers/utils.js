@@ -20,10 +20,10 @@ const executeQueryOne = (sql, params = []) => {
     });
 }
 
-const createToken = (user) => {
+const createToken = (pId, pRole) => {
     const obj = {
-        user_id: user.id,
-        user_role: user.role,
+        user_id: pId,
+        user_role: pRole,
         expiration_date: dayjs().add(5, 'minutes').unix()
     }
 

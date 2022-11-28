@@ -1,9 +1,76 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const Student = require('../models/student.model');
+const Teacher = require('../models/teacher.model');
+const { getByEmail, getUserByEmail } = require('../models/user.model');
+const { createToken } = require('../helpers/utils');
+
+
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    // Checks if email exists
+    const user = await getByEmail(email);
+    if(!user) {
+        return res.json({ error: "Error en email y/o contraseña" });
+    }
+
+    // Checks if the passwords are the same
+    //const same = bcrypt.compareSync(password, user.password)
+    const same = (password === user.password);
+    if (!same) {
+        return res.json({ error: "Error en email y/o contraseña" });
+    }
+    
+    // Login success
+    let id;
+    try {
+        res_student = await Student.getIdByUserId(user.id);
+        res_teacher = await Teacher.getIdByUserId(user.id);
+
+        switch (user.role_id) {
+            case 1:
+                id = user.id;
+                break;
+            case 2:
+                id = res_teacher.id;
+                break;
+            case 3:
+                id = res_student.id;
+                break;
+        };
+    
+        res.json({
+            success: true,
+            token: createToken(id, user.title)
+        });
+    } catch (err) {
+        return res.json({ error: err.message });
+    }
+})
+
+router.get('/:email',async  (req, res) =>{
+  try{
+      const user = await getUserByEmail(req.params.email);
+      res.json(user);
+  } catch (error) {
+      res.json({ fatal: error.message });
+  }
+})
+
+
+router.get('/', async (req, res) => {
+    try{
+        const users = await allUsers.getAllUsers()
+        res.json(users)
+    } catch (error) {
+        res.json({ error: error.message })
+    }
+})
+
+
 
 module.exports = router;
+

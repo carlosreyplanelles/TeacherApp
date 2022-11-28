@@ -1,0 +1,44 @@
+GET http://localhost:3000/api/students
+
+###
+GET http://localhost:3000/api/students/108
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMDgsInVzZXJfcm9sZSI6InN0dWRlbnQiLCJleHBpcmF0aW9uX2RhdGUiOjE2NjkzMjg2OTYsImlhdCI6MTY2OTMxMDY5Nn0.ruma0HQ30Fw9wdwXlsR5VLxca4j532eGGC4Y7shr4iw
+
+###
+POST http://localhost:3000/api/students
+Content-Type: application/json
+
+{
+    "name": "Alberto",
+    "surname": "Martín",
+    "email": "alberto@gmail.com",
+    "password": "12345678",
+    "role_id": 3,
+    "phone": "123456789",
+    "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
+    "latitude": 41.6704100,
+    "longitude": -3.6892000,
+    "city_id": 8943,
+    "address": "Calle Falsa 123"
+}
+
+###
+PUT http://localhost:3000/api/students/201
+Content-Type: application/json
+
+{
+    "name": "Alberto",
+    "surname": "Martín Montero",
+    "email": "alberto@gmail.com",
+    "password": "12345678",
+    "role_id": 3,
+    "phone": "123456789",
+    "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
+    "latitude": 41.6704100,
+    "longitude": -3.6892000,
+    "city_id": 8943,
+    "active": 0
+}
+
+###
+DELETE http://localhost:3000/api/students/201

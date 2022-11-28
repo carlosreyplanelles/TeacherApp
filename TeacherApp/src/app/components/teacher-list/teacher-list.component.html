@@ -1,0 +1,68 @@
+<div class="container mt-4">
+    <div class="row">
+
+        <div class="col-12 col-lg-2 p-4">
+
+            <h2>Filtros</h2>             
+            <form>
+                <button mat-stroked-button (click)="resetfilters()">Borrar filtros</button>
+
+                <select class="form-select form-select-sm mt-1 " aria-label="Default select example" #order (change)="orderTeachers(order.value)" >
+                    <option *ngFor="let o of orderFilter" [value]="o.value">{{o.name}}</option>
+                  </select>
+
+
+                <h5 class="mt-4">Rama</h5>
+                <div class="form-check" *ngFor="let branch of branchFilters">
+                    <input #checkboxes class="form-check-input" type="checkbox" value="{{branch.value}}"
+                        [(ngModel)]="branch.isChecked" name="fl-branch" (change)="changesFilterBranches()">
+                    <label class="form-check-label" for="{{branch.id}}">
+                        {{branch.name}}
+                    </label>
+                </div>
+
+                <h5 class="mt-4">Experiencia</h5>
+                <div class="form-check" *ngFor="let exp of experienceFilters">
+                    <input #checkboxes class="form-check-input" type="radio" value="{{exp.value}}" [(ngModel)]="exp.isChecked"
+                        name="fl-experience" (change)="changesFilterExperiens(exp.value)">
+                    <label class="form-check-label" for="{{exp.id}}">
+                        {{exp.name}} años
+                    </label>
+                </div>
+
+                <h5 class="mt-4">Precio / hora</h5>
+                <div class="form-check" *ngFor="let price of priceFilters">
+                    <input #checkboxes class="form-check-input" type="radio" value="{{price.value}}" name="fl-price"
+                        (change)="changesFilterPrices(price.value)">
+                    <label class="form-check-label" for="{{price.id}}">
+                        {{price.name}}
+                    </label>
+                </div>
+
+                <h5 class="mt-4">Rating</h5>
+                <div class="form-check" *ngFor="let rating of ratingFilters">
+                    <input #checkboxes class="form-check-input" type="radio" value="{{rating.value}}" name="fl-price"
+                        (change)="changesFilterRatings(rating.value)">
+                    <label class="form-check-label" for="{{rating.id}}">
+                        {{rating.name}}
+                    </label>
+                </div>
+
+            </form>
+
+        </div>
+        <div class="col-12 col-lg-10 ps-4">
+            <div class="row mb-3">
+                <h2 class="mt-4 d-flex justify-content-center" *ngIf="filterArrTeachers.length == 0">No hay profesores que coincidan con la búsqueda</h2>
+                <app-teacher-card class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+                    *ngFor="let teacher of filterArrTeachers | paginate: { itemsPerPage: 8, currentPage: pageStart }"
+                    [myTeacher]="teacher">
+                </app-teacher-card>
+            </div>
+            <div class="mt-4 d-flex justify-content-center">
+                <pagination-controls class="mt-4" (pageChange)="pageStart = $event" previousLabel="Anterior"
+                    nextLabel="Siguiente"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
