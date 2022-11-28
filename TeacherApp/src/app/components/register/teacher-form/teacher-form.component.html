@@ -87,7 +87,7 @@
 
         <div class="row mb-3 m-2">
             <label class="form-label" for="province-selector">Provincia</label>
-            <select (change) = "onSelected($event)" class="form-control " name="province" id="province-selector">
+            <select (change) = "onSelected($event)" class="form-control " name="province" id="province-selector" formControlName="province_id">
                 <option default>Selecciona una provincia</option>
                 <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
             </select>
