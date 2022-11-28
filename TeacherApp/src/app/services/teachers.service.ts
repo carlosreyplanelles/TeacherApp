@@ -10,6 +10,7 @@ import { Teacher } from '../interfaces/teacher.interface';
 export class TeachersService {
 
   baseUrl = 'http://localhost:3000/api/teachers/';
+  baseUrlClasses = 'http://localhost:3000/api/teacher-classes/'; 
 
   constructor(private httpClient: HttpClient) { }
 
@@ -18,9 +19,10 @@ export class TeachersService {
       this.httpClient.get<any>(`${this.baseUrl}`)
     );
   }
+  
   getAll(page: number = 1): Promise<any> {
     return lastValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}?page=${page}`)
+      this.httpClient.get<any>(`${this.baseUrl}`)
     );
   }
 
@@ -43,7 +45,11 @@ export class TeachersService {
 
   update(teacher: Teacher): Promise<any> {
     return lastValueFrom(
-      this.httpClient.put<any>(`${this.baseUrl}${teacher.user_id}`, teacher)
+      this.httpClient.put<any>(`${this.baseUrl}${teacher.teacher_id}`, teacher)
     );
+  }
+
+  getClassesByTeacherId(teacherId: number): Promise<any> {
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrlClasses}${teacherId}`));
   }
 }

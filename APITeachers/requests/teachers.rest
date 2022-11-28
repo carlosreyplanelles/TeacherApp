@@ -1,13 +1,22 @@
 GET http://localhost:3000/api/teachers
 ###
 
-GET http://localhost:3100/api/teachers?page=1&limit=3
+GET http://localhost:3000/api/teachers?page=1&limit=3
 ###
 
-GET http://localhost:3100/api/teachers/100
+GET http://localhost:3000/api/teachers/filters/1
 ###
 
-POST http://localhost:3100/api/teachers
+GET http://localhost:3000/api/teachers/filters/3
+###
+
+GET http://localhost:3000/api/teachers/85
+###
+
+GET http://localhost:3000/api/teacher-classes/85
+###
+
+POST http://localhost:3000/api/teachers
 Content-Type: application/json
 
 {    
@@ -30,7 +39,7 @@ Content-Type: application/json
 }
 ###
 
-POST http://localhost:3100/api/teachers
+POST http://localhost:3000/api/teachers
 Content-Type: application/json
 
 {    
@@ -53,7 +62,7 @@ Content-Type: application/json
 }
 ###
 
-PUT http://localhost:3100/api/teachers/103
+PUT http://localhost:3000/api/teachers/103
 Content-Type: application/json
 
 {    
@@ -77,7 +86,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3100/api/teachers/103
+PUT http://localhost:3000/api/teachers/103
 Content-Type: application/json
 
 {
@@ -104,5 +113,42 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3100/api/teachers/103
+DELETE http://localhost:3000/api/teachers/103
 
+###
+GET http://localhost:3000/api/branches
+
+###
+
+GET http://localhost:3000/api/locations/provinces
+
+###
+
+GET http://localhost:3000/branches
+###
+GET http://localhost:3000/locations/provinces
+
+###
+
+POST http://localhost:3000/api/teachers-trans
+Content-Type: application/json
+
+{    
+    "name": "Shania",
+    "surname": "Twain",
+    "email": "shania_o2_london2023@gmail.com",
+    "password": "Juanita2002",       
+    "role_id": 2,
+    "phone": "7845225662",
+    "avatar": "https://robohash.org/quissintalias.png?size=100x100&set=set1",
+    "latitude": 45.521519,
+    "longitude": 3.5276642,    
+    "city_id": 8991,
+    "address": "7958 Rutledge Way",
+    "price_hour": 30.45,
+    "branch_id": 4,
+    "subjects": "Matemáticas, Física, Química",  
+    "experience": 23,
+    "validated": 0 
+}
+###

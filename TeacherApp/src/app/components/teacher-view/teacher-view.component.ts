@@ -16,6 +16,8 @@ export class TeacherViewComponent implements OnInit {
   tokenInfo: any;
   teacherId!: number;
   
+  teacherData: Teacher | any;  /**TODO: Para no usar any !  (repasar). Aparecen warnings sin any*/
+
   constructor(
     private teachersService: TeachersService,
     private activatedRoute: ActivatedRoute,
@@ -36,12 +38,13 @@ export class TeacherViewComponent implements OnInit {
 
       try {
             //Petición a la API para traer los datos del profesor
-            const result = await this.teachersService.getById(this.teacherId);
+            this.teacherData = await this.teachersService.getById(this.teacherId);
             
-            console.log("result getTeacherById API ", result);  //result.name
+            console.log("result getTeacherById API ",  this.teacherData);  //result.name
       }
-      catch (error) {
-          console.log("error getTeacherById",error);
+      catch (exception: any) {
+          console.log("error getTeacherById",exception);
+          alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
       }
 
 

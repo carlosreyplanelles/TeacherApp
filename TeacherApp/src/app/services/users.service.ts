@@ -31,6 +31,6 @@ export class UsersService {
   }
 
   saveLocation(pUser: User, pLocation: any): Promise<any> {
-    return lastValueFrom(this.httpClient.put<any>(`${this.apiUrl}/location/user=${pUser.id}`, pLocation));
+    return lastValueFrom(this.httpClient.put<any>(`${this.apiUrl}/location/user=${pUser.user_id}`, pLocation));
   }
 }
