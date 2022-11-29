@@ -15,9 +15,9 @@ export class LoginAuthService {
 
   //LOGIN
 
-  private baseURL: string = "http://localhost:3000"
+  private baseURL: string = "http://localhost:3000/users/login"
 
   login(loginUser: Users): Promise<any> {
-    return lastValueFrom(this.httpClient.post<any>(`${this.baseURL}/users/login`, loginUser));
+    return lastValueFrom(this.httpClient.post<any>(this.baseURL, loginUser));
   }
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark">
+<!-- <nav class="navbar navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
             aria-controls="offcanvasDarkNavbar">
@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-</nav>
+</nav> -->
 <nav class="navbar navbar-expand-lg border-5 border-bottom border-primary">
     <div class="container-fluid">
         <!-- <a class="navbar-brand text-white fw-bold" [routerLink]="['/home']">TeacherApp</a> -->
@@ -70,10 +70,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li>
-                    <button class="btn register-btn mb-3 student-btn" [routerLink]="'/registro'">Registrarme</button>
+                    <button class="btn register-btn" [routerLink]="'/registro'">Registrarme</button>
                 </li>
                 <li>
-                    <button class="btn register-btn teacher-btn" [routerLink]="'/login'">Login</button>
+                    <button class="btn login-btn" [routerLink]="'/login'" >Login</button>
+                </li>
+                <li>
+                    <button class="btn profile-btn btn-primary" [routerLink]="'/perfil'">Mi perfil</button>
                 </li>
             </ul>
         </div>
