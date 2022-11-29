@@ -16,6 +16,7 @@ import { TeacherViewComponent } from './components/teacher-view/teacher-view.com
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginGuard } from './guards/login.guard';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ClassBookingComponent } from './components/class-booking/class-booking.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'profesor', component: TeacherFormComponent }
     ]
   },
+  { path: 'reservar/clase/:teacherId', component:ClassBookingComponent },
   { path: 'valorar/:teacherId', component: RatingFormComponent },
   { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent},
   { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent},

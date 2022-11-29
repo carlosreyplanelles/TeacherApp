@@ -36,6 +36,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { TeacherClassesListComponent } from './components/teacher-classes-list/teacher-classes-list.component';
+import { ClassBookingComponent } from './components/class-booking/class-booking.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { TeacherClassesListComponent } from './components/teacher-classes-list/t
     TeacherViewComponent,
     ProfileComponent,
     LandingPageComponent,
-    TeacherClassesListComponent
+    TeacherClassesListComponent,
+    ClassBookingComponent
   ],
   imports: [
     BrowserModule,
