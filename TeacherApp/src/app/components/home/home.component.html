@@ -1,6 +1,6 @@
 <section id="map-teachers" class="container mt-3">
-    <h4>Mapa Profesores</h4>
-    <div class="card mapa">
+    <h4>Busca profesores cerca de ti</h4>
+    <div class="card mapa mt-3">
         <!-- User coordinates to locate the map -->
         <agm-map [latitude]="userlat" [longitude]="userlong" [zoom]="13">
             <!-- User marker -->
@@ -71,5 +71,8 @@
                 </agm-info-window>
             </agm-marker>
         </agm-map>
+    </div>
+    <div class="d-flex flex-column align-items-center mt-4">
+        <button class="btn btn-primary" id="showAllTeachersBtn" [routerLink]="['/profesores']">Ver todos los profesores</button>
     </div>
 </section>
