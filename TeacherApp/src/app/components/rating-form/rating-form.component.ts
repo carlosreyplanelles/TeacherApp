@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RatingsService } from 'src/app/services/ratings.service';
+import jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
+
+import { Teacher } from 'src/app/interfaces/teacher.interface';
+import { RatingsService } from 'src/app/services/ratings.service';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-rating-form',
@@ -11,28 +15,43 @@ import Swal from 'sweetalert2';
 })
 export class RatingFormComponent implements OnInit {
 
-  // Este dato se obtendrá de la sesión activa
-  studentId: number = 108;
+  token: string | null = localStorage.getItem('user-token');
+  tokenInfo: any;
+  studentId!: number;
 
   ratingForm: FormGroup;
   currentRating: any;
   teacherId!: number;
+  currentTeacher: Teacher | any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private ratingsService: RatingsService,
+    private teachersService: TeachersService,
     private router: Router
   ) {
     this.ratingForm = new FormGroup({
       rating: new FormControl('', [Validators.required]),
       comment: new FormControl('', [])
     });
+
+    if (this.token) {
+      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.studentId = this.tokenInfo.user_id;
+    }
   }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(async (params: any) => {
       this.teacherId = parseInt(params.teacherId);
-      // TODO: Obtener la información del profesor para mostrarla en el formulario
+
+      try {
+        //Petición a la API para traer los datos del profesor
+        this.currentTeacher = await this.teachersService.getById(this.teacherId);
+      } catch (exception: any) {
+          console.log("error getTeacherById", exception);
+          alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
+      }
 
       // Check if there is a previous rating to show
       try {
@@ -72,12 +91,20 @@ export class RatingFormComponent implements OnInit {
         
       }
 
-      this.router.navigate(['/student-profile']);
+      this.router.navigate(['/perfil']);
     } else {
       Swal.fire({
         icon: 'warning',
         title: '¡Hay campos del formulario incompletos!'
       });
+    }
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch(Error) {
+      return null;
     }
   }
 
