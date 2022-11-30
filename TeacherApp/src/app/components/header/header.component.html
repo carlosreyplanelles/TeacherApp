@@ -73,10 +73,10 @@
                     <button class="btn register-btn" [routerLink]="'/registro'" *ngIf="!loggedUser">Registrarme</button>
                 </li>
                 <li>
-                    <button class="btn login-btn" [routerLink]="'/login'" *ngIf="!loggedUser">Login</button>
+                    <button class="btn login-btn me-3" [routerLink]="'/login'" *ngIf="!loggedUser">Login</button>
                 </li>
                 <li>
-                    <button class="btn profile-btn btn-primary" [routerLink]="'/perfil'" *ngIf="loggedUser">Mi perfil</button>
+                    <button class="btn profile-btn btn-primary me-3" [routerLink]="'/perfil'" *ngIf="loggedUser">Mi perfil</button>
                 </li>
             </ul>
         </div>

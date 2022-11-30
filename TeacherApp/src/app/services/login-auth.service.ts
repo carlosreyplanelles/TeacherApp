@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable, Subject } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
 import { Users } from '../interfaces/users.interface';
@@ -14,10 +14,15 @@ export class LoginAuthService {
     private httpClient: HttpClient,
     ) { }
 
-  private baseURL: string = "http://localhost:3000/users/login"
+  private baseURL: string = "http://localhost:3000/users/login";
+  private isLogged = new Subject<boolean>();
 
   login(loginUser: Users): Promise<any> {
     return lastValueFrom(this.httpClient.post<any>(this.baseURL, loginUser));
+  }
+
+  loggedIn() {
+    this.isLogged.next(true);
   }
 
   getDecodedAccessToken(token: string): any {
@@ -30,5 +35,10 @@ export class LoginAuthService {
 
   logout() {
     localStorage.removeItem('user-token');
+    this.isLogged.next(false);
+  }
+
+  loginStatusChange(): Observable<boolean> {
+    return this.isLogged.asObservable();
   }
 }
