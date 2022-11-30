@@ -32,7 +32,7 @@ const routes: Routes = [
       { path: 'profesor', component: TeacherFormComponent }
     ]
   },
-  { path: 'reservar/clase/:teacherId', component:ClassBookingComponent },
+  { path: 'reservar/:teacherId', component:ClassBookingComponent },
   { path: 'valorar/:teacherId', component: RatingFormComponent },
   { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent},
   { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent},
