@@ -39,10 +39,6 @@ const routes: Routes = [
   //{ path: 'admin-estudiantes', component: AdminStudentListComponent },
   //{ path: 'admin-profesores', component: AdminTeacherListComponent },
   { path: 'profesores', component: TeacherListComponent },
-  //{ path: 'profile-student', component: StudentViewComponent, canActivate: [LoginGuard] },
-  //{ path: 'profile-teacher/:teacherId', component: TeacherViewComponent },
-  //{ path: 'profile-admin', component: AdminViewComponent },
-  // TODO - Vista pública del perfil de profesor
   { path: 'profesor/:teacherId', component: TeacherPublicViewComponent, canActivate: [LoginGuard]  },
   { path: 'estudiante/:studentId', component: StudentPublicViewComponent, canActivate: [LoginGuard]  },
   { path: 'perfil', component: ProfileComponent, canActivate: [LoginGuard] },

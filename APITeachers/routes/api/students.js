@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { checkSchema } = require('express-validator');
+const dayjs = require('dayjs');
 
 const Student = require('../../models/student.model');
 const Location = require('../../models/location.model');
@@ -81,15 +82,52 @@ router.put('/:studentId', checkSchema(newStudent), checkError, checkStudent, asy
 });
 
 // DELETE
-router.delete('/:studentId', checkStudent, async (req, res) => {
-    const { studentId } = req.params;
+// router.delete('/:studentId', checkStudent, async (req, res) => {
+//     const { studentId } = req.params;
 
-    try {
-        const result = await Student.deleteById(studentId);
-        res.json(result);
-    } catch (err) {
-        res.json({ error: err.message });
+//     try {
+//         const result = await Student.deleteById(studentId);
+//         res.json(result);
+//     } catch (err) {
+//         res.json({ error: err.message });
+//     }
+// });
+router.delete('/:studentId',
+    checkStudent,
+    async (req, res) => {
+
+        const { studentId } = req.params;
+
+        /**TODO: mysql transaction*/
+
+        try {    
+            // Recupero al estudiante
+            const student = await Student.getById(studentId);
+
+            if (student.leaving_date !== null) {
+                res.status(400).json({ error: "El estudiante " + studentId + " ya fue dado de baja en el sistema el " + student.leaving_date });
+            }
+
+            // Fecha de baja  
+            const leavingDate = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+          
+            //update user
+            const resultUser = await User.cancelUser(student.user_id, leavingDate);
+                     
+            // Se desactiva el estudiante
+            const resultStudent = await Student.deactivate(studentId);
+            
+            // Datos actualizados del estudiante
+            const deactivatedStudent = await Student.getById(studentId);
+
+            res.status(200).json(resultStudent);
+        } 
+        catch (error) {        
+            res.status(400).json({ error: "DELETE Error " + error.errno + ": " + error.message,
+                                   result: "No se pudo dar de baja al estudiante " + studentId
+                                });
+        }
     }
-});
+);
 
 module.exports = router;
