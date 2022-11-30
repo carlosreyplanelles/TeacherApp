@@ -12,7 +12,7 @@ import { TeachersService } from 'src/app/services/teachers.service';
 })
 export class TeacherViewComponent implements OnInit {
 
-  token: string | null = localStorage.getItem('user-token');
+  token: string | null;
   tokenInfo: any;
   teacherId!: number;
   
@@ -23,6 +23,7 @@ export class TeacherViewComponent implements OnInit {
     private loginAuthService: LoginAuthService,
     private router: Router
   ) {
+    this.token = localStorage.getItem('user-token');
     if (this.token) {
       this.tokenInfo = this.loginAuthService.getDecodedAccessToken(this.token);
       this.teacherId = this.tokenInfo.user_id;

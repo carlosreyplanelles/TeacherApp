@@ -26,7 +26,7 @@ export class AdminViewComponent implements OnInit {
 
   actualTab: string = 'pending';
 
-  token: string | null = localStorage.getItem('user-token');
+  token: string | null;
   tokenInfo: any;
   adminId!: number;
 
@@ -38,6 +38,7 @@ export class AdminViewComponent implements OnInit {
     private loginAuthService: LoginAuthService,
     private router: Router
   ) {
+    this.token = localStorage.getItem('user-token');
     if (this.token) {
       this.tokenInfo = this.loginAuthService.getDecodedAccessToken(this.token);
       this.adminId = this.tokenInfo.user_id;
