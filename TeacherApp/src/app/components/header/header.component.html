@@ -70,13 +70,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li>
-                    <button class="btn register-btn" [routerLink]="'/registro'">Registrarme</button>
+                    <button class="btn register-btn" [routerLink]="'/registro'" *ngIf="!loggedUser">Registrarme</button>
                 </li>
                 <li>
-                    <button class="btn login-btn" [routerLink]="'/login'" >Login</button>
+                    <button class="btn login-btn" [routerLink]="'/login'" *ngIf="!loggedUser">Login</button>
                 </li>
                 <li>
-                    <button class="btn profile-btn btn-primary" [routerLink]="'/perfil'">Mi perfil</button>
+                    <button class="btn profile-btn btn-primary" [routerLink]="'/perfil'" *ngIf="loggedUser">Mi perfil</button>
                 </li>
             </ul>
         </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 import { Teacher } from 'src/app/interfaces/teacher.interface';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
@@ -20,48 +20,32 @@ export class TeacherViewComponent implements OnInit {
 
   constructor(
     private teachersService: TeachersService,
-    private activatedRoute: ActivatedRoute,
+    private loginAuthService: LoginAuthService,
     private router: Router
   ) {
     if (this.token) {
-      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.tokenInfo = this.loginAuthService.getDecodedAccessToken(this.token);
       this.teacherId = this.tokenInfo.user_id;
     }
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      //Recupero el parámetro de la url
-      //this.teacherId = parseInt(params['teacherId']);
+  async ngOnInit(): Promise<void> {
+    console.log("teacherId" , this.teacherId);
 
-      console.log("teacherId" , this.teacherId);
-
-      try {
-            //Petición a la API para traer los datos del profesor
-            this.teacherData = await this.teachersService.getById(this.teacherId);
-            
-            console.log("result getTeacherById API ",  this.teacherData);  //result.name
-      }
-      catch (exception: any) {
-          console.log("error getTeacherById",exception);
-          alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
-      }
-
-
-    });
-  }
-
-  logout() {
-    localStorage.removeItem('user-token');
-    this.router.navigate(['/login']);
-  }
-
-  getDecodedAccessToken(token: string): any {
     try {
-      return jwt_decode(token);
-    } catch(Error) {
-      return null;
+          //Petición a la API para traer los datos del profesor
+          this.teacherData = await this.teachersService.getById(this.teacherId);
+          
+          console.log("result getTeacherById API ",  this.teacherData);  //result.name
+    }
+    catch (exception: any) {
+        console.log("error getTeacherById",exception);
+        alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
     }
   }
 
+  logout() {
+    this.loginAuthService.logout();
+    this.router.navigate(['/login']);
+  }
 }
