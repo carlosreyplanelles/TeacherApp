@@ -1,0 +1,19 @@
+<p>class-booking works!</p>
+
+
+<div class="d-flex justify-content-around">
+    <div class="col-lg-2">
+        <mat-card class="demo-inline-calendar-card">
+            <mat-calendar [(selected)]="selected"></mat-calendar>
+          </mat-card> 
+    </div>
+    <div class="col-lg-8">
+        <p>Selected date: {{selected}}</p>
+        <div *ngFor="let slot of slots">
+            {{slot.hour}}
+        </div>
+    </div>
+</div>
+
+
+  
