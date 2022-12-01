@@ -12,8 +12,6 @@ import { TeachersService } from 'src/app/services/teachers.service';
 })
 export class TeacherViewComponent implements OnInit {
 
-  token: string | null;
-  tokenInfo: any;
   teacherId!: number;
   
   teacherData: Teacher | any;  /**TODO: Para no usar any !  (repasar). Aparecen warnings sin any*/
@@ -23,11 +21,7 @@ export class TeacherViewComponent implements OnInit {
     private loginAuthService: LoginAuthService,
     private router: Router
   ) {
-    this.token = localStorage.getItem('user-token');
-    if (this.token) {
-      this.tokenInfo = this.loginAuthService.getDecodedAccessToken(this.token);
-      this.teacherId = this.tokenInfo.user_id;
-    }
+    this.teacherId = this.loginAuthService.getId();
   }
 
   async ngOnInit(): Promise<void> {
