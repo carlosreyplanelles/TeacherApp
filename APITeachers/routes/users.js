@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const Student = require('../models/student.model');
 const Teacher = require('../models/teacher.model');
-const { getByEmail } = require('../models/user.model');
+const { getByEmail, getUserByEmail } = require('../models/user.model');
 const { createToken } = require('../helpers/utils');
 
 
@@ -26,29 +26,34 @@ router.post('/login', async (req, res) => {
     
     // Login success
     let id;
-    res_student = await Student.getIdByUserId(user.id);
-    res_teacher = await Teacher.getIdByUserId(user.id);
-    switch (user.role_id) {
-        case 1:
-            id = user.id;
-            break;
-        case 2:
-            id = res_teacher.id;
-            break;
-        case 3:
-            id = res_student.id;
-            break;
-    };
+    try {
+        res_student = await Student.getIdByUserId(user.id);
+        res_teacher = await Teacher.getIdByUserId(user.id);
 
-    res.json({
-        success: true,
-        token: createToken(id, user.title)
-    });
+        switch (user.role_id) {
+            case 1:
+                id = user.id;
+                break;
+            case 2:
+                id = res_teacher.id;
+                break;
+            case 3:
+                id = res_student.id;
+                break;
+        };
+    
+        res.json({
+            success: true,
+            token: createToken(id, user.title)
+        });
+    } catch (err) {
+        return res.json({ error: err.message });
+    }
 })
 
 router.get('/:email',async  (req, res) =>{
   try{
-      const user = await getUserbyEmail(req.params.email);
+      const user = await getUserByEmail(req.params.email);
       res.json(user);
   } catch (error) {
       res.json({ fatal: error.message });

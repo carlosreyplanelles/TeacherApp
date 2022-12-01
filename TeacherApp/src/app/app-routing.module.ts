@@ -16,29 +16,33 @@ import { TeacherViewComponent } from './components/teacher-view/teacher-view.com
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginGuard } from './guards/login.guard';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ClassBookingComponent } from './components/class-booking/class-booking.component';
+import { TeacherPublicViewComponent } from './components/teacher-public-view/teacher-public-view.component';
+import { StudentPublicViewComponent } from './components/student-public-view/student-public-view.component';
 
 
 const routes: Routes = [
   /* Redirecting the user to the home page if the user enters the root of the application. */
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'landing-page' },
   /* Telling the router to load the UserListComponent when the user navigates to the home page. */
-  { path: 'landing-page', component: LandingPageComponent},
+  { path: 'landing-page', component: LandingPageComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   {
-    path: 'register', component: RegisterComponent, children: [
+    path: 'registro', component: RegisterComponent, children: [
       { path: 'estudiante', component: StudentFormComponent },
       { path: 'profesor', component: TeacherFormComponent }
     ]
   },
-  { path: 'actualizar/estudiante/:studentId', component: StudentFormComponent },
-  { path: 'teachers', component: TeacherListComponent },
-  { path: 'rating/:teacherId', component: RatingFormComponent },
-  { path: 'profile-student', component: StudentViewComponent, canActivate: [LoginGuard] },
-  { path: 'profile-teacher/:teacherId', component: TeacherViewComponent },
-  { path: 'profile-admin', component: AdminViewComponent },
-  { path: 'admin-teachers', component: AdminTeacherListComponent },
-  { path: 'admin-students', component: AdminStudentListComponent },
+  { path: 'reservar/clase/:teacherId', component:ClassBookingComponent },
+  { path: 'valorar/:teacherId', component: RatingFormComponent, canActivate: [LoginGuard]  },
+  { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent},
+  { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent},
+  //{ path: 'admin-estudiantes', component: AdminStudentListComponent },
+  //{ path: 'admin-profesores', component: AdminTeacherListComponent },
+  { path: 'profesores', component: TeacherListComponent },
+  { path: 'profesor/:teacherId', component: TeacherPublicViewComponent, canActivate: [LoginGuard]  },
+  { path: 'estudiante/:studentId', component: StudentPublicViewComponent, canActivate: [LoginGuard]  },
   { path: 'perfil', component: ProfileComponent, canActivate: [LoginGuard] },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }

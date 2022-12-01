@@ -7,5 +7,9 @@ router.use('/students', require('./api/students'));
 router.use('/student-classes', require('./api/student-classes'));
 router.use('/ratings', require('./api/ratings'));
 router.use('/teachers', require('./api/teachers'));
+router.use('/teacher-classes', require('./api/teacher-classes'));
+
+/*Isabel Para probar transacciones*/
+// router.use('/teachers-trans', require('./api/teachers-trans'));
 
 module.exports = router;

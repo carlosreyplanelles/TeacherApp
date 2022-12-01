@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="main-body">
+
+        <div class="row gutters-sm h-100">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img [src]="currentTeacher?.avatar" [alt]="currentTeacher?.name" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>{{ currentTeacher?.name }} {{ currentTeacher?.surname }}</h4>
+                                <p class="text-secondary mb-1">Profesor {{ currentTeacher?.branch_title }}</p>
+                                <p class="text-muted font-size-sm">{{ currentTeacher?.city }}, {{ currentTeacher?.province }}</p>
+                                <div>
+                                    <a class="btn btn-primary" [routerLink]="['/profesores']">Enviar mensaje</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Nombre completo</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ currentTeacher?.name }} {{ currentTeacher?.surname }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ currentTeacher?.email }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Teléfono</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ currentTeacher?.phone }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Localidad</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ currentTeacher?.city }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Provincia</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ currentTeacher?.province }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Asignaturas</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ currentTeacher?.subjects }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+</div> 

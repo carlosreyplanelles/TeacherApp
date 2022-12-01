@@ -3,7 +3,7 @@ import { City } from 'src/app/interfaces/city.interface';
 import { Province } from 'src/app/interfaces/province.interface';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {LocationsService } from 'src/app/services/locations.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentsService } from 'src/app/services/students.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -27,9 +27,10 @@ export class StudentFormComponent implements OnInit {
     private studentsService: StudentsService,
     private usersService: UsersService,
     private activatedRoute:ActivatedRoute,
-    private formBuilder:FormBuilder) { 
+    private formBuilder:FormBuilder,
+    private router: Router) { 
     this.studentForm  = new FormGroup({
-      role_id: new FormControl('',[]),
+      role_id: new FormControl(this.student_role_id,[]),
       email: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
@@ -114,7 +115,7 @@ export class StudentFormComponent implements OnInit {
   async getDataForm() {
     if (this.studentForm.status === "VALID") {
       this.activatedRoute.params.subscribe(async (params: any) => {
-        const user = this.usersService.findByEmail(this.studentForm.value.email)
+        const user = await this.usersService.findByEmail(this.studentForm.value.email)
         let response
         let student = this.studentForm.value
         if (!params.studentId) {
@@ -137,9 +138,11 @@ export class StudentFormComponent implements OnInit {
           this.storedStudent.avatar = student.avatar,
           this.storedStudent.phone = student.phone,
           this.storedStudent.city_id = student.city_id,
-          this.storedStudent.province_id = student.province_id
+          this.storedStudent.province_id = student.province_id,
+          this.storedStudent.role_id = this.student_role_id
           try{
-            const respone = this.studentsService.update(this.storedStudent)
+            const respone = await this.studentsService.update(this.storedStudent);
+            this.router.navigate(['/perfil']);
           } catch(error) {
             alert("Ha ocurrido un error intentelo de nuevo más tarde")
           }

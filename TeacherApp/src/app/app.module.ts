@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +35,10 @@ import { RatingFormComponent } from './components/rating-form/rating-form.compon
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { TeacherClassesListComponent } from './components/teacher-classes-list/teacher-classes-list.component';
+import { TeacherPublicViewComponent } from './components/teacher-public-view/teacher-public-view.component';
+import { StudentPublicViewComponent } from './components/student-public-view/student-public-view.component';
+import { ClassBookingComponent } from './components/class-booking/class-booking.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +62,11 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     TeacherListComponent,
     TeacherViewComponent,
     ProfileComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    TeacherClassesListComponent,
+    TeacherPublicViewComponent,
+    StudentPublicViewComponent,
+    ClassBookingComponent
   ],
   imports: [
     BrowserModule,
@@ -73,10 +83,11 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     BrowserAnimationsModule,
     AgmCoreModule,
     SweetAlert2Module,
-    BrowserAnimationsModule,
-    
+    BrowserAnimationsModule,    
     MaterialModule,
     SweetAlert2Module.forRoot(),
+    NgxPaginationModule,
+    
 
 
   ],

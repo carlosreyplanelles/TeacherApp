@@ -33,6 +33,9 @@ GET http://localhost:3000/api/users/user=200
 ### GET USER BY EMAIL
 GET http://localhost:3000/api/users/email=dduck2r@xrea.com
 
+GET http://localhost:3000/api/users?email=dduck2r@xrea.com
+
+
 ### CREATE NEW USER
 POST http://localhost:3000/api/user/new
 Content-Type: application/json
@@ -58,7 +61,17 @@ Content-Type: application/json
 }
 
 ### DELETE ONE USER
-DELETE http://localhost:3000/api/admin/delete/admin=212
+DELETE http://localhost:3000/api/users/delete/admin=212
 
 ###
 GET http://localhost:3000/users
+
+### UPDATE ONE USERS LOCATION
+PUT http://localhost:3000/api/users/location/user=1
+Content-Type: application/json
+
+{
+    "role": "student", 
+    "latitude": 1, 
+    "longitude": 1
+}

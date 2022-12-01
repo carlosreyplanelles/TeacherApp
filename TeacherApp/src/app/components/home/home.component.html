@@ -1,6 +1,6 @@
 <section id="map-teachers" class="container mt-3">
-    <h4>Mapa Profesores</h4>
-    <div class="card mapa">
+    <h4>Busca profesores cerca de ti</h4>
+    <div class="card mapa mt-3">
         <!-- User coordinates to locate the map -->
         <agm-map [latitude]="userlat" [longitude]="userlong" [zoom]="13">
             <!-- User marker -->
@@ -13,14 +13,14 @@
                     </div>
                     <div class="user text-center">
                         <div class="profile">
-                            <img [src]='currentUser.avatar' class="rounded-circle" width="80">
+                            <img [src]='currentUser?.avatar' class="rounded-circle" width="80">
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <h4 class="mb-0">{{currentUser.name}} {{currentUser.surname}}</h4>
+                        <h4 class="mb-0">{{currentUser?.name}} {{currentUser?.surname}}</h4>
                         <span class="text-muted d-block mb-2">Madrid</span>
                         <button class="btn btn-primary btn-sm details">Detalles</button>
-                        <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
+                        <!-- <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
                             <div class="stats">
                                 <h6 class="mb-0">Profesores</h6>
                                 <span>0</span>
@@ -33,12 +33,11 @@
                                 <h6 class="mb-0">Puntuación</h6>
                                 <span>0</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </agm-info-window>
             </agm-marker>
             <!-- Teacher marker -->
-            <!-- FALTA:ngfor con todos los profesores -->
             <agm-marker *ngFor="let teacher of arrTeachers" [latitude]="teacher?.latitude"
                 [longitude]="teacher?.longitude">
                 <agm-info-window class="container d-flex justify-content-center align-items-center card-user">
@@ -53,8 +52,8 @@
                     <div class="mt-5 text-center">
                         <h4 class="mb-0">{{teacher?.name}} {{teacher?.surname}}</h4>
                         <span class="text-muted d-block mb-2">{{teacher?.city}}</span>
-                        <button class="btn btn-danger btn-sm details">Detalles</button>
-                        <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
+                        <button class="btn btn-danger btn-sm details" [routerLink]="['/profesor', teacher?.teacher_id]">Detalles</button>
+                        <!-- <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
                             <div class="stats">
                                 <h6 class="mb-0">Alumnos</h6>
                                 <span>0</span>
@@ -67,10 +66,13 @@
                                 <h6 class="mb-0">Puntuación</h6>
                                 <span>0</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </agm-info-window>
             </agm-marker>
         </agm-map>
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" id="showAllTeachersBtn" [routerLink]="['/profesores']">Ver todos los profesores</button>
     </div>
 </section>

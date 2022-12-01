@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import jwt_decode from 'jwt-decode';
 
 import { Admin } from 'src/app/interfaces/admin.interface';
 import { User } from 'src/app/interfaces/user.interface';
@@ -9,6 +7,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { AdminsService } from 'src/app/services/admins.service';
 import { StudentsService } from 'src/app/services/students.service';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 
 
 @Component({
@@ -27,7 +26,7 @@ export class AdminViewComponent implements OnInit {
 
   actualTab: string = 'pending';
 
-  token: string | null = localStorage.getItem('user-token');
+  token: string | null;
   tokenInfo: any;
   adminId!: number;
 
@@ -36,34 +35,37 @@ export class AdminViewComponent implements OnInit {
     private adminService: AdminsService,
     private studentsService: StudentsService,
     private teachersService: TeachersService,
-    private activatedRoute: ActivatedRoute,
+    private loginAuthService: LoginAuthService,
     private router: Router
   ) {
+    this.token = localStorage.getItem('user-token');
     if (this.token) {
-      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.tokenInfo = this.loginAuthService.getDecodedAccessToken(this.token);
       this.adminId = this.tokenInfo.user_id;
     }
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      //   let adminid: number = parseInt(params.adminid)
-      //   let resAdmin = await this.adminService.getAdminById(206);
-      //   this.currentAdmin = resAdmin;
+  async ngOnInit(): Promise<void> {
+    this.userService.getById(this.adminId)
+      .then(response => {
+        this.currentUser = response;
+        // console.log(this.currentUser);
+      })
+      .catch(error => {
+        console.log('ERROR', error)
+      })
 
-      this.userService.getById(this.adminId)
-        .then(response => {
-          this.currentUser = response;
-        })
-        .catch(error => {
-          console.log('ERROR', error)
-        })
-
+    try {
       this.numStudents = await this.getNumStudents();
       this.numTeachers = await this.getNumTeachers();
-      // getNumInactives();
-      // getNumPending();
-    })
+    } catch (err) {
+      alert(err);
+    }
+    // getNumInactives();
+    // getNumPending();
+
+    // console.log(this.currentUser);
+
   }
 
   async getNumStudents(): Promise<number> {
@@ -76,7 +78,7 @@ export class AdminViewComponent implements OnInit {
   }
 
   async getNumTeachers(): Promise<number> {
-    let response = await this.teachersService.getAll();
+    let response = await this.teachersService.getAllTeachers();
     console.log(response);
     return response.length;
   }
@@ -90,16 +92,7 @@ export class AdminViewComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('user-token');
+    this.loginAuthService.logout();
     this.router.navigate(['/login']);
   }
-
-  getDecodedAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
-    } catch(Error) {
-      return null;
-    }
-  }
-
 }
