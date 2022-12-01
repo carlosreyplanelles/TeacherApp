@@ -42,6 +42,14 @@ export class LoginAuthService {
     return this.isLogged.asObservable();
   }
 
+  getRole() {
+    const token = localStorage.getItem('user-token');
+    if (token) {
+      const tokenInfo = this.getDecodedAccessToken(token);
+      return tokenInfo.user_role;
+    }
+  }
+
   getTokenHeader(): any {
     const token = localStorage.getItem('user-token');
     let httpOptions;
