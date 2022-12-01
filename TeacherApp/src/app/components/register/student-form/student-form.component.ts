@@ -124,7 +124,8 @@ export class StudentFormComponent implements OnInit {
           } else {
             response = await this.studentsService.create(student)
             if (response.id) {
-              alert("El usuario ha sido creado correctamente.")
+              alert("El usuario ha sido creado correctamente.");
+              this.router.navigate(['/login']);
             } else {
               alert("Ha ocurrido un error intentelo de nuevo más tarde")
             }
