@@ -30,50 +30,60 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
+    /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO POR RUTA */
     this.activatedRoute.params.subscribe(async (params: any) => {
       //   let studentid: number = parseInt(params.adminid)
-      //   this.currentStudent = await this.studentsService.getById(params.id);
+      //   this.currentUser = await this.usersService.getById(params.id);
       let response = await this.usersService.getById(101);
       this.currentUser = response;
       console.log(this.currentUser);
     })
 
-    /* SI ACEPTA UTILIZAR SU UBICACION */
-    navigator.geolocation.getCurrentPosition(position => {
-      this.userlat = position.coords.latitude;
-      this.userlong = position.coords.longitude;
-
-      /* GUARDAR UBICACION BBDD */
-      let newLocation = {
-        role: this.currentUser.title,
-        lat: position.coords.latitude,
-        lon: position.coords.longitude
-      }
-      this.usersService.saveLocation(this.currentUser, newLocation);
-    })
-
-    /* SINO COGER COORDENADAS DE LA BASE DE DATOS DEL ESTUDIANTE */
-    if (this.userlat === undefined && this.userlong === undefined) {
-      this.getGeoUser(this.currentUser.id);
-    }
+    /* POSICIONAR USUARIO LOGEADO */
+    this.setCurrentLocation();
 
     /* AÑADIR PROFESORES EN EL MAPA */
     this.getAllTeachers();
+
+    /* BUSQUEDA DE UBICACION */
+
+
   }
 
-  async getAllTeachers() {
-    this.arrTeachers = await this.teachersService.getAllTeachers();
+  async setCurrentLocation() {
+    /* SI ACEPTA UTILIZAR SU UBICACION */
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        this.userlat = position.coords.latitude;
+        this.userlong = position.coords.longitude;
+
+        /* GUARDAR UBICACION BBDD */
+        let newLocation = {
+          role: this.currentUser.title,
+          lat: position.coords.latitude,
+          lon: position.coords.longitude
+        }
+        let response = await this.usersService.saveLocation(this.currentUser, newLocation);
+      })
+      /* SINO COGER COORDENADAS DE LA BASE DE DATOS DEL ESTUDIANTE */
+    } else {
+      this.getGeoUser(this.currentUser.id);
+    }
   }
 
   async getGeoUser(userid: number) {
     let geoUser;
-    if (this.currentUser.title === 'student') {
+    if (this.currentUser.role_id === 3) {
       geoUser = await this.studentsService.getById(userid);
-    } else if (this.currentUser.title === 'teacher') {
+    } else if (this.currentUser.role_id === 2) {
       geoUser = await this.teachersService.getById(userid);
     }
     this.userlat = geoUser.latitude;
     this.userlong = geoUser.longitude;
+  }
+
+  async getAllTeachers() {
+    this.arrTeachers = await this.teachersService.getAllTeachers();
   }
 
 }
