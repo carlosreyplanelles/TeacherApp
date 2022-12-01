@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Student } from '../interfaces/student.interface';
+import { LoginAuthService } from './login-auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,28 +10,21 @@ import { Student } from '../interfaces/student.interface';
 export class StudentsService {
   
   baseUrl = 'http://localhost:3000/api/students/';
-  constructor(private httpClient: HttpClient) {}
+
+  constructor(
+    private httpClient: HttpClient,
+    private loginAuthService: LoginAuthService
+    ) {}
 
   getAll(): Promise<any> {
     return lastValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}`)
+      this.httpClient.get<any>(`${this.baseUrl}`, this.loginAuthService.getTokenHeader())
     );
   }
 
   getById(studentId: number): Promise<any> {
-    const token = localStorage.getItem('user-token');
-    let httpOptions;
-
-    if (token) {
-      httpOptions = {
-        headers: new HttpHeaders({
-          "authorization": token
-        })
-      }
-    }
-
     return lastValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}${studentId}`, httpOptions)
+      this.httpClient.get<any>(`${this.baseUrl}${studentId}`, this.loginAuthService.getTokenHeader())
     );
   }
 
@@ -41,13 +35,13 @@ export class StudentsService {
 
   delete(studenId: number): Promise<any> {
     return lastValueFrom(
-      this.httpClient.delete<any>(`${this.baseUrl}${studenId}`)
+      this.httpClient.delete<any>(`${this.baseUrl}${studenId}`, this.loginAuthService.getTokenHeader())
     );
   }
 
   update(student: Student): Promise<any> {
     return lastValueFrom(
-      this.httpClient.put<any>(`${this.baseUrl}${student.id}`, student)
+      this.httpClient.put<any>(`${this.baseUrl}${student.id}`, student, this.loginAuthService.getTokenHeader())
     );
   }
 }

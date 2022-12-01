@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 
 import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { RatingsService } from 'src/app/services/ratings.service';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 
 @Component({
   selector: 'app-rating-form',
@@ -15,8 +15,6 @@ import { TeachersService } from 'src/app/services/teachers.service';
 })
 export class RatingFormComponent implements OnInit {
 
-  token: string | null;
-  tokenInfo: any;
   studentId!: number;
 
   ratingForm: FormGroup;
@@ -28,6 +26,7 @@ export class RatingFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private ratingsService: RatingsService,
     private teachersService: TeachersService,
+    private loginAuthService: LoginAuthService,
     private router: Router
   ) {
     this.ratingForm = new FormGroup({
@@ -35,11 +34,7 @@ export class RatingFormComponent implements OnInit {
       comment: new FormControl('', [])
     });
 
-    this.token = localStorage.getItem('user-token');
-    if (this.token) {
-      this.tokenInfo = this.getDecodedAccessToken(this.token);
-      this.studentId = this.tokenInfo.user_id;
-    }
+    this.studentId = this.loginAuthService.getId();
   }
 
   ngOnInit(): void {
@@ -100,13 +95,4 @@ export class RatingFormComponent implements OnInit {
       });
     }
   }
-
-  getDecodedAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
-    } catch(Error) {
-      return null;
-    }
-  }
-
 }
