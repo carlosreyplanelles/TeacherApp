@@ -41,7 +41,6 @@ export class ClassBookingComponent implements OnInit {
   }
 
   createSlots(date:any){
-    bookedClasses=classes.find(c=>c.date == date)
     for(let i=this.startingHour;i<=this.endingHour;i++){
       let bookedClass = this.bookedClasses.find(c=>c.hour==i)
       let slot = {
