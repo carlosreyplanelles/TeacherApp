@@ -29,7 +29,7 @@ export class AdminViewComponent implements OnInit {
 
   token: string | null = localStorage.getItem('user-token');
   tokenInfo: any;
-  adminId!: number;
+  userid!: number;
 
   constructor(
     private userService: UsersService,
@@ -41,30 +41,25 @@ export class AdminViewComponent implements OnInit {
   ) {
     if (this.token) {
       this.tokenInfo = this.getDecodedAccessToken(this.token);
-      this.adminId = this.tokenInfo.user_id;
+      this.userid = this.tokenInfo.user_id;
     }
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      //   let adminid: number = parseInt(params.adminid)
-      //   let resAdmin = await this.adminService.getAdminById(206);
-      //   this.currentAdmin = resAdmin;
+  async ngOnInit(): Promise<void> {
 
-      // this.userService.getById(this.adminId)
-      this.userService.getById(201)
-        .then(response => {
-          this.currentUser = response;
-        })
-        .catch(error => {
-          console.log('ERROR', error)
-        })
+    try {
+      let response = await this.userService.getById(this.userid);
+      this.currentUser = response;
+      console.log(this.currentUser);
+    } catch (err: any) {
+      console.log(err);
+      alert(err.error.error);
+    }
 
-      this.numStudents = await this.getNumStudents();
-      this.numTeachers = await this.getNumTeachers();
-      // getNumInactives();
-      // getNumPending();
-    })
+    this.numStudents = await this.getNumStudents();
+    this.numTeachers = await this.getNumTeachers();
+    // getNumInactives();
+    // getNumPending();
 
     console.log(this.currentUser);
 

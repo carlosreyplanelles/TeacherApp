@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+
 import { User } from 'src/app/interfaces/user.interface';
 import { Student } from 'src/app/interfaces/student.interface';
 import { Teacher } from 'src/app/interfaces/teacher.interface';
@@ -16,9 +18,14 @@ export class HomeComponent implements OnInit {
 
   userlat: number = 0;
   userlong: number = 0;
+  exists: boolean = false;
 
   currentUser!: User | Student | Teacher | any;
   arrTeachers!: Teacher | any;
+
+  token: string | null = localStorage.getItem('user-token');
+  tokenInfo: any;
+  userid!: number;
 
 
   constructor(
@@ -26,18 +33,25 @@ export class HomeComponent implements OnInit {
     private studentsService: StudentsService,
     private teachersService: TeachersService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) {
 
-  ngOnInit(): void {
+    if (this.token) {
+      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.userid = this.tokenInfo.user_id;
+    }
+
+  }
+
+  async ngOnInit(): Promise<void> {
 
     /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO POR RUTA */
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      //   let studentid: number = parseInt(params.adminid)
-      //   this.currentUser = await this.usersService.getById(params.id);
-      let response = await this.usersService.getById(101);
+    try {
+      let response = await this.usersService.getById(this.userid);
       this.currentUser = response;
       console.log(this.currentUser);
-    })
+    } catch (err: any) {
+      console.log(err);
+    }
 
     /* POSICIONAR USUARIO LOGEADO */
     this.setCurrentLocation();
@@ -54,19 +68,23 @@ export class HomeComponent implements OnInit {
     /* SI ACEPTA UTILIZAR SU UBICACION */
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
+        this.exists = true;
+
         this.userlat = position.coords.latitude;
         this.userlong = position.coords.longitude;
 
-        /* GUARDAR UBICACION BBDD */
-        let newLocation = {
-          role: this.currentUser.title,
-          lat: position.coords.latitude,
-          lon: position.coords.longitude
+        /* GUARDAR UBICACION BBDD SI ESTA LOGEADO */
+        if (this.currentUser !== undefined) {
+          let newLocation = {
+            role: this.currentUser.title,
+            lat: position.coords.latitude,
+            lon: position.coords.longitude
+          }
+          let response = await this.usersService.saveLocation(this.currentUser, newLocation);
         }
-        let response = await this.usersService.saveLocation(this.currentUser, newLocation);
       })
-      /* SINO COGER COORDENADAS DE LA BASE DE DATOS DEL ESTUDIANTE */
-    } else {
+      /* SI ESTA LOGEADO Y SIN PERMISO DE UBICACION, RECUPERAR DE LA BASE DE DATOS */
+    } else if (this.currentUser !== undefined) {
       this.getGeoUser(this.currentUser.id);
     }
   }
@@ -84,6 +102,14 @@ export class HomeComponent implements OnInit {
 
   async getAllTeachers() {
     this.arrTeachers = await this.teachersService.getAllTeachers();
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 
 }
