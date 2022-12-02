@@ -25,6 +25,7 @@ export class TeacherFormComponent implements OnInit {
   branches:Branch[] = []
   storedTeacher:any
   accion:string = "Registrar"
+  timeStampList:any[]=[]
 
 
   constructor( 
@@ -67,14 +68,17 @@ export class TeacherFormComponent implements OnInit {
       branch_id: new FormControl('',[Validators.required]),
       experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
       subjects: new FormControl('',[]),
-      validated: new FormControl(0,[Validators.required])
-    }, [this.checkPassword]);
+      validated: new FormControl(0,[Validators.required]),
+      starthour: new FormControl(0,[Validators.required]),
+      endHour: new FormControl(0,[Validators.required]),
+    }, [this.checkPassword, this.scheduleTimesCheck]);
   }
   
   ngOnInit(): void {
     this.getProvinces()
     this.getCities()
     this.getBranches()
+    this.createTimeStamps()
     this.activatedRoute.params.subscribe(async (params: any) => {
 
       if (params.teacherId) {
@@ -99,6 +103,17 @@ export class TeacherFormComponent implements OnInit {
         })
       }
     })
+  }
+
+  createTimeStamps(){
+
+    for(let i = 0; i <24;i++){
+      const timeStamp={
+        value:i,
+        hour:i+':00'
+      }
+      this.timeStampList.push(timeStamp)
+    }
   }
 
   async getProvinces() {
@@ -201,8 +216,16 @@ export class TeacherFormComponent implements OnInit {
     const passwordConfirm: string = pFormValue.get('passwordConfirm')?.value;
     if (password !== passwordConfirm) {
       return { 'checkpassword': true }
-    } else {
-      return null
     }
+      return null
+  }
+
+  scheduleTimesCheck(pFormValue: AbstractControl){
+    const startHour = pFormValue.get('startHour')?.value
+    const endHour = pFormValue.get('endHour')?.value
+    if (startHour >= endHour){
+      return { 'scheduleCheck': true }
+    }
+    return null
   }
 }

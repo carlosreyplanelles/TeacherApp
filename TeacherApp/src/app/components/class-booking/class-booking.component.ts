@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from "@angular/common";
+import { ActivatedRoute } from '@angular/router';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 
 @Component({
   selector: 'app-class-booking',
@@ -8,22 +10,26 @@ import { formatDate } from "@angular/common";
 })
 export class ClassBookingComponent implements OnInit {
 
-  selected!: Date | null;
+  selected!: Date | String | null;
+  teacherId!: number
   slots: any[]=[]
   startingHour!:number
   endingHour!:number
-  selectedSlot!:any;
+  selectedSlot:any = null;
   bookedClasses:any[]=[]
   classesByDate:any[]=[]
-  selectedClass:any = null
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute,
+    private loginAuthService:LoginAuthService) { }
 
   ngOnInit(): void {
-    this.bookedClasses.push({hour:'10:00'})
-    this.startingHour = 9
-    this.endingHour = 20
-    this.createSlots()
+    this.activatedRoute.params.subscribe((params: any) => {
+      this.teacherId = params.teacherId;
+      this.bookedClasses.push({ hour: '10:00' })
+      this.startingHour = 9
+      this.endingHour = 20
+      this.createSlots()
+    })
   }
 
   onSelect(date:Date){
@@ -31,10 +37,9 @@ export class ClassBookingComponent implements OnInit {
     let format = 'yyyy-MM-dd'
     let locale = 'en-US'
 
-    let formattedDate = formatDate(date, format ,locale)
-    this.createSlots(formattedDate)
-
-    this.selectedClass=null
+    this.selected = formatDate(date, format ,locale)
+    this.createSlots(this.selected)
+    this.selectedSlot= null
   }
 
   selectTime(slot:any){
@@ -42,6 +47,8 @@ export class ClassBookingComponent implements OnInit {
   }
 
   createSlots(date:String = ""){
+    this.slots=[]
+
     for(let i=this.startingHour;i<=this.endingHour;i++){
       let bookedClass = this.bookedClasses.find(c=>c.hour==i)
       let slot = {
@@ -51,5 +58,14 @@ export class ClassBookingComponent implements OnInit {
       }
       this.slots.push(slot)
     }
+  }
+
+  bookSlot(){
+      const booking = {
+        teacherId: this.teacherId,
+        studentId: this.loginAuthService.getId(),
+        time: this.selectedSlot.time,
+        date: this.selected
+      }
   }
 }
