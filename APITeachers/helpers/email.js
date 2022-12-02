@@ -1,15 +1,26 @@
+require('dotenv').config();
+
+var dayjs = require('dayjs');
+var utc = require('dayjs/plugin/utc')
+var timezone = require('dayjs/plugin/timezone')
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 // Nodemailer
-const nodemaler = require("nodemailer");
+const nodemailer = require("nodemailer");
+
 
 //** Env Variables */
 const {
     GMAIL_EMAIL = process.env.GMAIL_EMAIL,
     GMAIL_CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET,
     ADMINISTRADOR_EMAIL = process.env.ADMINISTRADOR_EMAIL,
+    DATE = dayjs().tz("Europe/Madrid").format('DD/MM/YYYY HH:mm:ss') 
 } = process.env;
 
 //** Email Functions Handlers */
-async function sendMailAPiTeachers() {
+async function sendMailAPiTeachers(dataTeacherMail) {
     
     // Nodemailer TRANSPORT INFORMATION
     let transporter = nodemailer.createTransport({
@@ -23,27 +34,31 @@ async function sendMailAPiTeachers() {
     // Body of Message
     let mailBody = `
         <div>
-            <p>Hola! <b>administrador</b></p>
-            <p>Un nuevo profesor ha sido dado de alta, vaya a  https://lalapolalaanewb.com para validarlo.</p>
+            <p>Hola administrador,</p>
+            <p>Un nuevo profesor ha sido dado de alta, vaya a <a href="http://localhost:${process.env.port}/api/teachers/">TeacherApp</a> para validarlo.</p>
         </div>
         <div>
-            <p>Sincerely,</p>
-            <p>System [<b>Lalapolalaa Newb</b>]</p>
-        </div>    
+            <p><b>Datos del profesor:</b></p>
+            <ul>
+                <li>Nombre: ${dataTeacherMail.name} ${dataTeacherMail.surname}</li>
+                <li>Correo: ${dataTeacherMail.email}</li>
+                <li>Fecha de alta: ${DATE}</li>
+            </ul>
+        </div>
     `;
 
     // Body of mail
     let mailOptions = {
         from: `Alertas TeacherAPP <${GMAIL_EMAIL}>`,
         to: ADMINISTRADOR_EMAIL,
-        subject: "🚀 Nuevo profesor dado de alta",
+        subject: "🚀 Nueva alta de pofesor",
         html: mailBody,
     };
 
     // Send email
     return await transporter.sendMail(mailOptions)
         .then(success => "Email enviado")
-        .catch(error => "Email NO enviado");
+        .catch(error => error.message);
 }
 
 module.exports = { sendMailAPiTeachers };
