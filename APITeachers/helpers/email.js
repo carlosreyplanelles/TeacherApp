@@ -51,7 +51,7 @@ async function sendMailAPiTeachers(dataTeacherMail) {
     let mailOptions = {
         from: `Alertas TeacherAPP <${GMAIL_EMAIL}>`,
         to: ADMINISTRADOR_EMAIL,
-        subject: "🚀 Nueva alta de pofesor",
+        subject: "🚀 Nueva alta de profesor",
         html: mailBody,
     };
 
