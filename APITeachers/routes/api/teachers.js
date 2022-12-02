@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const dayjs = require('dayjs');
+const { sendMailAPiTeachers } = require('../../helpers/email')
 
 const { checkSchema } = require('express-validator');
 
@@ -92,7 +93,8 @@ router.post('/',
    checkBranch,
    checkCity,
     async (req, res) => {
-
+        // Info Teacher to Email
+        let  dataTeacherMail  = req.body
         /**TODO: Mysql transaction process*/
 
         try {
@@ -110,6 +112,14 @@ router.post('/',
             const teacher = await getTeacherById(result.insertId);
 
             res.status(200).json(teacher);
+
+            // Send email to activate Teacher
+            try {
+                await sendMailAPiTeachers(dataTeacherMail)      
+            } catch (error) {
+                console.log('Mail no enviado:', error.message);
+            } 
+
         } 
         catch (error) {            
             if (error.code === 'ECONNREFUSED') {
