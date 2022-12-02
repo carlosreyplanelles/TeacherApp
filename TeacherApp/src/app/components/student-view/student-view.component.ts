@@ -14,8 +14,6 @@ export class StudentViewComponent implements OnInit {
 
   currentStudent: Student | any;
 
-  token: string | null;
-  tokenInfo: any;
   studentId!: number;
 
   constructor(
@@ -23,11 +21,7 @@ export class StudentViewComponent implements OnInit {
     private loginAuthService: LoginAuthService,
     private router: Router
     ) {
-      this.token = localStorage.getItem('user-token');
-      if (this.token) {
-        this.tokenInfo = this.loginAuthService.getDecodedAccessToken(this.token);
-        this.studentId = this.tokenInfo.user_id;
-      }
+      this.studentId = this.loginAuthService.getId();
     }
 
   async ngOnInit(): Promise<void> {

@@ -18,8 +18,8 @@ router.post('/login', async (req, res) => {
     }
 
     // Checks if the passwords are the same
-    //const same = bcrypt.compareSync(password, user.password)
-    const same = (password === user.password);
+    const same = bcrypt.compareSync(password, user.password)
+    // const same = (password === user.password);
     if (!same) {
         return res.json({ error: "Error en email y/o contraseña" });
     }

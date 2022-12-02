@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { checkSchema } = require('express-validator');
+const bcrypt = require('bcryptjs');
 
 
 const { newStudent} = require('../helpers/validators');
@@ -15,6 +16,8 @@ const User = require('../models/user.model');
 
 router.post('/student', checkSchema(newStudent), checkError, async (req, res) => {
     try {
+        req.body.password = bcrypt.hashSync(req.body.password, 8);
+
         // Insert location and get location_id
         const newLocation = await Location.create(req.body);
         req.body.location_id = newLocation.insertId;
@@ -44,6 +47,8 @@ router.post('/teacher',
         /**TODO: Mysql transaction process*/
 
         try {
+            req.body.password = bcrypt.hashSync(req.body.password, 8);
+
             console.log("req.body", req.body);
 
             //Inserción en user

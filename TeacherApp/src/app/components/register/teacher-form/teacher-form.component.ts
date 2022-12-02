@@ -77,8 +77,6 @@ export class TeacherFormComponent implements OnInit {
     this.getBranches()
     this.activatedRoute.params.subscribe(async (params: any) => {
 
-      this.accion="Actualizar"
-
       if (params.teacherId) {
         this.accion = "Actualizar"
         this.storedTeacher = await this.teachersService.getById(params.teacherId)
@@ -147,7 +145,8 @@ export class TeacherFormComponent implements OnInit {
           } else {
             response = await this.teachersService.create(teacher)
             if (response.teacher_id) {
-              alert("El usuario ha sido creado correctamente.")
+              alert("El usuario ha sido creado correctamente.");
+              this.router.navigate(['/login']);
             } else {
               alert("Ha ocurrido un error intentelo de nuevo más tarde")
             }

@@ -34,15 +34,15 @@ const routes: Routes = [
       { path: 'profesor', component: TeacherFormComponent }
     ]
   },
-  { path: 'reservar/:teacherId', component:ClassBookingComponent },
-  { path: 'valorar/:teacherId', component: RatingFormComponent, canActivate: [LoginGuard]  },
-  { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent},
-  { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent},
+  { path: 'reservar/clase/:teacherId', component:ClassBookingComponent },
+  { path: 'valorar/:teacherId', component: RatingFormComponent, canActivate: [LoginGuard] },
+  { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent, canActivate: [LoginGuard]},
+  { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent, canActivate: [LoginGuard]},
   //{ path: 'admin-estudiantes', component: AdminStudentListComponent },
   //{ path: 'admin-profesores', component: AdminTeacherListComponent },
   { path: 'profesores', component: TeacherListComponent },
-  { path: 'profesor/:teacherId', component: TeacherPublicViewComponent, canActivate: [LoginGuard]  },
-  { path: 'estudiante/:studentId', component: StudentPublicViewComponent, canActivate: [LoginGuard]  },
+  { path: 'profesor/:teacherId', component: TeacherPublicViewComponent, canActivate: [LoginGuard], data: {role: ['student', 'admin'] } },
+  { path: 'estudiante/:studentId', component: StudentPublicViewComponent, canActivate: [LoginGuard], data: {role: ['teacher', 'admin'] } },
   { path: 'perfil', component: ProfileComponent, canActivate: [LoginGuard] },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }
