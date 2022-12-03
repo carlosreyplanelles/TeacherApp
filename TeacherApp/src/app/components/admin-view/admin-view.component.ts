@@ -26,7 +26,9 @@ export class AdminViewComponent implements OnInit {
 
   actualTab: string = 'pending';
 
-  adminId!: number;
+  token: string | null = localStorage.getItem('user-token');
+  tokenInfo: any;
+  userid!: number;
 
   constructor(
     private userService: UsersService,
@@ -36,25 +38,25 @@ export class AdminViewComponent implements OnInit {
     private loginAuthService: LoginAuthService,
     private router: Router
   ) {
-    this.adminId = this.loginAuthService.getId();
+    if (this.token) {
+      this.tokenInfo = this.getDecodedAccessToken(this.token);
+      this.userid = this.tokenInfo.user_id;
+    }
   }
 
   async ngOnInit(): Promise<void> {
-    this.userService.getById(this.adminId)
-      .then(response => {
-        this.currentUser = response;
-        // console.log(this.currentUser);
-      })
-      .catch(error => {
-        console.log('ERROR', error)
-      })
 
     try {
-      this.numStudents = await this.getNumStudents();
-      this.numTeachers = await this.getNumTeachers();
-    } catch (err) {
-      alert(err);
+      let response = await this.userService.getById(this.userid);
+      this.currentUser = response;
+      console.log(this.currentUser);
+    } catch (err: any) {
+      console.log(err);
+      alert(err.error.error);
     }
+
+    this.numStudents = await this.getNumStudents();
+    this.numTeachers = await this.getNumTeachers();
     // getNumInactives();
     // getNumPending();
 
