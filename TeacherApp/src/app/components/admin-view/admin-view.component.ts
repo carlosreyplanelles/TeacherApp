@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+
 
 import { Admin } from 'src/app/interfaces/admin.interface';
 import { User } from 'src/app/interfaces/user.interface';
@@ -90,5 +92,13 @@ export class AdminViewComponent implements OnInit {
   logout() {
     this.loginAuthService.logout();
     this.router.navigate(['/login']);
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 }
