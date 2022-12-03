@@ -60,7 +60,14 @@ export class HomeComponent implements OnInit {
     this.getAllTeachers();
 
     /* BUSQUEDA DE UBICACION */
+    const input = document.getElementById('autocomplete');
 
+    // const autocomplete = new google.maps.places.Autocomplete(input, {
+    //   types: ['establisment'],
+    //   fields: ['places_id', 'geometry', 'name']
+    // });
+
+    // autocomplete.addListener('place_changed', onPlaceChanged);
 
   }
 

@@ -1,8 +1,9 @@
 <section id="map-teachers" class="googlemap container mt-3">
     <div class="form-group">
         <label>Busqueda</label>
-        <input type="text" class="form-control my-search-box" placeholder="Busca la localización mas cercana"
-            autocorrect="off" autocapitalize="off" spellcheck="off" autocomplete #search>
+        <input type="text" id="autocomplete" class="form-control my-search-box"
+            placeholder="Busca la localización que desees" autocorrect="off" autocapitalize="off" spellcheck="off" />
+
     </div>
     <div class="card mapa">
         <!-- User coordinates to locate the map -->
@@ -84,5 +85,5 @@
 
 <app-teacher-list></app-teacher-list>
 
-<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap">
-</script>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLzQCiwfqymU9I2Ha_PcThWv3oEC78ij4&libraries=places&callback=initMap"></script>
