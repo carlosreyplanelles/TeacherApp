@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-class-booking',
@@ -61,11 +62,29 @@ export class ClassBookingComponent implements OnInit {
   }
 
   bookSlot(){
-      const booking = {
-        teacherId: this.teacherId,
-        studentId: this.loginAuthService.getId(),
-        time: this.selectedSlot.time,
-        date: this.selected
+    Swal.fire({
+      title: 'Reserva de clase',
+      text: `Vas a reservar una clase el dia ${this.selected} a las ${this.selectedSlot.hour} `,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const booking = {
+          teacherId: this.teacherId,
+          studentId: this.loginAuthService.getId(),
+          time: this.selectedSlot.time,
+          date: this.selected
+        }
+        Swal.fire(
+          'Reserva realizada',
+          'Su clase ha isod reservada.',
+          'success'
+        )
       }
+    })
+      
   }
 }

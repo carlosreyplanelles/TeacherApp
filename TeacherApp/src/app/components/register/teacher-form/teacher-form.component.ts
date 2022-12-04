@@ -68,6 +68,8 @@ export class TeacherFormComponent implements OnInit {
       branch_id: new FormControl('',[Validators.required]),
       experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
       subjects: new FormControl('',[]),
+      latitude: new FormControl('',[]),
+      longitude: new FormControl('',[]),
       validated: new FormControl(0,[Validators.required]),
       starthour: new FormControl(0,[Validators.required]),
       endHour: new FormControl(0,[Validators.required]),
@@ -99,7 +101,11 @@ export class TeacherFormComponent implements OnInit {
           subjects: this.storedTeacher.subjects,
           branch_id : this.storedTeacher.branch_id,
           experience : this.storedTeacher.experience,
-          price_hour : this.storedTeacher.price_hour
+          price_hour : this.storedTeacher.price_hour,
+          startHour: this.storedTeacher.startHour,
+          endHour: this.storedTeacher.endHour,
+          latitude: this.storedTeacher.latitude,
+          longitude: this.storedTeacher.longitude
         })
       }
     })
@@ -151,44 +157,55 @@ export class TeacherFormComponent implements OnInit {
   async getDataForm() {
     if (this.teacherForm.status === "VALID") {
       this.activatedRoute.params.subscribe(async (params: any) => {
-        const user = await this.usersService.findByEmail(this.teacherForm.value.email)
-        let response
-        let teacher = this.teacherForm.value
-        if (!params.teacherId) {
-          if (user != null) {
-            alert("Error al registrar el usuario.El correo utilizado ya existe.")
-          } else {
-            response = await this.teachersService.create(teacher)
-            if (response.teacher_id) {
-              alert("El usuario ha sido creado correctamente.");
-              this.router.navigate(['/login']);
+        navigator.geolocation.getCurrentPosition(async position => {
+          const user = await this.usersService.findByEmail(this.teacherForm.value.email)
+          let response
+          let teacher = this.teacherForm.value
+          if (!params.teacherId) {
+            if (user != null) {
+              alert("Error al registrar el usuario.El correo utilizado ya existe.")
             } else {
-              alert("Ha ocurrido un error intentelo de nuevo más tarde")
+
+              const { latitude, longitude } = position.coords;
+              if (latitude != undefined) {
+                teacher.latitude = latitude
+                teacher.longitude = longitude
+              }
+
+              response = await this.teachersService.create(teacher)
+              if (response.teacher_id) {
+                alert("El usuario ha sido creado correctamente.");
+                this.router.navigate(['/login']);
+              } else {
+                alert("Ha ocurrido un error intentelo de nuevo más tarde")
+              }
+            }
+          } else {
+            this.storedTeacher.name = teacher.name,
+              this.storedTeacher.surname = teacher.surname,
+              this.storedTeacher.email = teacher.email,
+              this.storedTeacher.password = teacher.password,
+              this.storedTeacher.address = teacher.address,
+              this.storedTeacher.avatar = teacher.avatar,
+              this.storedTeacher.phone = teacher.phone,
+              this.storedTeacher.city_id = teacher.city_id,
+              this.storedTeacher.province_id = teacher.province_id,
+              this.storedTeacher.subjects = teacher.subjects,
+              this.storedTeacher.branch_id = teacher.branch_id,
+              this.storedTeacher.experience = teacher.experience,
+              this.storedTeacher.price_hour = teacher.price_hour,
+              this.storedTeacher.role_id = this.teacher_role_id
+            this.storedTeacher.startHour = teacher.startHour,
+              this.storedTeacher.endHour = teacher.endHour
+            try {
+              const respone = await this.teachersService.update(this.storedTeacher);
+              this.router.navigate(['/perfil']);
+            } catch (error) {
+              console.log(error);
+              alert("Ha ocurrido un error intentelo de nuevo más tarde 2")
             }
           }
-        } else{
-          this.storedTeacher.name = teacher.name,
-          this.storedTeacher.surname = teacher.surname,
-          this.storedTeacher.email = teacher.email,
-          this.storedTeacher.password = teacher.password,
-          this.storedTeacher.address = teacher.address,
-          this.storedTeacher.avatar = teacher.avatar,
-          this.storedTeacher.phone = teacher.phone,
-          this.storedTeacher.city_id = teacher.city_id,
-          this.storedTeacher.province_id = teacher.province_id,
-          this.storedTeacher.subjects = teacher.subjects,
-          this.storedTeacher.branch_id = teacher.branch_id,
-          this.storedTeacher.experience = teacher.experience,
-          this.storedTeacher.price_hour = teacher.price_hour,
-          this.storedTeacher.role_id = this.teacher_role_id
-          try{
-            const respone = await this.teachersService.update(this.storedTeacher);
-            this.router.navigate(['/perfil']);
-          } catch(error) {
-            console.log(error);
-            alert("Ha ocurrido un error intentelo de nuevo más tarde 2")
-          }
-        }
+        })
       })
     } else {
       alert("Los datos introducidos son incorrectos. Por favor revise la información introducida.")
@@ -229,3 +246,4 @@ export class TeacherFormComponent implements OnInit {
     return null
   }
 }
+
