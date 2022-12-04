@@ -97,6 +97,8 @@ router.post('/',
 
         try {
             
+            //console.log("POST insert req.body antes", req.body);
+
             //Inserción en user
             const resultUser = await createUser(req.body);
             req.body.user_id = resultUser.insertId;
@@ -104,6 +106,8 @@ router.post('/',
             //Insercion en location
             const resultLocation = await createLocation(req.body);
             req.body.location_id = resultLocation.insertId;
+
+            //console.log("POST insert req.body tras user y location", req.body);
    
              //Insercion en teacher
             const result = await createTeacher(req.body);            
@@ -140,6 +144,8 @@ router.put('/:teacherId',
         /**TODO: Mysql transaction process*/
 
         try {
+
+            //console.log("PUT update req.body", req.body);
 
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
