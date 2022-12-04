@@ -8,6 +8,7 @@ import { BranchesService } from 'src/app/services/branches.service';
 import { UsersService } from 'src/app/services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeachersService } from 'src/app/services/teachers.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-teacher-form',
@@ -71,7 +72,7 @@ export class TeacherFormComponent implements OnInit {
       latitude: new FormControl('',[]),
       longitude: new FormControl('',[]),
       validated: new FormControl(0,[Validators.required]),
-      starthour: new FormControl(0,[Validators.required]),
+      startHour: new FormControl(0,[Validators.required]),
       endHour: new FormControl(0,[Validators.required]),
     }, [this.checkPassword, this.scheduleTimesCheck]);
   }
@@ -174,10 +175,21 @@ export class TeacherFormComponent implements OnInit {
 
               response = await this.teachersService.create(teacher)
               if (response.teacher_id) {
-                alert("El usuario ha sido creado correctamente.");
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'El usuario ha sido creado correctamente.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
                 this.router.navigate(['/login']);
               } else {
-                alert("Ha ocurrido un error intentelo de nuevo más tarde")
+
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al registrar',
+                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                })
               }
             }
           } else {
@@ -198,17 +210,33 @@ export class TeacherFormComponent implements OnInit {
             this.storedTeacher.startHour = teacher.startHour,
               this.storedTeacher.endHour = teacher.endHour
             try {
-              const respone = await this.teachersService.update(this.storedTeacher);
+              const response = await this.teachersService.update(this.storedTeacher);
+              if(response.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Datos actualizados.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
               this.router.navigate(['/perfil']);
             } catch (error) {
-              console.log(error);
-              alert("Ha ocurrido un error intentelo de nuevo más tarde 2")
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar',
+                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+              })
+              
             }
           }
         })
       })
     } else {
-      alert("Los datos introducidos son incorrectos. Por favor revise la información introducida.")
+      Swal.fire({
+        icon: 'error',
+        title: 'Error del formulario',
+        text: 'Los datos introducidos son incorrectos. Por favor revise la información introducida.',
+      })
     }
   }
 

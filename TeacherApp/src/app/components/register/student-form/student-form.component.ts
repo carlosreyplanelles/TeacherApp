@@ -8,6 +8,7 @@ import { StudentsService } from 'src/app/services/students.service';
 import { UsersService } from 'src/app/services/users.service';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
 import { Student } from 'src/app/interfaces/student.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student-form',
@@ -127,7 +128,11 @@ export class StudentFormComponent implements OnInit {
           let student = this.studentForm.value
           if (!params.studentId) {
             if (user != null) {
-              alert("Error al registrar el usuario.El correo utilizado ya existe.")
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al registrar',
+                text: 'El correo utilizado ya existe.',
+              })
             } else {
               
                 const {latitude, longitude} = position.coords;
@@ -138,11 +143,21 @@ export class StudentFormComponent implements OnInit {
               response = await this.studentsService.create(student)
               
               if (response.id) {
-                alert("el usuario se ha creado correctamente")
+
+                Swal.fire({
+                  icon: 'success',
+                  title: 'El Usuario ha sido creado correctamente.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
                 this.router.navigate(['/login'])
                 
               } else {
-                alert("Ha ocurrido un error intentelo de nuevo más tarde")
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al registrar',
+                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                })
               }
             }
           } else{
@@ -160,16 +175,32 @@ export class StudentFormComponent implements OnInit {
             this.storedStudent.longitude = student.longitude
             try{
               const response = await this.studentsService.update(this.storedStudent);
+              if(response.id){
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Datos actualizados.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
               this.router.navigate(['/perfil']);
             } catch(error) {
-              alert("Ha ocurrido un error intentelo de nuevo más tarde")
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al Actualizar',
+                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+              })
             }
           }
         })
       
       })
     } else {
-      alert("Los datos introducidos son incorrectos. Por favor revise la información introducida.")
+      Swal.fire({
+        icon: 'error',
+        title: 'Error del formulario',
+        text: 'Los datos introducidos son incorrectos. Por favor revise la información introducida.',
+      })
     }
   }
 
