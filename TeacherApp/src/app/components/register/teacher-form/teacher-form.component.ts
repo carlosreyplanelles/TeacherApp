@@ -72,8 +72,8 @@ export class TeacherFormComponent implements OnInit {
       latitude: new FormControl('',[]),
       longitude: new FormControl('',[]),
       validated: new FormControl(0,[Validators.required]),
-      startHour: new FormControl(0,[Validators.required]),
-      endHour: new FormControl(0,[Validators.required]),
+      start_class_hour: new FormControl(0,[Validators.required]),
+      end_class_hour: new FormControl(0,[Validators.required]),
     }, [this.checkPassword, this.scheduleTimesCheck]);
   }
   
@@ -103,8 +103,8 @@ export class TeacherFormComponent implements OnInit {
           branch_id : this.storedTeacher.branch_id,
           experience : this.storedTeacher.experience,
           price_hour : this.storedTeacher.price_hour,
-          startHour: this.storedTeacher.startHour,
-          endHour: this.storedTeacher.endHour,
+          start_class_hour: this.storedTeacher.start_class_hour,
+          end_class_hour: this.storedTeacher.end_class_hour,
           latitude: this.storedTeacher.latitude,
           longitude: this.storedTeacher.longitude
         })
@@ -207,9 +207,9 @@ export class TeacherFormComponent implements OnInit {
               this.storedTeacher.experience = teacher.experience,
               this.storedTeacher.price_hour = teacher.price_hour,
               this.storedTeacher.role_id = this.teacher_role_id
-            this.storedTeacher.startHour = teacher.startHour,
-              this.storedTeacher.endHour = teacher.endHour
-            try {
+              this.storedTeacher.start_class_hour = teacher.start_class_hour,
+              this.storedTeacher.end_class_hour = teacher.end_class_hour
+            try {              
               const response = await this.teachersService.update(this.storedTeacher);
               if(response.success) {
                 Swal.fire({
@@ -266,9 +266,9 @@ export class TeacherFormComponent implements OnInit {
   }
 
   scheduleTimesCheck(pFormValue: AbstractControl){
-    const startHour = pFormValue.get('startHour')?.value
-    const endHour = pFormValue.get('endHour')?.value
-    if (startHour >= endHour){
+    const start_class_hour = pFormValue.get('start_class_hour')?.value
+    const end_class_hour = pFormValue.get('end_class_hour')?.value
+    if (start_class_hour >= end_class_hour){
       return { 'scheduleCheck': true }
     }
     return null
