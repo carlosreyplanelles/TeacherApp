@@ -162,12 +162,13 @@ export class TeacherFormComponent implements OnInit {
           const user = await this.usersService.findByEmail(this.teacherForm.value.email)
           let response
           let teacher = this.teacherForm.value
+          const { latitude, longitude } = position.coords;
           if (!params.teacherId) {
             if (user != null) {
               alert("Error al registrar el usuario.El correo utilizado ya existe.")
             } else {
 
-              const { latitude, longitude } = position.coords;
+              
               if (latitude != undefined) {
                 teacher.latitude = latitude
                 teacher.longitude = longitude
@@ -193,7 +194,7 @@ export class TeacherFormComponent implements OnInit {
               }
             }
           } else {
-            this.storedTeacher.name = teacher.name,
+              this.storedTeacher.name = teacher.name,
               this.storedTeacher.surname = teacher.surname,
               this.storedTeacher.email = teacher.email,
               this.storedTeacher.password = teacher.password,
@@ -206,12 +207,16 @@ export class TeacherFormComponent implements OnInit {
               this.storedTeacher.branch_id = teacher.branch_id,
               this.storedTeacher.experience = teacher.experience,
               this.storedTeacher.price_hour = teacher.price_hour,
-              this.storedTeacher.role_id = this.teacher_role_id
+              this.storedTeacher.role_id = this.teacher_role_id,
               this.storedTeacher.start_class_hour = teacher.start_class_hour,
               this.storedTeacher.end_class_hour = teacher.end_class_hour
-            try {              
+              if (latitude != undefined) {
+                this.storedTeacher.latitude = latitude
+                this.storedTeacher.longitude = longitude
+              }
+            try {
               const response = await this.teachersService.update(this.storedTeacher);
-              if(response.success) {
+              if (response.success) {
                 Swal.fire({
                   icon: 'success',
                   title: 'Datos actualizados.',
@@ -226,7 +231,7 @@ export class TeacherFormComponent implements OnInit {
                 title: 'Error al actualizar',
                 text: 'Ha ocurrido un error intentelo de nuevo más tarde',
               })
-              
+
             }
           }
         })

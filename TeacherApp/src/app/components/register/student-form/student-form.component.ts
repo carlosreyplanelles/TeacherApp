@@ -126,6 +126,7 @@ export class StudentFormComponent implements OnInit {
           const user = await this.usersService.findByEmail(this.studentForm.value.email)
           let response!: Student | any
           let student = this.studentForm.value
+          const {latitude, longitude} = position.coords;
           if (!params.studentId) {
             if (user != null) {
               Swal.fire({
@@ -135,7 +136,7 @@ export class StudentFormComponent implements OnInit {
               })
             } else {
               
-                const {latitude, longitude} = position.coords;
+                
                 if(latitude != undefined){
                   student.latitude = latitude
                   student.longitude = longitude
@@ -173,6 +174,10 @@ export class StudentFormComponent implements OnInit {
             this.storedStudent.role_id = this.student_role_id
             this.storedStudent.latitude = student.latitude,
             this.storedStudent.longitude = student.longitude
+            if(latitude != undefined){
+              student.latitude = latitude
+              student.longitude = longitude
+            }
             try{
               const response = await this.studentsService.update(this.storedStudent);
               if(response.id){
