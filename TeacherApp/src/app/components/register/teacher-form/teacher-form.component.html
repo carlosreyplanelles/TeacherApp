@@ -144,24 +144,24 @@
         <div class = "d-flex justify-content-center">
             
             <div class="row mb-3 m-2 col-lg-5">
-                <label class="form-label"  for="startHour">Hora de inicio</label>
-                <select class="form-control " name="startHour" id="startHour" formControlName="startHour">
+                <label class="form-label"  for="start_class_hour">Hora de inicio</label>
+                <select class="form-control " name="start_class_hour" id="start_class_hour" formControlName="start_class_hour">
                     <option default>Selecciona una rama</option>
                     <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
                 </select>
-                <p class="error" *ngIf="checkControl('startHour', 'required')">
+                <p class="error" *ngIf="checkControl('start_class_hour', 'required')">
                     El campo es obligatorio
                 </p>
                 
             </div>
     
             <div class="row mb-3 m-2 col-lg-5">
-                <label class="form-label"  for="endHour">Hora de fin</label>
-                <select class="form-control " name="endHour" id="endHour" formControlName="endHour">
+                <label class="form-label"  for="end_class_hour">Hora de fin</label>
+                <select class="form-control " name="end_class_hour" id="end_class_hour" formControlName="end_class_hour">
                     <option default>Selecciona una rama</option>
                     <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
                 </select>
-                <p class="error" *ngIf="checkControl('endHour', 'required')">
+                <p class="error" *ngIf="checkControl('end_class_hour', 'required')">
                     El campo es obligatorio
                 </p>
             </div>
