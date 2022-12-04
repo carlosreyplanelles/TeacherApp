@@ -87,9 +87,6 @@ import { ClassBookingComponent } from './components/class-booking/class-booking.
     MaterialModule,
     SweetAlert2Module.forRoot(),
     NgxPaginationModule,
-    
-
-
   ],
   providers: [],
   bootstrap: [AppComponent],
