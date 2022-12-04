@@ -100,21 +100,21 @@ const newTeacherData = {
            // options: { lt: 1, gt: 0 },
             errorMessage: 'El campo identificador de la rama tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
         }
-    },    
+    }, 
     avatar: {     
-        exists: {
-            errorMessage: 'El campo avatar es obligatorio'
-        }, 
+        optional: true,
+        notEmpty: {
+            errorMessage: 'El avatar no puede ser vacío'
+        },
         trim: true,        
         isURL: {
             errorMessage: 'Introduzca una URL válida para el avatar'
         }
-    },    
+    },
     subjects: {
-        exists: true,
-        trim: true,
-        errorMessage: 'El campo asignaturas es obligatorio'
-    },   
+        optional: true, 
+        trim: true        
+    },      
     latitude: {
         optional: true,
         trim: true,
@@ -141,7 +141,23 @@ const newTeacherData = {
     address: {
         optional: true,
         trim: true
-    } 
+    }, 
+    start_class_hour: {
+        exists: {
+            errorMessage: 'EL campo hora de inicio de las clases es obligatorio',
+        },           
+        isInt: {           
+            errorMessage: 'El campo hora de inicio tiene que ser un número entero'
+        }
+    }, 
+    end_class_hour: {
+        exists: {
+            errorMessage: 'EL campo hora de fin de las clases es obligatorio',
+        },           
+        isInt: {           
+            errorMessage: 'El campo hora de fin tiene que ser un número entero'
+        }
+    }
 }
 
 const updateTeacherData = {
@@ -242,20 +258,18 @@ const updateTeacherData = {
            // options: { lt: 1, gt: 0 },
             errorMessage: 'El campo identificador de la rama tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
         }
-    },    
+    },
     avatar: {     
-        exists: {
-            errorMessage: 'El campo avatar es obligatorio'
-        }, 
+        optional: true,  
         trim: true,        
         isURL: {
             errorMessage: 'Introduzca una URL válida para el avatar'
         }
-    },    
+        
+    },
     subjects: {
-        exists: true,
-        trim: true,
-        errorMessage: 'El campo asignaturas es obligatorio'
+        optional: true, 
+        trim: true        
     },   
     latitude: {
         optional: true,
@@ -300,6 +314,22 @@ const updateTeacherData = {
         isInt: {
             options: { gt: 0 },
             errorMessage: 'El campo identificador de la localidad tiene que ser un número entero mayor que cero'
+        }
+    },
+    start_class_hour: {
+        exists: {
+            errorMessage: 'EL campo hora de inicio de las clases es obligatorio',
+        },           
+        isInt: {           
+            errorMessage: 'El campo hora de inicio tiene que ser un número entero'
+        }
+    }, 
+    end_class_hour: {
+        exists: {
+            errorMessage: 'EL campo hora de fin de las clases es obligatorio',
+        },           
+        isInt: {           
+            errorMessage: 'El campo hora de fin tiene que ser un número entero'
         }
     }
 }
