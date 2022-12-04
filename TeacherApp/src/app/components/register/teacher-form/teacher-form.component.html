@@ -146,7 +146,7 @@
             <div class="row mb-3 m-2 col-lg-5">
                 <label class="form-label"  for="start_class_hour">Hora de inicio</label>
                 <select class="form-control " name="start_class_hour" id="start_class_hour" formControlName="start_class_hour">
-                    <option default>Selecciona una rama</option>
+                    <option default>Selecciona una hora de inicio</option>
                     <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
                 </select>
                 <p class="error" *ngIf="checkControl('start_class_hour', 'required')">
@@ -158,7 +158,7 @@
             <div class="row mb-3 m-2 col-lg-5">
                 <label class="form-label"  for="end_class_hour">Hora de fin</label>
                 <select class="form-control " name="end_class_hour" id="end_class_hour" formControlName="end_class_hour">
-                    <option default>Selecciona una rama</option>
+                    <option default>Selecciona una hora de fin</option>
                     <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
                 </select>
                 <p class="error" *ngIf="checkControl('end_class_hour', 'required')">
