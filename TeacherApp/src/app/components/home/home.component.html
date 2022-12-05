@@ -1,10 +1,19 @@
-<section id="map-teachers" class="container mt-3">
-    <h4>Busca profesores cerca de ti</h4>
-    <div class="card mapa mt-3">
+<section id="map-teachers" class="googlemap container mt-3">
+    <div class="form-group">
+        <label>Busqueda</label>
+        <input type="text" id="autocomplete" class="form-control my-search-box"
+            placeholder="Busca la localización que desees" autocorrect="off" autocapitalize="off" spellcheck="off" />
+
+    </div>
+    <div class="card mapa">
         <!-- User coordinates to locate the map -->
-        <agm-map [latitude]="userlat" [longitude]="userlong" [zoom]="13">
+        <agm-map [latitude]="currentUser !== undefined || exists ? userlat : 3"
+            [longitude]="currentUser !== undefined || exists ? userlong : 40"
+            [zoom]="currentUser !== undefined || exists ? 13 : 2">
             <!-- User marker -->
-            <agm-marker [latitude]="userlat" [longitude]="userlong"
+            <agm-marker *ngIf='currentUser !== undefined || exists'
+                [latitude]="currentUser !== undefined || exists ? userlat : 3"
+                [longitude]="currentUser !== undefined || exists ? userlong : 40"
                 [iconUrl]="$any({url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', scaledSize: { width: 50, height: 50 } })">
                 <agm-info-window class="container d-flex justify-content-center align-items-center ">
 
@@ -76,3 +85,8 @@
         <button class="btn btn-primary" id="showAllTeachersBtn" [routerLink]="['/profesores']">Ver todos los profesores</button>
     </div>
 </section>
+
+<app-teacher-list></app-teacher-list>
+
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLzQCiwfqymU9I2Ha_PcThWv3oEC78ij4&libraries=places&callback=initMap"></script>
