@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 
 const { getAllAdmin, getAdminById, createAdmin, updateAdminById, validateTeacherById, deleteAdminById, deleteAllAdmin } = require("../../models/admin.model");
 
@@ -42,6 +43,8 @@ router.get("/admin=:adminid", checkAdmin, async (req, res) => {
 router.post("/new", checkSchema(newAdmin), checkError, async (req, res) => {
     const newadmin = req.body;
     try {
+        req.body.password = bcrypt.hashSync(req.body.password, 8);
+
         /* Creating a new admin. */
         const result = await createAdmin(newadmin);
         const admin = await getAdminById(result.insertId);

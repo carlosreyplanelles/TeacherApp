@@ -59,3 +59,17 @@ agm-map {
     margin-top: 10px;
     font-size: 16px;
 }
+
+#showAllTeachersBtn {
+    color: white;
+    width: 300px;
+    height: 60px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    margin-left: 1rem;
+}
+
+#showAllTeachersBtn:hover {
+    background-color: #001033;
+    transition: all .5s;
+}

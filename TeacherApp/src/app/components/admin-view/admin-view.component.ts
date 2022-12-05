@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 import jwt_decode from 'jwt-decode';
+
 
 import { Admin } from 'src/app/interfaces/admin.interface';
 import { User } from 'src/app/interfaces/user.interface';
@@ -9,6 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { AdminsService } from 'src/app/services/admins.service';
 import { StudentsService } from 'src/app/services/students.service';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class AdminViewComponent implements OnInit {
     private adminService: AdminsService,
     private studentsService: StudentsService,
     private teachersService: TeachersService,
-    private activatedRoute: ActivatedRoute,
+    private loginAuthService: LoginAuthService,
     private router: Router
   ) {
     if (this.token) {
@@ -61,7 +62,7 @@ export class AdminViewComponent implements OnInit {
     // getNumInactives();
     // getNumPending();
 
-    console.log(this.currentUser);
+    // console.log(this.currentUser);
 
   }
 
@@ -89,7 +90,7 @@ export class AdminViewComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('user-token');
+    this.loginAuthService.logout();
     this.router.navigate(['/login']);
   }
 
@@ -100,5 +101,4 @@ export class AdminViewComponent implements OnInit {
       return null;
     }
   }
-
 }

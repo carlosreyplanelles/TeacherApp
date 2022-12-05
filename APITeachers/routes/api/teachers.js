@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const dayjs = require('dayjs');
+const { sendMailAPiTeachers } = require('../../helpers/email')
 
 const { checkSchema } = require('express-validator');
 
@@ -92,24 +93,37 @@ router.post('/',
    checkBranch,
    checkCity,
     async (req, res) => {
-
+        // Info Teacher to Email
+        let  dataTeacherMail  = req.body
         /**TODO: Mysql transaction process*/
 
         try {
             
+            //console.log("POST insert req.body antes", req.body);
+
             //Inserción en user
             const resultUser = await createUser(req.body);
             req.body.user_id = resultUser.insertId;
 
             //Insercion en location
-            const resultLocation = await createLocation(req.body);             
+            const resultLocation = await createLocation(req.body);
             req.body.location_id = resultLocation.insertId;
+
+            //console.log("POST insert req.body tras user y location", req.body);
    
              //Insercion en teacher
             const result = await createTeacher(req.body);            
             const teacher = await getTeacherById(result.insertId);
 
             res.status(200).json(teacher);
+
+            // Send email to activate Teacher
+            try {
+                await sendMailAPiTeachers(dataTeacherMail)      
+            } catch (error) {
+                console.log('Mail no enviado:', error.message);
+            } 
+
         } 
         catch (error) {            
             if (error.code === 'ECONNREFUSED') {
@@ -139,14 +153,16 @@ router.put('/:teacherId',
 
         /**TODO: Mysql transaction process*/
 
-        try {     
-            
+        try {
+
+            //console.log("PUT update req.body", req.body);
+
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
             //console.log("resultUser", resultUser);
 
             //Actualizo location
-            const resultLocation = await updateLocation(req.body.location_id,req.body);          
+            const resultLocation = await updateLocation(req.body.location_id,req.body);
             //console.log("resultLocation", resultLocation);
 
             //Actualizo teacher

@@ -3,12 +3,12 @@
     <div class="card text-center mb-5">
 
         <div class="circle-image">
-            <img src="https://i.imgur.com/hczKIze.jpg" width="50">
+            <img [src]="currentTeacher?.avatar" [alt]="currentTeacher?.name" width="50">
         </div>
 
-        <span class="name mb-1 fw-500">-Nombre profesor-</span>
-        <small class="text-black-50">-Rama de conocimiento-</small>
-        <small class="text-black-50 font-weight-bold">-Asignaturas que imparte-</small>
+        <span class="name mb-1 fw-500">{{ currentTeacher?.name }} {{ currentTeacher?.surname }}</span>
+        <small class="text-black-50">{{ currentTeacher?.branch_title }}</small>
+        <small class="text-black-50 font-weight-bold">{{ currentTeacher?.subjects }}</small>
 
 
         <div class="rate bg-dark py-3 text-white mt-3">

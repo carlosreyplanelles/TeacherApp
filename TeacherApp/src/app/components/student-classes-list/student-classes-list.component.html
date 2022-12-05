@@ -16,7 +16,7 @@
                 <td>{{ class.branch }}</td>
                 <td>{{ class.class_datetime }}</td>
                 <td>
-                    <a class="btn btn-info me-2">Contacto</a>
+                    <a class="btn btn-info me-2" [routerLink]="['/profesor', class.teacher_id]">Ver perfil</a>
                     <a class="btn btn-primary text-white" [routerLink]="['/valorar', class.teacher_id]">Valorar profesor</a>
                 </td>
             </tr>
