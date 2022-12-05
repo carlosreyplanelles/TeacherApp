@@ -8,6 +8,7 @@ import { BranchesService } from 'src/app/services/branches.service';
 import { UsersService } from 'src/app/services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeachersService } from 'src/app/services/teachers.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-teacher-form',
@@ -25,6 +26,7 @@ export class TeacherFormComponent implements OnInit {
   branches:Branch[] = []
   storedTeacher:any
   accion:string = "Registrar"
+  timeStampList:any[]=[]
 
 
   constructor( 
@@ -67,14 +69,19 @@ export class TeacherFormComponent implements OnInit {
       branch_id: new FormControl('',[Validators.required]),
       experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
       subjects: new FormControl('',[]),
-      validated: new FormControl(0,[Validators.required])
-    }, [this.checkPassword]);
+      latitude: new FormControl('',[]),
+      longitude: new FormControl('',[]),
+      validated: new FormControl(0,[Validators.required]),
+      start_class_hour: new FormControl(0,[Validators.required]),
+      end_class_hour: new FormControl(0,[Validators.required]),
+    }, [this.checkPassword, this.scheduleTimesCheck]);
   }
   
   ngOnInit(): void {
     this.getProvinces()
     this.getCities()
     this.getBranches()
+    this.createTimeStamps()
     this.activatedRoute.params.subscribe(async (params: any) => {
 
       if (params.teacherId) {
@@ -95,10 +102,25 @@ export class TeacherFormComponent implements OnInit {
           subjects: this.storedTeacher.subjects,
           branch_id : this.storedTeacher.branch_id,
           experience : this.storedTeacher.experience,
-          price_hour : this.storedTeacher.price_hour
+          price_hour : this.storedTeacher.price_hour,
+          start_class_hour: this.storedTeacher.start_class_hour,
+          end_class_hour: this.storedTeacher.end_class_hour,
+          latitude: this.storedTeacher.latitude,
+          longitude: this.storedTeacher.longitude
         })
       }
     })
+  }
+
+  createTimeStamps(){
+
+    for(let i = 0; i <24;i++){
+      const timeStamp={
+        value:i,
+        hour:i+':00'
+      }
+      this.timeStampList.push(timeStamp)
+    }
   }
 
   async getProvinces() {
@@ -136,47 +158,90 @@ export class TeacherFormComponent implements OnInit {
   async getDataForm() {
     if (this.teacherForm.status === "VALID") {
       this.activatedRoute.params.subscribe(async (params: any) => {
-        const user = await this.usersService.findByEmail(this.teacherForm.value.email)
-        let response
-        let teacher = this.teacherForm.value
-        if (!params.teacherId) {
-          if (user != null) {
-            alert("Error al registrar el usuario.El correo utilizado ya existe.")
-          } else {
-            response = await this.teachersService.create(teacher)
-            if (response.teacher_id) {
-              alert("El usuario ha sido creado correctamente.");
-              this.router.navigate(['/login']);
+        navigator.geolocation.getCurrentPosition(async position => {
+          const user = await this.usersService.findByEmail(this.teacherForm.value.email)
+          let response
+          let teacher = this.teacherForm.value
+          const { latitude, longitude } = position.coords;
+          if (!params.teacherId) {
+            if (user != null) {
+              alert("Error al registrar el usuario.El correo utilizado ya existe.")
             } else {
-              alert("Ha ocurrido un error intentelo de nuevo más tarde")
+
+              
+              if (latitude != undefined) {
+                teacher.latitude = latitude
+                teacher.longitude = longitude
+              }
+
+              response = await this.teachersService.create(teacher)
+              if (response.teacher_id) {
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'El usuario ha sido creado correctamente.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                this.router.navigate(['/login']);
+              } else {
+
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al registrar',
+                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                })
+              }
+            }
+          } else {
+              this.storedTeacher.name = teacher.name,
+              this.storedTeacher.surname = teacher.surname,
+              this.storedTeacher.email = teacher.email,
+              this.storedTeacher.password = teacher.password,
+              this.storedTeacher.address = teacher.address,
+              this.storedTeacher.avatar = teacher.avatar,
+              this.storedTeacher.phone = teacher.phone,
+              this.storedTeacher.city_id = teacher.city_id,
+              this.storedTeacher.province_id = teacher.province_id,
+              this.storedTeacher.subjects = teacher.subjects,
+              this.storedTeacher.branch_id = teacher.branch_id,
+              this.storedTeacher.experience = teacher.experience,
+              this.storedTeacher.price_hour = teacher.price_hour,
+              this.storedTeacher.role_id = this.teacher_role_id,
+              this.storedTeacher.start_class_hour = teacher.start_class_hour,
+              this.storedTeacher.end_class_hour = teacher.end_class_hour
+              if (latitude != undefined) {
+                this.storedTeacher.latitude = latitude
+                this.storedTeacher.longitude = longitude
+              }
+            try {
+              const response = await this.teachersService.update(this.storedTeacher);
+              if (response.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Datos actualizados.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
+              this.router.navigate(['/perfil']);
+            } catch (error) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar',
+                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+              })
+
             }
           }
-        } else{
-          this.storedTeacher.name = teacher.name,
-          this.storedTeacher.surname = teacher.surname,
-          this.storedTeacher.email = teacher.email,
-          this.storedTeacher.password = teacher.password,
-          this.storedTeacher.address = teacher.address,
-          this.storedTeacher.avatar = teacher.avatar,
-          this.storedTeacher.phone = teacher.phone,
-          this.storedTeacher.city_id = teacher.city_id,
-          this.storedTeacher.province_id = teacher.province_id,
-          this.storedTeacher.subjects = teacher.subjects,
-          this.storedTeacher.branch_id = teacher.branch_id,
-          this.storedTeacher.experience = teacher.experience,
-          this.storedTeacher.price_hour = teacher.price_hour,
-          this.storedTeacher.role_id = this.teacher_role_id
-          try{
-            const respone = await this.teachersService.update(this.storedTeacher);
-            this.router.navigate(['/perfil']);
-          } catch(error) {
-            console.log(error);
-            alert("Ha ocurrido un error intentelo de nuevo más tarde 2")
-          }
-        }
+        })
       })
     } else {
-      alert("Los datos introducidos son incorrectos. Por favor revise la información introducida.")
+      Swal.fire({
+        icon: 'error',
+        title: 'Error del formulario',
+        text: 'Los datos introducidos son incorrectos. Por favor revise la información introducida.',
+      })
     }
   }
 
@@ -201,8 +266,17 @@ export class TeacherFormComponent implements OnInit {
     const passwordConfirm: string = pFormValue.get('passwordConfirm')?.value;
     if (password !== passwordConfirm) {
       return { 'checkpassword': true }
-    } else {
-      return null
     }
+      return null
+  }
+
+  scheduleTimesCheck(pFormValue: AbstractControl){
+    const start_class_hour = pFormValue.get('start_class_hour')?.value
+    const end_class_hour = pFormValue.get('end_class_hour')?.value
+    if (start_class_hour >= end_class_hour){
+      return { 'scheduleCheck': true }
+    }
+    return null
   }
 }
+
