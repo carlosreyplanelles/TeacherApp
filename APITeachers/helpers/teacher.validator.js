@@ -80,16 +80,16 @@ const newTeacherData = {
     },
     price_hour: {
         exists: {
-            errorMessage: 'EL campo precio/hora es obligatorio',
+            errorMessage: 'EL campo precio por hora es obligatorio',
         },
         isDecimal: {
-            errorMessage: 'The longitude field should be a decimal number'
+            errorMessage: 'El precio por hora debe ser un número decimal utilizando el . como separador'
         }
     },
     experience: {
         optional: true,       
         isInt: {
-            errorMessage: "El campo experiencia debe ser un valor numérico"
+            errorMessage: "El campo años de experiencia debe ser un valor numérico"
         } 
     },
     validated: {
@@ -98,13 +98,15 @@ const newTeacherData = {
         },           
         isInt: {
            // options: { lt: 1, gt: 0 },
-            errorMessage: 'El campo identificador de la rama tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
+            errorMessage: 'El campo validado tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
         }
     }, 
     avatar: {     
-        optional: true,
-        notEmpty: {
-            errorMessage: 'El avatar no puede ser vacío'
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
         },
         trim: true,        
         isURL: {
@@ -114,19 +116,27 @@ const newTeacherData = {
     subjects: {
         optional: true, 
         trim: true        
-    },      
+    },    
     latitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The latitude field should be a decimal number"
+            errorMessage: "La latitud debe ser un número decimal utilizando el . como separador"
         }
     },
     longitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The longitude field should be a decimal number"
+            errorMessage: "La longitud debe ser un número decimal utilizando el . como separador"
         }
     },
     city_id: {
@@ -241,13 +251,13 @@ const updateTeacherData = {
             errorMessage: 'EL campo precio/hora es obligatorio',
         },
         isDecimal: {
-            errorMessage: 'The longitude field should be a decimal number'
+            errorMessage: 'El precio por hora debe ser un número decimal utilizando el .'
         }
     },
     experience: {
         optional: true,       
         isInt: {
-            errorMessage: "El campo experiencia debe ser un valor numérico"
+            errorMessage: "El campo años de experiencia debe ser un valor numérico"
         } 
     },
     validated: {
@@ -256,33 +266,45 @@ const updateTeacherData = {
         },           
         isInt: {
            // options: { lt: 1, gt: 0 },
-            errorMessage: 'El campo identificador de la rama tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
+            errorMessage: 'El campo validado tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
         }
     },
     avatar: {     
-        optional: true,  
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         trim: true,        
         isURL: {
             errorMessage: 'Introduzca una URL válida para el avatar'
         }
-        
     },
     subjects: {
         optional: true, 
         trim: true        
-    },   
+    },  
     latitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The latitude field should be a decimal number"
+            errorMessage: "La latitud debe ser un número decimal utilizando el . como separador"
         }
     },
     longitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The longitude field should be a decimal number"
+            errorMessage: "La longitud debe ser un número decimal utilizando el . como separador"
         }
     },
     city_id: {
