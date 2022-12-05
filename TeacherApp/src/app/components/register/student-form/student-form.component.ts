@@ -121,54 +121,54 @@ export class StudentFormComponent implements OnInit {
 
   async getDataForm() {
     if (this.studentForm.status === "VALID") {
-      let userLat: number |undefined = undefined
-      let userLon: number |undefined = undefined
+      let userLat: number | undefined = undefined
+      let userLon: number | undefined = undefined
       navigator.geolocation.getCurrentPosition(async position => {
-        const {latitude, longitude} = position.coords;
-        userLat=latitude,
-        userLon=longitude
+        const { latitude, longitude } = position.coords;
+        userLat = latitude,
+          userLon = longitude
       })
-        this.activatedRoute.params.subscribe(async (params: any) => {
-          const user = await this.usersService.findByEmail(this.studentForm.value.email)
-          let response!: Student | any
-          let student = this.studentForm.value
-          
-          if (!params.studentId) {
-            if (user != null) {
+      this.activatedRoute.params.subscribe(async (params: any) => {
+        const user = await this.usersService.findByEmail(this.studentForm.value.email)
+        let response!: Student | any
+        let student = this.studentForm.value
+
+        if (!params.studentId) {
+          if (user != null) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al registrar',
+              text: 'El correo utilizado ya existe.',
+            })
+          } else {
+
+
+            if (userLat != undefined) {
+              student.latitude = userLat
+              student.longitude = userLon
+            }
+            response = await this.studentsService.create(student)
+
+            if (response.id) {
+
+              Swal.fire({
+                icon: 'success',
+                title: 'El Usuario ha sido creado correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              this.router.navigate(['/login'])
+
+            } else {
               Swal.fire({
                 icon: 'error',
                 title: 'Error al registrar',
-                text: 'El correo utilizado ya existe.',
+                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
               })
-            } else {
-              
-                
-                if(userLat != undefined){
-                  student.latitude = userLat
-                  student.longitude = userLon
-                }
-              response = await this.studentsService.create(student)
-              
-              if (response.id) {
-
-                Swal.fire({
-                  icon: 'success',
-                  title: 'El Usuario ha sido creado correctamente.',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-                this.router.navigate(['/login'])
-                
-              } else {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Error al registrar',
-                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
-                })
-              }
             }
-          } else{
-            this.storedStudent.name = student.name,
+          }
+        } else {
+          this.storedStudent.name = student.name,
             this.storedStudent.surname = student.surname,
             this.storedStudent.email = student.email,
             this.storedStudent.password = student.password,
@@ -178,32 +178,32 @@ export class StudentFormComponent implements OnInit {
             this.storedStudent.city_id = student.city_id,
             this.storedStudent.province_id = student.province_id,
             this.storedStudent.role_id = this.student_role_id
-            this.storedStudent.latitude = student.latitude,
+          this.storedStudent.latitude = student.latitude,
             this.storedStudent.longitude = student.longitude
-            if(userLat != undefined){
-              student.latitude = userLat
-              student.longitude = userLon
-            }
-            try{
-              const response = await this.studentsService.update(this.storedStudent);
-              if(response.id){
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Datos actualizados.',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-              }
-              this.router.navigate(['/perfil']);
-            } catch(error) {
+          if (userLat != undefined) {
+            student.latitude = userLat
+            student.longitude = userLon
+          }
+          try {
+            const response = await this.studentsService.update(this.storedStudent);
+            if (response.id) {
               Swal.fire({
-                icon: 'error',
-                title: 'Error al Actualizar',
-                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                icon: 'success',
+                title: 'Datos actualizados.',
+                showConfirmButton: false,
+                timer: 1500
               })
             }
+            this.router.navigate(['/perfil']);
+          } catch (error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al Actualizar',
+              text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+            })
           }
-        })
+        }
+      })
     } else {
       Swal.fire({
         icon: 'error',

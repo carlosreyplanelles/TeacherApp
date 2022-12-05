@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class ClassBookingComponent implements OnInit {
 
   selected!: Date | String | null;
-  teacherId!: number
+  @Input() teacherId!: number
   slots: any[]=[]
   startingHour!:number
   endingHour!:number
@@ -24,6 +24,7 @@ export class ClassBookingComponent implements OnInit {
     private loginAuthService:LoginAuthService) { }
 
   ngOnInit(): void {
+    //TODO:Get clases por teacherId
     this.activatedRoute.params.subscribe((params: any) => {
       this.teacherId = params.teacherId;
       this.bookedClasses.push({ hour: '10:00' })
@@ -49,7 +50,7 @@ export class ClassBookingComponent implements OnInit {
 
   createSlots(date:String = ""){
     this.slots=[]
-
+    //TODO:Get clases por teacherId y fecha
     for(let i=this.startingHour;i<=this.endingHour;i++){
       let bookedClass = this.bookedClasses.find(c=>c.hour==i)
       let slot = {
@@ -78,6 +79,7 @@ export class ClassBookingComponent implements OnInit {
           time: this.selectedSlot.time,
           date: this.selected
         }
+        //TODO:Llamar al create de la clase
         Swal.fire(
           'Reserva realizada',
           'Su clase ha isod reservada.',
