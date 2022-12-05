@@ -39,7 +39,7 @@ export class StudentsService {
     );
   }
 
-  update(student: Student): Promise<any> {
+  update(student: any): Promise<any> {
     return lastValueFrom(
       this.httpClient.put<any>(`${this.baseUrl}${student.id}`, student, this.loginAuthService.getTokenHeader())
     );

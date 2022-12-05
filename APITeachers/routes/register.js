@@ -3,7 +3,7 @@ const { checkSchema } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 
-const { newStudent} = require('../helpers/validators');
+const { newStudent } = require('../helpers/student.validators');
 const { checkError, checkCity} = require('../helpers/common.validators');
 const { newTeacherData, checkBranch } = require('../helpers/teacher.validator');
 
@@ -14,7 +14,7 @@ const Student = require('../models/student.model');
 const Location = require('../models/location.model');
 const User = require('../models/user.model');
 
-router.post('/student', checkSchema(newStudent), checkError, async (req, res) => {
+router.post('/student', checkSchema(newStudent), checkCity, checkError, async (req, res) => {
     try {
         req.body.password = bcrypt.hashSync(req.body.password, 8);
 
