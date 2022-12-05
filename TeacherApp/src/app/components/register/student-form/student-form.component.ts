@@ -121,12 +121,18 @@ export class StudentFormComponent implements OnInit {
 
   async getDataForm() {
     if (this.studentForm.status === "VALID") {
+      let userLat: number |undefined = undefined
+      let userLon: number |undefined = undefined
       navigator.geolocation.getCurrentPosition(async position => {
+        const {latitude, longitude} = position.coords;
+        userLat=latitude,
+        userLon=longitude
+      })
         this.activatedRoute.params.subscribe(async (params: any) => {
           const user = await this.usersService.findByEmail(this.studentForm.value.email)
           let response!: Student | any
           let student = this.studentForm.value
-          const {latitude, longitude} = position.coords;
+          
           if (!params.studentId) {
             if (user != null) {
               Swal.fire({
@@ -137,9 +143,9 @@ export class StudentFormComponent implements OnInit {
             } else {
               
                 
-                if(latitude != undefined){
-                  student.latitude = latitude
-                  student.longitude = longitude
+                if(userLat != undefined){
+                  student.latitude = userLat
+                  student.longitude = userLon
                 }
               response = await this.studentsService.create(student)
               
@@ -174,9 +180,9 @@ export class StudentFormComponent implements OnInit {
             this.storedStudent.role_id = this.student_role_id
             this.storedStudent.latitude = student.latitude,
             this.storedStudent.longitude = student.longitude
-            if(latitude != undefined){
-              student.latitude = latitude
-              student.longitude = longitude
+            if(userLat != undefined){
+              student.latitude = userLat
+              student.longitude = userLon
             }
             try{
               const response = await this.studentsService.update(this.storedStudent);
@@ -198,8 +204,6 @@ export class StudentFormComponent implements OnInit {
             }
           }
         })
-      
-      })
     } else {
       Swal.fire({
         icon: 'error',

@@ -158,20 +158,26 @@ export class TeacherFormComponent implements OnInit {
   async getDataForm() {
     if (this.teacherForm.status === "VALID") {
       this.activatedRoute.params.subscribe(async (params: any) => {
-        navigator.geolocation.getCurrentPosition(async position => {
+        let userLat: number |undefined = undefined
+      let userLon: number |undefined = undefined
+      navigator.geolocation.getCurrentPosition(async position => {
+        const {latitude, longitude} = position.coords;
+        userLat=latitude,
+        userLon=longitude
+      })
           const user = await this.usersService.findByEmail(this.teacherForm.value.email)
           let response
           let teacher = this.teacherForm.value
-          const { latitude, longitude } = position.coords;
+          
           if (!params.teacherId) {
             if (user != null) {
               alert("Error al registrar el usuario.El correo utilizado ya existe.")
             } else {
 
               
-              if (latitude != undefined) {
-                teacher.latitude = latitude
-                teacher.longitude = longitude
+              if (userLat != undefined) {
+                teacher.latitude = userLat
+                teacher.longitude = userLon
               }
 
               response = await this.teachersService.create(teacher)
@@ -210,9 +216,9 @@ export class TeacherFormComponent implements OnInit {
               this.storedTeacher.role_id = this.teacher_role_id,
               this.storedTeacher.start_class_hour = teacher.start_class_hour,
               this.storedTeacher.end_class_hour = teacher.end_class_hour
-              if (latitude != undefined) {
-                this.storedTeacher.latitude = latitude
-                this.storedTeacher.longitude = longitude
+              if (userLat != undefined) {
+                this.storedTeacher.latitude = userLat
+                this.storedTeacher.longitude = userLon
               }
             try {
               const response = await this.teachersService.update(this.storedTeacher);
@@ -234,7 +240,7 @@ export class TeacherFormComponent implements OnInit {
 
             }
           }
-        })
+        
       })
     } else {
       Swal.fire({
