@@ -1,7 +1,9 @@
 const router = require('express').Router();
 
 const dayjs = require('dayjs');
+const { sendMailAPiTeachers } = require('../../helpers/email')
 const { checkSchema } = require('express-validator');
+
 
 const { checkError, checkUser, checkCity, checkLocation, checkRole } = require('../../helpers/common.validators');
 const { newTeacherData, updateTeacherData, checkTeacher, checkBranch, checkEmptyFields } = require('../../helpers/teacher.validator');

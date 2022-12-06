@@ -1,18 +1,10 @@
 const router = require('express').Router();
 
-const { sendMailAPiTeachers } = require('../helpers/email')
-
 const { checkSchema } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-
 const { newStudent } = require('../helpers/student.validators');
 const { checkError, checkCity} = require('../helpers/common.validators');
-const { newTeacherData, checkBranch } = require('../helpers/teacher.validator');
-
-const { createUser } = require('../models/user.model');
-const { createLocation } = require('../models/location.model');
-const { getTeacherById, createTeacher } = require('../models/teacher.model');
 const Student = require('../models/student.model');
 const Location = require('../models/location.model');
 const User = require('../models/user.model');

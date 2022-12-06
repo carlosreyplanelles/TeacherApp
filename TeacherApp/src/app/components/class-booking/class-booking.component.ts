@@ -23,13 +23,12 @@ export class ClassBookingComponent implements OnInit {
   locale = 'en-US'
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private loginAuthService:LoginAuthService,
     private classesService: ClassesService
   ) { }
 
   ngOnInit(): void {
-      this.bookedClasses.push({ hour: '10:00' })
+    //TODO: Añadirllamada para recuperar horario de profesor y asignar a starting y ending hour
       this.startingHour = 9
       this.endingHour = 20
       this.createSlots()
@@ -49,7 +48,6 @@ export class ClassBookingComponent implements OnInit {
 
   async createSlots(date:string = ""){
     this.slots=[]
-    //TODO:Filtrar clases por fecha
     if(date!=""){
       this.bookedClasses = await this.classesService.getBookedClassesByTeacherDate (this.teacherId,date)
     } 
