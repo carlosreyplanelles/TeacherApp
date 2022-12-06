@@ -12,14 +12,15 @@ import { ClassesService } from 'src/app/services/classes.service';
 })
 export class ClassBookingComponent implements OnInit {
 
-  selected!: Date | String | null;
+  selected!: Date | string;
   @Input() teacherId!: number
   slots: any[]=[]
   startingHour!:number
   endingHour!:number
   selectedSlot:any = null;
   bookedClasses:any[]=[]
-  classesByDate:any[]=[]
+  format = 'yyyy-MM-dd'
+  locale = 'en-US'
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,8 +29,6 @@ export class ClassBookingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //TODO:Get clases por teacherId
-    //bookedClasses = await this.classService.getClassByTeacherId(teacherId)
       this.bookedClasses.push({ hour: '10:00' })
       this.startingHour = 9
       this.endingHour = 20
@@ -37,11 +36,7 @@ export class ClassBookingComponent implements OnInit {
   }
 
   onSelect(date:Date){
-
-    let format = 'yyyy-MM-dd'
-    let locale = 'en-US'
-
-    this.selected = formatDate(date, format ,locale)
+    this.selected = formatDate(date, this.format ,this.locale)
     this.createSlots(this.selected)
     this.selectedSlot= null
   }
@@ -52,17 +47,18 @@ export class ClassBookingComponent implements OnInit {
 
   }
 
-  createSlots(date:String = ""){
+  async createSlots(date:string = ""){
     this.slots=[]
     //TODO:Filtrar clases por fecha
-    //classesByDate = bookedClasses.filter(c => c.date == date)
+    if(date!=""){
+      this.bookedClasses = await this.classesService.getBookedClassesByTeacherDate (this.teacherId,date)
+    } 
     for(let i=this.startingHour;i<=this.endingHour;i++){
-      let bookedClass = this.bookedClasses.find(c=>c.hour==i)//TODO: cambiar por classesByDate.find
+      let bookedClass = this.bookedClasses.find(c=>c.start_hour==i)
       let slot = {
         id:i,
         hour: i+':00',
         available: bookedClass == undefined,
-        selected: false
       }
       this.slots.push(slot)
     }
@@ -70,6 +66,7 @@ export class ClassBookingComponent implements OnInit {
 
 
   async bookSlot(){
+    let response
     Swal.fire({
       title: 'Reserva de clase',
       text: `Vas a reservar una clase el dia ${this.selected} a las ${this.selectedSlot.hour} `,
@@ -78,18 +75,16 @@ export class ClassBookingComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar'
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         const booking = {
           teacherId: this.teacherId,
           studentId: this.loginAuthService.getId(),
-          time: this.selectedSlot.time,
-          date: this.selected
+          start_hour: this.selectedSlot.id,
+          start_date: formatDate(this.selected, this.format ,this.locale)
         }
-        //TODO:Llamar al create de la clase
-        /*
         try{
-          response = await this.classService.create().
+          response = await this.classesService.create(booking)
           if(response.id){
             Swal.fire(
           'Reserva realizada',
@@ -104,10 +99,7 @@ export class ClassBookingComponent implements OnInit {
                   title: 'Error al reservar',
                   text: 'Ha ocurrido un error intentelo de nuevo más tarde',
                 })
+              }
+            }})
+          }
         }
-        */ 
-      }
-    })
-      
-  }
-}
