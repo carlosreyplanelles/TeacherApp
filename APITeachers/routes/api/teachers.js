@@ -102,6 +102,8 @@ router.post('/',
             
             console.log("POST insert req.body antes", req.body);
 
+            req.body.password = bcrypt.hashSync(req.body.password, 8);
+
             console.log("POST latitud llega", req.body.latitude);
             console.log("POST longitud llega", req.body.longitude);
            
