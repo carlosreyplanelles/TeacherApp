@@ -7,7 +7,7 @@ const Student = require('../../models/student.model');
 const Location = require('../../models/location.model');
 const User = require('../../models/user.model');
 
-const { newStudent, checkStudent } = require('../../helpers/student.validators');
+const { newStudent, checkStudent, checkEmptyLocation } = require('../../helpers/student.validators');
 const { checkError, checkUser, checkCity, checkLocation, checkRole } = require('../../helpers/common.validators');
 const Auth = require('../../helpers/midelwares');
 
@@ -36,6 +36,7 @@ router.get('/:studentId',
 
 // POST
 router.post('/',
+    checkEmptyLocation,
     checkSchema(newStudent),
     checkCity,
     checkError,
@@ -65,6 +66,7 @@ router.post('/',
 // UPDATE
 router.put('/:studentId',
     Auth.checkToken,
+    checkEmptyLocation,
     checkStudent,
     checkSchema(newStudent),
     checkUser,

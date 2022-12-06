@@ -128,6 +128,14 @@ const checkStudent = async (req, res, next) => {
     }
 }
 
+const checkEmptyLocation = (req, res, next) => {
+    req.body.latitude = (req.body.latitude === "" || req.body.latitude === undefined ? null : req.body.latitude);
+    req.body.longitude = (req.body.longitude === "" || req.body.longitude === undefined ? null : req.body.longitude);
+    req.body.address = (req.body.address === "" || req.body.address === undefined ? null : req.body.address);
+
+    next();
+}
+
 module.exports = {
-    newStudent, checkStudent
+    newStudent, checkStudent, checkEmptyLocation
 }
