@@ -6,6 +6,9 @@ import {LocationsService } from 'src/app/services/locations.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentsService } from 'src/app/services/students.service';
 import { UsersService } from 'src/app/services/users.service';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
+import { Student } from 'src/app/interfaces/student.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student-form',
@@ -27,7 +30,7 @@ export class StudentFormComponent implements OnInit {
     private studentsService: StudentsService,
     private usersService: UsersService,
     private activatedRoute:ActivatedRoute,
-    private formBuilder:FormBuilder,
+    private loginAuthService: LoginAuthService,
     private router: Router) { 
     this.studentForm  = new FormGroup({
       role_id: new FormControl(this.student_role_id,[]),
@@ -56,6 +59,8 @@ export class StudentFormComponent implements OnInit {
         Validators.maxLength(13),
         Validators.minLength(11)]),
       province_id: new FormControl('',[Validators.required]),
+      latitude: new FormControl('',[]),
+      longitude: new FormControl('',[]),
       city_id: new FormControl('',[Validators.required]),
       avatar: new FormControl('',[])
     }, [this.checkPassword]);
@@ -82,7 +87,9 @@ export class StudentFormComponent implements OnInit {
           avatar: this.storedStudent.avatar,
           phone: this.storedStudent.phone,
           city_id: this.storedStudent.city_id,
-          province_id: this.storedStudent.province_id
+          province_id: this.storedStudent.province_id,
+          latitude: this.storedStudent.latitude,
+          longitude: this.storedStudent.longitude
         })
       }
     })
@@ -114,43 +121,91 @@ export class StudentFormComponent implements OnInit {
 
   async getDataForm() {
     if (this.studentForm.status === "VALID") {
-      this.activatedRoute.params.subscribe(async (params: any) => {
-        const user = await this.usersService.findByEmail(this.studentForm.value.email)
-        let response
-        let student = this.studentForm.value
-        if (!params.studentId) {
-          if (user != null) {
-            alert("Error al registrar el usuario.El correo utilizado ya existe.")
-          } else {
-            response = await this.studentsService.create(student)
-            if (response.id) {
-              alert("El usuario ha sido creado correctamente.");
-              this.router.navigate(['/login']);
+      navigator.geolocation.getCurrentPosition(async position => {
+        this.activatedRoute.params.subscribe(async (params: any) => {
+          const user = await this.usersService.findByEmail(this.studentForm.value.email)
+          let response!: Student | any
+          let student = this.studentForm.value
+          const {latitude, longitude} = position.coords;
+          if (!params.studentId) {
+            if (user != null) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al registrar',
+                text: 'El correo utilizado ya existe.',
+              })
             } else {
-              alert("Ha ocurrido un error intentelo de nuevo más tarde")
+              
+                
+                if(latitude != undefined){
+                  student.latitude = latitude
+                  student.longitude = longitude
+                }
+              response = await this.studentsService.create(student)
+              
+              if (response.id) {
+
+                Swal.fire({
+                  icon: 'success',
+                  title: 'El Usuario ha sido creado correctamente.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                this.router.navigate(['/login'])
+                
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al registrar',
+                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                })
+              }
+            }
+          } else{
+            this.storedStudent.name = student.name,
+            this.storedStudent.surname = student.surname,
+            this.storedStudent.email = student.email,
+            this.storedStudent.password = student.password,
+            this.storedStudent.address = student.address,
+            this.storedStudent.avatar = student.avatar,
+            this.storedStudent.phone = student.phone,
+            this.storedStudent.city_id = student.city_id,
+            this.storedStudent.province_id = student.province_id,
+            this.storedStudent.role_id = this.student_role_id
+            this.storedStudent.latitude = student.latitude,
+            this.storedStudent.longitude = student.longitude
+            if(latitude != undefined){
+              student.latitude = latitude
+              student.longitude = longitude
+            }
+            try{
+              const response = await this.studentsService.update(this.storedStudent);
+              if(response.id){
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Datos actualizados.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
+              this.router.navigate(['/perfil']);
+            } catch(error) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al Actualizar',
+                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+              })
             }
           }
-        } else{
-          this.storedStudent.name = student.name,
-          this.storedStudent.surname = student.surname,
-          this.storedStudent.email = student.email,
-          this.storedStudent.password = student.password,
-          this.storedStudent.address = student.address,
-          this.storedStudent.avatar = student.avatar,
-          this.storedStudent.phone = student.phone,
-          this.storedStudent.city_id = student.city_id,
-          this.storedStudent.province_id = student.province_id,
-          this.storedStudent.role_id = this.student_role_id
-          try{
-            const respone = await this.studentsService.update(this.storedStudent);
-            this.router.navigate(['/perfil']);
-          } catch(error) {
-            alert("Ha ocurrido un error intentelo de nuevo más tarde")
-          }
-        }
+        })
+      
       })
     } else {
-      alert("Los datos introducidos son incorrectos. Por favor revise la información introducida.")
+      Swal.fire({
+        icon: 'error',
+        title: 'Error del formulario',
+        text: 'Los datos introducidos son incorrectos. Por favor revise la información introducida.',
+      })
     }
   }
 
@@ -180,3 +235,6 @@ export class StudentFormComponent implements OnInit {
     }
   }
 }
+
+
+

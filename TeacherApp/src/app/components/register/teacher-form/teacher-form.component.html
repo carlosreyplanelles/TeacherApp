@@ -91,7 +91,7 @@
                 <option default>Selecciona una provincia</option>
                 <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
             </select>
-            <p class="error" *ngIf="checkControl('first_name', 'required')">
+            <p class="error" *ngIf="checkControl('province_id', 'required')">
                 El campo es obligatorio
             </p>
         </div>
@@ -102,22 +102,21 @@
                 <option default>Selecciona tu ciudad de residencia</option>
                 <option *ngFor="let city of citiesbyProvince" [value]="city.id">{{city.name}}</option>
             </select>
-            <p class="error" *ngIf="checkControl('first_name', 'required')">
+            <p class="error" *ngIf="checkControl('city_id', 'required')">
                 El campo es obligatorio
             </p>
-    
         </div>
         
         <div class="row mb-3 m-2">
             <label class="form-label"  for="price_hour">precio/hora</label>
             <input class="form-label" type="text" id="price_hour" class="form-control " formControlName="price_hour">
+            <p class="error" *ngIf="checkControl('price_hour', 'required')">
+                Este campo es obligatorio
+            </p>
+            <p class="error" *ngIf="checkControl('price_hour', 'pattern')">
+                Formato del precio incorrecto. Por favor introduce solo caracteres numericos
+            </p>
         </div>
-        <p class="error" *ngIf="checkControl('price_hour', 'required')">
-            El campo nombre es obligatorio
-        </p>
-        <p class="error" *ngIf="checkControl('price_hour', 'pattern')">
-            Formato de nombre incorrecto. Por favor introduce solo caracteres alfabeticos. Evita introducir números y caracteres especiales.
-        </p>
 
         <div class="row mb-3 m-2">
             <label class="form-label"  for="branch">Rama</label>
@@ -125,10 +124,10 @@
                 <option default>Selecciona una rama</option>
                 <option *ngFor="let branch of branches" [value]="branch.id">{{branch.title}}</option>
             </select>
+            <p class="error" *ngIf="checkControl('branch', 'required')">
+                El campo es obligatorio
+            </p>
         </div>
-        <p class="error" *ngIf="checkControl('branch', 'required')">
-            El campo es obligatorio
-        </p>
 
         <div class="row mb-3 m-2">
             <label class="form-label"  for="subjects">Especialidad </label>
@@ -139,6 +138,39 @@
             <label class="form-label"  for="experience">Años dando clase: </label>
             <input class="form-label" type="number" id="experience" class="form-control " formControlName="experience">
         </div>
+
+        <h2>Horario</h2>
+
+        <div class = "d-flex justify-content-center">
+            
+            <div class="row mb-3 m-2 col-lg-5">
+                <label class="form-label"  for="start_class_hour">Hora de inicio</label>
+                <select class="form-control " name="start_class_hour" id="start_class_hour" formControlName="start_class_hour">
+                    <option default>Selecciona una hora de inicio</option>
+                    <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
+                </select>
+                <p class="error" *ngIf="checkControl('start_class_hour', 'required')">
+                    El campo es obligatorio
+                </p>
+                
+            </div>
+    
+            <div class="row mb-3 m-2 col-lg-5">
+                <label class="form-label"  for="end_class_hour">Hora de fin</label>
+                <select class="form-control " name="end_class_hour" id="end_class_hour" formControlName="end_class_hour">
+                    <option default>Selecciona una hora de fin</option>
+                    <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
+                </select>
+                <p class="error" *ngIf="checkControl('end_class_hour', 'required')">
+                    El campo es obligatorio
+                </p>
+            </div>
+            <p class="error" *ngIf="teacherForm.hasError('scheduleCheck')">
+                La hora de inicio debe ser anterior a la hora de fin.
+            </p>
+        </div>
+        
+
 
         <input type="submit" [value]="accion" class="btn btn-success btn-lg btn-block mt-3 m-2">
     </form>
