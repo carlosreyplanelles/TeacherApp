@@ -100,29 +100,20 @@ router.post('/',
 
         try {
             
-            console.log("POST insert req.body antes", req.body);
-
             req.body.password = bcrypt.hashSync(req.body.password, 8);
-
-            console.log("POST latitud llega", req.body.latitude);
-            console.log("POST longitud llega", req.body.longitude);
-           
+                     
             //Inserción en user
             const resultUser = await createUser(req.body);
             req.body.user_id = resultUser.insertId;
-            console.log("resultUser tras createUser", resultUser);
 
             //Insercion en location
             const resultLocation = await createLocation(req.body);
             req.body.location_id = resultLocation.insertId;
-
-            console.log("POST insert req.body tras user y location", req.body);
-   
+  
              //Insercion en teacher
             const result = await createTeacher(req.body);            
             const teacher = await getTeacherById(result.insertId);
-
-            console.log("POST teacher respuesta", teacher);
+         
             res.status(200).json(teacher);
 
             // Send email to activate Teacher
@@ -163,20 +154,13 @@ router.put('/:teacherId',
         /**TODO: Mysql transaction process*/
 
         try {
-
-            console.log("PUT update req.body", req.body);
-
-            console.log("POST latitud llega", req.body.latitude);
-            console.log("POST longitud llega", req.body.longitude);
-
+           
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
-            console.log("resultUser", resultUser);
-
+           
             //Actualizo location
             const resultLocation = await updateLocation(req.body.location_id,req.body);
-            console.log("resultLocation", resultLocation);
-
+          
             //Actualizo teacher
             const result = await updateTeacher(teacherId, req.body);
 
