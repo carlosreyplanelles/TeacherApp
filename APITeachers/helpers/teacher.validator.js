@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator');
+
 const { getTeacherById, getBranchById } = require("../models/teacher.model");
 
 //Schema Validation
@@ -358,9 +358,12 @@ const updateTeacherData = {
 
 const checkTeacher = async (req, res, next) => {
 
-    const { teacherId } = req.params;
+    let teacherId;
 
     try {
+
+        //Recupero el id teacher en función del origen   
+        teacherId = ((Object.keys(req.params).length !== 0 && req.params.teacherId !== undefined)? req.params.teacherId : req.body.teacherId);
 
         if (teacherId === undefined) {
             return res.status(400).json({ error: 'Ocurrió un error al validar el identificador del profesor. El valor '+ teacherId + ' no existe'});
@@ -386,7 +389,7 @@ const checkBranch = async (req, res, next) => {
     try {
 
         //Recupero el id branch en función del origen   
-        branchId = ((Object.keys(req.params).length !== 0 && req.params.branchId !== undefined)? req.params.branchId : req.body. branch_id);
+        branchId = ((Object.keys(req.params).length !== 0 && req.params.branchId !== undefined)? req.params.branchId : req.body.branch_id);
 
         if (branchId === undefined) {
             return res.status(400).json({ error: 'Ocurrió un error al validar el identificador de la rama (branch). El valor '+ branchId + ' no existe'});
