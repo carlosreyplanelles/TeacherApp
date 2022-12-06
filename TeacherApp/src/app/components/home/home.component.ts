@@ -8,6 +8,7 @@ import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { StudentsService } from 'src/app/services/students.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { UsersService } from 'src/app/services/users.service';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 
 @Component({
   selector: 'app-home',
@@ -23,23 +24,17 @@ export class HomeComponent implements OnInit {
   currentUser!: User | Student | Teacher | any;
   arrTeachers!: Teacher | any;
 
-  token: string | null = localStorage.getItem('user-token');
-  tokenInfo: any;
   userid!: number;
-
 
   constructor(
     private usersService: UsersService,
     private studentsService: StudentsService,
     private teachersService: TeachersService,
+    private loginAuthService: LoginAuthService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) {
-
-    if (this.token) {
-      this.tokenInfo = this.getDecodedAccessToken(this.token);
-      this.userid = this.tokenInfo.user_id;
-    }
-
+    private router: Router
+  ) {
+      this.userid = this.loginAuthService.getId();
   }
 
   async ngOnInit(): Promise<void> {
@@ -107,13 +102,4 @@ export class HomeComponent implements OnInit {
   async getAllTeachers() {
     this.arrTeachers = await this.teachersService.getAllTeachers();
   }
-
-  getDecodedAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
-    } catch (Error) {
-      return null;
-    }
-  }
-
 }
