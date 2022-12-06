@@ -45,19 +45,16 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
 
     /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO POR RUTA */
-    try {
+    if (this.userid !== undefined) {
       let response = await this.usersService.getById(this.userid);
       this.currentUser = response;
-      console.log(this.currentUser);
-    } catch (err: any) {
-      console.log(err);
     }
 
     /* POSICIONAR USUARIO LOGEADO */
-    this.setCurrentLocation();
+    await this.setCurrentLocation();
 
     /* AÑADIR PROFESORES EN EL MAPA */
-    this.getAllTeachers();
+    let teacher_markers = await this.getAllTeachers();
 
     /* BUSQUEDA DE UBICACION */
     const input = document.getElementById('autocomplete');
@@ -74,7 +71,7 @@ export class HomeComponent implements OnInit {
   async setCurrentLocation() {
     /* SI ACEPTA UTILIZAR SU UBICACION */
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
+      await navigator.geolocation.getCurrentPosition(async (position) => {
         this.exists = true;
 
         this.userlat = position.coords.latitude;

@@ -1,4 +1,7 @@
 const router = require('express').Router();
+
+const { sendMailAPiTeachers } = require('../helpers/email')
+
 const { checkSchema } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
@@ -43,6 +46,8 @@ router.post('/teacher',
    checkBranch,
    checkCity,
     async (req, res) => {
+        // Info Teacher to Email
+        const dataTeacherMail  = req.body
 
         /**TODO: Mysql transaction process*/
 
@@ -64,6 +69,14 @@ router.post('/teacher',
             const teacher = await getTeacherById(result.insertId);
 
             res.status(200).json(teacher);
+
+            // Send email to activate Teacher
+            try {
+                await sendMailAPiTeachers(dataTeacherMail);  
+            } catch (error) {
+                console.log('Mail no enviado:', error.message);
+            } 
+
         } 
         catch (error) {
             console.log(error);
