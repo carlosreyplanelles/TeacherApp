@@ -62,7 +62,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   applyFilterStatus(event: Event | string) {
     this.dataSource.filter = event.toString();
-    console.log(this.dataSource.filter);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -89,7 +88,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   deleteTeacher(teacherId: number) {
     const idTeacher = teacherId;
-    console.log("AdminTeacherListComponent ~ idTeacher", idTeacher);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-primary',
@@ -111,8 +109,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
         if (result.isConfirmed) {
           try {
             let response = await this.teachersService.delete(idTeacher);
-            console.log("⭐AdminTeacherListComponent ~ response", response);
-            if (response.affectedRows > 0) {
+            if (response.user_id) {
               swalWithBootstrapButtons.fire('Usuario borrado');
               this.ngOnInit();
             } else {
