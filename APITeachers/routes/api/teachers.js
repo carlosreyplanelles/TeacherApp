@@ -94,8 +94,10 @@ router.post('/',
    checkCity,
    checkEmptyFields,
     async (req, res) => {
+
         // Info Teacher to Email
-        let  dataTeacherMail  = req.body
+        const  dataTeacherMail  = req.body
+
         /**TODO: Mysql transaction process*/
 
         try {
@@ -117,11 +119,12 @@ router.post('/',
             res.status(200).json(teacher);
 
             // Send email to activate Teacher
-         /*   try {
-                await sendMailAPiTeachers(dataTeacherMail)      
-            } catch (error) {
+            try {
+                await sendMailAPiTeachers(dataTeacherMail);      
+            } 
+            catch (error) {
                 console.log('Mail no enviado:', error.message);
-            } */
+            } 
 
         } 
         catch (error) {            
