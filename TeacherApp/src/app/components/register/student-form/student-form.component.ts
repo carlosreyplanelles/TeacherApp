@@ -82,7 +82,6 @@ export class StudentFormComponent implements OnInit {
           name: this.storedStudent.name,
           surname: this.storedStudent.surname,
           email: this.storedStudent.email,
-          password: this.storedStudent.password,
           address: this.storedStudent.address,
           avatar: this.storedStudent.avatar,
           phone: this.storedStudent.phone,

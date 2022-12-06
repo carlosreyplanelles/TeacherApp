@@ -93,7 +93,6 @@ export class TeacherFormComponent implements OnInit {
           name: this.storedTeacher.name,
           surname: this.storedTeacher.surname,
           email: this.storedTeacher.email,
-          password: this.storedTeacher.password,
           address: this.storedTeacher.address,
           avatar: this.storedTeacher.avatar,
           phone: this.storedTeacher.phone,
