@@ -3,6 +3,7 @@ import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
 import Swal from 'sweetalert2';
+import { ClassesService } from 'src/app/services/classes.service';
 
 @Component({
   selector: 'app-class-booking',
@@ -20,8 +21,11 @@ export class ClassBookingComponent implements OnInit {
   bookedClasses:any[]=[]
   classesByDate:any[]=[]
 
-  constructor(private activatedRoute: ActivatedRoute,
-    private loginAuthService:LoginAuthService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private loginAuthService:LoginAuthService,
+    private classesService: ClassesService
+  ) { }
 
   ngOnInit(): void {
     //TODO:Get clases por teacherId
@@ -50,7 +54,8 @@ export class ClassBookingComponent implements OnInit {
 
   createSlots(date:String = ""){
     this.slots=[]
-    //TODO:Get clases por teacherId y fecha
+    /**TODO:Get clases por teacherId y fecha
+    this.classesService.getBookedClassesByTeacherDate(this.teacherId,date)*/
     for(let i=this.startingHour;i<=this.endingHour;i++){
       let bookedClass = this.bookedClasses.find(c=>c.hour==i)
       let slot = {
@@ -79,10 +84,12 @@ export class ClassBookingComponent implements OnInit {
           time: this.selectedSlot.time,
           date: this.selected
         }
-        //TODO:Llamar al create de la clase
+        console.log("booking object en class-booking.component.ts", booking);
+        /**TODO:Llamar al create de la clase
+        this.classesService.create(booking);*/
         Swal.fire(
           'Reserva realizada',
-          'Su clase ha isod reservada.',
+          'Su clase se ha reservado satisfactoriamente.',
           'success'
         )
       }
