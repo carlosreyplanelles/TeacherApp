@@ -1,4 +1,7 @@
 const router = require('express').Router();
+
+const { sendMailAPiTeachers } = require('../helpers/email')
+
 const { checkSchema } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
