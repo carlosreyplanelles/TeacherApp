@@ -1,16 +1,16 @@
 <div class="d-flex justify-content-around">
-    <div class="col-lg-2">
+    <div class="col-lg-4 col-md-6 col-sm-12">
         <mat-card>
             <mat-calendar (selectedChange)="onSelect($event)" [(selected)]="selected"></mat-calendar>
         </mat-card>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-8 col-md-6 col-sm-12">
         <p>Selected date: {{selected}}</p>
         <div class="d-flex flex-wrap justify-content-between">
             <input type="button" *ngFor="let slot of slots" [disabled]="!slot.available" (click)="selectTime(slot)"
                 class="col-lg-3 col-md-6 col-sm-12 m-2 p-3 border text-center" [value]="slot.hour">
         </div>
-            <button class="btn btn-primary btn-lg btn-block" (click)="bookSlot()" [disabled]="selectedSlot==null">Reservar</button>
+            <button class="btn btn-primary btn-lg btn-block" (click)="bookSlot()" [disabled]="selectedSlot==null || selected==null">Reservar</button>
     </div>
 </div>
 

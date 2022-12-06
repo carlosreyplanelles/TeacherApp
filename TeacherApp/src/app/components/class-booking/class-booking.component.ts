@@ -25,13 +25,11 @@ export class ClassBookingComponent implements OnInit {
 
   ngOnInit(): void {
     //TODO:Get clases por teacherId
-    this.activatedRoute.params.subscribe((params: any) => {
-      this.teacherId = params.teacherId;
+    //bookedClasses = await this.classService.getClassByTeacherId(teacherId)
       this.bookedClasses.push({ hour: '10:00' })
       this.startingHour = 9
       this.endingHour = 20
       this.createSlots()
-    })
   }
 
   onSelect(date:Date){
@@ -50,9 +48,10 @@ export class ClassBookingComponent implements OnInit {
 
   createSlots(date:String = ""){
     this.slots=[]
-    //TODO:Get clases por teacherId y fecha
+    //TODO:Filtrar clases por fecha
+    //classesByDate = bookedClasses.filter(c => c.date == date)
     for(let i=this.startingHour;i<=this.endingHour;i++){
-      let bookedClass = this.bookedClasses.find(c=>c.hour==i)
+      let bookedClass = this.bookedClasses.find(c=>c.hour==i)//TODO: cambiar por classesByDate.find
       let slot = {
         id:i,
         hour: i+':00',
@@ -62,7 +61,7 @@ export class ClassBookingComponent implements OnInit {
     }
   }
 
-  bookSlot(){
+  async bookSlot(){
     Swal.fire({
       title: 'Reserva de clase',
       text: `Vas a reservar una clase el dia ${this.selected} a las ${this.selectedSlot.hour} `,
@@ -80,11 +79,25 @@ export class ClassBookingComponent implements OnInit {
           date: this.selected
         }
         //TODO:Llamar al create de la clase
-        Swal.fire(
+        /*
+        try{
+          response = await this.classService.create().
+          if(response.id){
+            Swal.fire(
           'Reserva realizada',
-          'Su clase ha isod reservada.',
+          'Su clase ha sido reservada.',
           'success'
         )
+          }
+        }
+        catch(error){
+          Swal.fire({
+                  icon: 'error',
+                  title: 'Error al reservar',
+                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                })
+        }
+        */ 
       }
     })
       
