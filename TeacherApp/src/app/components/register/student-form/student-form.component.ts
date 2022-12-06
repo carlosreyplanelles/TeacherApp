@@ -40,11 +40,11 @@ export class StudentFormComponent implements OnInit {
       ]),
       name: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z]+$/)
+        Validators.pattern(/^[A-Za-z\s]+$/)
       ]),
       surname: new FormControl('',[
         Validators.required,
-        Validators.pattern(/^[A-Za-z]+$/)
+        Validators.pattern(/^[A-Za-z\s]+$/)
       ]),
       password: new FormControl('',[
         Validators.required,
@@ -59,8 +59,6 @@ export class StudentFormComponent implements OnInit {
         Validators.maxLength(13),
         Validators.minLength(11)]),
       province_id: new FormControl('',[Validators.required]),
-      latitude: new FormControl('',[]),
-      longitude: new FormControl('',[]),
       city_id: new FormControl('',[Validators.required]),
       avatar: new FormControl('',[])
     }, [this.checkPassword]);
@@ -123,7 +121,7 @@ export class StudentFormComponent implements OnInit {
     if (this.studentForm.status === "VALID") {
       let userLat: number | undefined = undefined
       let userLon: number | undefined = undefined
-      navigator.geolocation.getCurrentPosition(async position => {
+      navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords;
         userLat = latitude,
           userLon = longitude
@@ -141,8 +139,6 @@ export class StudentFormComponent implements OnInit {
               text: 'El correo utilizado ya existe.',
             })
           } else {
-
-
             if (userLat != undefined) {
               student.latitude = userLat
               student.longitude = userLon
@@ -158,7 +154,6 @@ export class StudentFormComponent implements OnInit {
                 timer: 1500
               })
               this.router.navigate(['/login'])
-
             } else {
               Swal.fire({
                 icon: 'error',
