@@ -9,7 +9,7 @@ const User = require('../../models/user.model');
 
 const { newStudent, checkStudent } = require('../../helpers/student.validators');
 const { checkError, checkUser, checkCity, checkLocation, checkRole } = require('../../helpers/common.validators');
-//const { checkToken, checkRole } = require('../../helpers/midelwares');
+const Auth = require('../../helpers/midelwares');
 
 // GET ALL
 router.get('/', async (req, res) => {
@@ -23,9 +23,7 @@ router.get('/', async (req, res) => {
 
 // GET BY ID
 router.get('/:studentId',
-            // checkToken,
-            // checkRole('student'),
-            checkStudent, async (req, res) => {
+    checkStudent, async (req, res) => {
     const { studentId } = req.params;
 
     try {
@@ -43,6 +41,8 @@ router.post('/',
     checkError,
     async (req, res) => {
     try {
+        req.body.password = bcrypt.hashSync(req.body.password, 8);
+
         // Insert location and get location_id
         const newLocation = await Location.create(req.body);
         req.body.location_id = newLocation.insertId;
@@ -64,6 +64,7 @@ router.post('/',
 
 // UPDATE
 router.put('/:studentId',
+    Auth.checkToken,
     checkStudent,
     checkSchema(newStudent),
     checkUser,
@@ -113,6 +114,8 @@ router.put('/:studentId',
 //     }
 // });
 router.delete('/:studentId',
+    Auth.checkToken,
+    Auth.checkRole('admin'),
     checkStudent,
     async (req, res) => {
 

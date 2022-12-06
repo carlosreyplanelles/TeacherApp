@@ -18,7 +18,7 @@ export class StudentsService {
 
   getAll(): Promise<any> {
     return lastValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}`, this.loginAuthService.getTokenHeader())
+      this.httpClient.get<any>(this.baseUrl, this.loginAuthService.getTokenHeader())
     );
   }
 
@@ -29,8 +29,7 @@ export class StudentsService {
   }
 
   create(student: Student): Promise<Student> {
-    const url = 'http://localhost:3000/register/student'
-    return lastValueFrom(this.httpClient.post<Student>(url, student));
+    return lastValueFrom(this.httpClient.post<Student>(this.baseUrl, student));
   }
 
   delete(studenId: number): Promise<any> {
