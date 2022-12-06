@@ -405,6 +405,17 @@ const checkBranch = async (req, res, next) => {
     }    
 }
 
+const checkEmptyFields = async (req, res, next) => {
+
+    req.body.latitude = (req.body.latitude === "" || req.body.latitude === undefined ? null : req.body.latitude);
+    req.body.longitude = (req.body.longitude === "" || req.body.longitude === undefined ? null : req.body.longitude);
+    req.body.address = (req.body.address === "" || req.body.address === undefined ? null : req.body.address);
+    req.body.avatar = (req.body.avatar === "" || req.body.avatar === undefined ? null : req.body.avatar);
+    req.body.subjects = (req.body.subjects === "" || req.body.subjects === undefined ? null : req.body.subjects);
+
+     next();       
+}
+
 module.exports = {
-    newTeacherData, updateTeacherData, checkTeacher, checkBranch
+    newTeacherData, updateTeacherData, checkTeacher, checkBranch, checkEmptyFields
 }
