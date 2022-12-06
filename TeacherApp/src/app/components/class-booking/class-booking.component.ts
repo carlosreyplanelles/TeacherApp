@@ -29,13 +29,11 @@ export class ClassBookingComponent implements OnInit {
 
   ngOnInit(): void {
     //TODO:Get clases por teacherId
-    this.activatedRoute.params.subscribe((params: any) => {
-      this.teacherId = params.teacherId;
+    //bookedClasses = await this.classService.getClassByTeacherId(teacherId)
       this.bookedClasses.push({ hour: '10:00' })
       this.startingHour = 9
       this.endingHour = 20
       this.createSlots()
-    })
   }
 
   onSelect(date:Date){
@@ -48,26 +46,30 @@ export class ClassBookingComponent implements OnInit {
     this.selectedSlot= null
   }
 
-  selectTime(slot:any){
+  selectTime(slot:any, event:any){
    this.selectedSlot = slot
+   console.log(event.target)
+
   }
 
   createSlots(date:String = ""){
     this.slots=[]
-    /**TODO:Get clases por teacherId y fecha
-    this.classesService.getBookedClassesByTeacherDate(this.teacherId,date)*/
+    //TODO:Filtrar clases por fecha
+    //classesByDate = bookedClasses.filter(c => c.date == date)
     for(let i=this.startingHour;i<=this.endingHour;i++){
-      let bookedClass = this.bookedClasses.find(c=>c.hour==i)
+      let bookedClass = this.bookedClasses.find(c=>c.hour==i)//TODO: cambiar por classesByDate.find
       let slot = {
         id:i,
         hour: i+':00',
-        available: bookedClass == undefined
+        available: bookedClass == undefined,
+        selected: false
       }
       this.slots.push(slot)
     }
   }
 
-  bookSlot(){
+
+  async bookSlot(){
     Swal.fire({
       title: 'Reserva de clase',
       text: `Vas a reservar una clase el dia ${this.selected} a las ${this.selectedSlot.hour} `,
@@ -84,14 +86,26 @@ export class ClassBookingComponent implements OnInit {
           time: this.selectedSlot.time,
           date: this.selected
         }
-        console.log("booking object en class-booking.component.ts", booking);
-        /**TODO:Llamar al create de la clase
-        this.classesService.create(booking);*/
-        Swal.fire(
+        //TODO:Llamar al create de la clase
+        /*
+        try{
+          response = await this.classService.create().
+          if(response.id){
+            Swal.fire(
           'Reserva realizada',
-          'Su clase se ha reservado satisfactoriamente.',
+          'Su clase ha sido reservada.',
           'success'
         )
+          }
+        }
+        catch(error){
+          Swal.fire({
+                  icon: 'error',
+                  title: 'Error al reservar',
+                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                })
+        }
+        */ 
       }
     })
       

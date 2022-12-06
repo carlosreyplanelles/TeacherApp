@@ -69,8 +69,6 @@ export class TeacherFormComponent implements OnInit {
       branch_id: new FormControl('',[Validators.required]),
       experience: new FormControl('',[Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]),
       subjects: new FormControl('',[]),
-      latitude: new FormControl('',[]),
-      longitude: new FormControl('',[]),
       validated: new FormControl(0,[Validators.required]),
       start_class_hour: new FormControl(0,[Validators.required]),
       end_class_hour: new FormControl(0,[Validators.required]),
@@ -104,9 +102,7 @@ export class TeacherFormComponent implements OnInit {
           experience : this.storedTeacher.experience,
           price_hour : this.storedTeacher.price_hour,
           start_class_hour: this.storedTeacher.start_class_hour,
-          end_class_hour: this.storedTeacher.end_class_hour,
-          latitude: this.storedTeacher.latitude,
-          longitude: this.storedTeacher.longitude
+          end_class_hour: this.storedTeacher.end_class_hour
         })
       }
     })
@@ -160,7 +156,7 @@ export class TeacherFormComponent implements OnInit {
       this.activatedRoute.params.subscribe(async (params: any) => {
         let userLat: number |undefined = undefined
       let userLon: number |undefined = undefined
-      navigator.geolocation.getCurrentPosition(async position => {
+      navigator.geolocation.getCurrentPosition(position => {
         const {latitude, longitude} = position.coords;
         userLat=latitude,
         userLon=longitude
@@ -277,8 +273,8 @@ export class TeacherFormComponent implements OnInit {
   }
 
   scheduleTimesCheck(pFormValue: AbstractControl){
-    const start_class_hour = pFormValue.get('start_class_hour')?.value
-    const end_class_hour = pFormValue.get('end_class_hour')?.value
+    const start_class_hour = parseInt(pFormValue.get('start_class_hour')?.value)
+    const end_class_hour = parseInt(pFormValue.get('end_class_hour')?.value)
     if (start_class_hour >= end_class_hour){
       return { 'scheduleCheck': true }
     }
