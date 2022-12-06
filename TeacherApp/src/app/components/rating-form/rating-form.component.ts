@@ -52,6 +52,15 @@ export class RatingFormComponent implements OnInit {
       // Check if there is a previous rating to show
       try {
         const response = await this.ratingsService.getByTeacherAndStudent(this.teacherId, this.studentId);
+
+        // Comprueba si el profesor ha tenido alguna clase con el alumno logeado
+        if (!response) {
+          Swal.fire({
+            icon: 'warning',
+            text: 'Solo puedes valorar a profesores con los que has tenido clase'
+          })
+          this.router.navigate(['/perfil']);
+        }
         
         if (response !== null) {
           this.currentRating = response;
