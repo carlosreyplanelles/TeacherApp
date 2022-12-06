@@ -8,6 +8,11 @@ import { LoginAuthService } from './login-auth.service';
   providedIn: 'root'
 })
 
+/**TODO: 06/12 Whatsapp -> Alberto está con el tema del token y comenta: "Estoy añadiendo el middleware en el back, 
+ * en los puntos en los que tiene que comprobar que la petición va acompañada de esa cabecera con el token 
+ * que envía el front. Con eso y cambiando los alert con sweetalert en general en la app, 
+ * menos en el registro y en la reserva, que es donde ya los cambió Carlos */
+
 export class TeachersService {
 
   baseUrl = 'http://localhost:3000/api/teachers/';
@@ -37,8 +42,7 @@ export class TeachersService {
   }
 
   create(teacher: Teacher): Promise<Teacher> {
-    const url = 'http://localhost:3000/register/teacher'
-    return lastValueFrom(this.httpClient.post<Teacher>(url, teacher));
+    return lastValueFrom(this.httpClient.post<Teacher>(`${this.baseUrl}`, teacher));
   }
 
   delete(teacherId: number): Promise<any> {
