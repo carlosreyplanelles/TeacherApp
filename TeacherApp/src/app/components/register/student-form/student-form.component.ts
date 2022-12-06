@@ -144,9 +144,7 @@ export class StudentFormComponent implements OnInit {
               student.longitude = userLon
             }
             response = await this.studentsService.create(student)
-
             if (response.id) {
-
               Swal.fire({
                 icon: 'success',
                 title: 'El Usuario ha sido creado correctamente.',
@@ -172,7 +170,7 @@ export class StudentFormComponent implements OnInit {
             this.storedStudent.phone = student.phone,
             this.storedStudent.city_id = student.city_id,
             this.storedStudent.province_id = student.province_id,
-            this.storedStudent.role_id = this.student_role_id
+            this.storedStudent.role_id = this.student_role_id,
           this.storedStudent.latitude = student.latitude,
             this.storedStudent.longitude = student.longitude
           if (userLat != undefined) {

@@ -42,8 +42,10 @@ export class ClassBookingComponent implements OnInit {
     this.selectedSlot= null
   }
 
-  selectTime(slot:any){
+  selectTime(slot:any, event:any){
    this.selectedSlot = slot
+   console.log(event.target)
+
   }
 
   createSlots(date:String = ""){
@@ -55,11 +57,13 @@ export class ClassBookingComponent implements OnInit {
       let slot = {
         id:i,
         hour: i+':00',
-        available: bookedClass == undefined
+        available: bookedClass == undefined,
+        selected: false
       }
       this.slots.push(slot)
     }
   }
+
 
   async bookSlot(){
     Swal.fire({

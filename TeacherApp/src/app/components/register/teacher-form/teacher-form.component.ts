@@ -273,8 +273,8 @@ export class TeacherFormComponent implements OnInit {
   }
 
   scheduleTimesCheck(pFormValue: AbstractControl){
-    const start_class_hour = pFormValue.get('start_class_hour')?.value
-    const end_class_hour = pFormValue.get('end_class_hour')?.value
+    const start_class_hour = parseInt(pFormValue.get('start_class_hour')?.value)
+    const end_class_hour = parseInt(pFormValue.get('end_class_hour')?.value)
     if (start_class_hour >= end_class_hour){
       return { 'scheduleCheck': true }
     }
