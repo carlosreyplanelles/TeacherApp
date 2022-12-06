@@ -12,6 +12,7 @@ const { createUser, getUserById, updateUser, cancelUser } = require('../../model
 const { createLocation, updateLocation } = require('../../models/location.model');
 const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getAllTeachersByFilters, getTeacherById, getTeacherByEmail, createTeacher, invalidateTeacher, updateTeacher } = require('../../models/teacher.model');
 const { getAverageRatingByTeacher } = require('../../models/rating.model');
+const bcrypt = require('bcryptjs');
 
 /* GET - READ */
 router.get('/', async (req, res) => {
