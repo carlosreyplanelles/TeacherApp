@@ -24,8 +24,8 @@ const sqlAllTeachersData = 'select u.id as user_id, u.name, u.surname, u.email, 
     'and not exists (select distinct teacher_id from ratings where ratings.teacher_id = t.id) ';
 
 const sqlTeacherClasses = 'select  c.id as class_id, c.student_id, u.name, u.surname, b.title as branch, DATE_FORMAT(c.creation_datetime,\'%d/%m/%Y %H:%i\') as booking_creation, c.title as subjects,DATE_FORMAT(c.start_date,\'%d/%m/%Y\') as start_date, c.start_hour as start_hour, c.end_hour as end_hour ' +
-                          'from classes c, teachers t, students s, users u, branches b ' +
-                          'where (c.cancel_date is null) and (c.teacher_id = t.id) and (c.student_id = s.id) and (t.branch_id = b.id) and (s.user_id = u.id) and (t.id=?) order by c.start_date';
+    'from classes c, teachers t, students s, users u, branches b ' +
+    'where (c.cancel_date is null) and (c.teacher_id = t.id) and (c.student_id = s.id) and (t.branch_id = b.id) and (s.user_id = u.id) and (t.id=?) order by c.start_date';
 
 const sqlTeacherHours = 'select start_class_hour, end_class_hour from teachers where id = ?';
 
@@ -88,13 +88,8 @@ const invalidateTeacher = (teacherId) => {
     return executeQuery('update teachers set validated = 0 where id = ?', [teacherId]);
 }
 
-const validateTeacher = (teacherId) => {    
+const validateTeacher = (teacherId) => {
     return executeQuery('update teachers set validated = 1 where id = ?', [teacherId]);
-}
-
-const updateTeacher = (teacherId, { phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects, start_class_hour, end_class_hour }) => {
-    return executeQuery('update teachers set phone = ?, branch_id = ?, price_hour = ?, experience =?, validated = ?, location_id = ?, avatar =?, user_id = ?, subjects = ?, start_class_hour = ?, end_class_hour = ? where id = ?', 
-                       [phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects, start_class_hour, end_class_hour, teacherId]);
 }
 
 const updateTeacher = (teacherId, { phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id, subjects, start_class_hour, end_class_hour }) => {
@@ -107,7 +102,7 @@ const getTeacherClasses = (teacherId) => {
 }
 
 const getTeacherHours = (teacherId) => {
-    return executeQueryOne(sqlTeacherHours, [teacherId]);    
+    return executeQueryOne(sqlTeacherHours, [teacherId]);
 }
 const getActiveTeacher = () => {
     return executeQuery(sqlAllTeachersData + ' WHERE t.validated = 1');
@@ -121,6 +116,6 @@ const getPendingTeacher = () => {
 
 
 module.exports = {
-    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, 
+    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher,
     updateTeacher, getTeacherClasses, getIdByUserId, getTeacherHours, validateTeacher
 }
