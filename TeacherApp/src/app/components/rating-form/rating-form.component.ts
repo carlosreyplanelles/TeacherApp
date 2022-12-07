@@ -7,6 +7,7 @@ import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { RatingsService } from 'src/app/services/ratings.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
+import { ClassesService } from 'src/app/services/classes.service';
 
 @Component({
   selector: 'app-rating-form',
@@ -22,11 +23,14 @@ export class RatingFormComponent implements OnInit {
   teacherId!: number;
   currentTeacher: Teacher | any;
 
+  activeClasses: any[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private ratingsService: RatingsService,
     private teachersService: TeachersService,
     private loginAuthService: LoginAuthService,
+    private classesService: ClassesService,
     private router: Router
   ) {
     this.ratingForm = new FormGroup({
@@ -49,18 +53,29 @@ export class RatingFormComponent implements OnInit {
           // alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
       }
 
-      // Check if there is a previous rating to show
       try {
-        const response = await this.ratingsService.getByTeacherAndStudent(this.teacherId, this.studentId);
-
+        
         // Comprueba si el profesor ha tenido alguna clase con el alumno logeado
-        if (!response) {
+        this.activeClasses = await this.classesService.getByStudent(this.studentId);
+
+        const isTeacher = this.activeClasses.some((activeClass): boolean => {
+          if (activeClass.teacher_id === this.teacherId) {
+            return true;
+          }
+          return false;
+        });
+
+        if (!isTeacher) {
           Swal.fire({
             icon: 'warning',
             text: 'Solo puedes valorar a profesores con los que has tenido clase'
           })
+          this.loginAuthService.loggedIn();
           this.router.navigate(['/perfil']);
         }
+
+        // Check if there is a previous rating to show
+        const response = await this.ratingsService.getByTeacherAndStudent(this.teacherId, this.studentId);
         
         if (response !== null) {
           this.currentRating = response;
