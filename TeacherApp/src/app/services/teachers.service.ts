@@ -60,4 +60,8 @@ export class TeachersService {
   getClassesByTeacherId(teacherId: number): Promise<any> {
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrlClasses}${teacherId}`, this.loginAuthService.getTokenHeader()));
   }
+
+  getTeacherHours(teacherId: number): Promise<any> {
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}hours/${teacherId}`, this.loginAuthService.getTokenHeader()));
+  }
 }

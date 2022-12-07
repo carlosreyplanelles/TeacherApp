@@ -10,7 +10,7 @@ const { newTeacherData, updateTeacherData, checkTeacher, checkBranch, checkEmpty
 
 const { createUser, getUserById, updateUser, cancelUser } = require('../../models/user.model');
 const { createLocation, updateLocation } = require('../../models/location.model');
-const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getAllTeachersByFilters, getTeacherById, getTeacherByEmail, createTeacher, invalidateTeacher, updateTeacher } = require('../../models/teacher.model');
+const { getAllTeachers, getTeachersByPage, getAllTeachersByFilters, getTeacherById, createTeacher, invalidateTeacher, updateTeacher, getTeacherHours } = require('../../models/teacher.model');
 const { getAverageRatingByTeacher } = require('../../models/rating.model');
 const bcrypt = require('bcryptjs');
 
@@ -47,6 +47,25 @@ router.get('/:teacherId', async (req, res) => {
             //Añadir su puntuación media
             const averageRating = await getAverageRatingByTeacher(teacherId);
             teacher.avg_rating = Math.round((averageRating.avg_rating !== null ? averageRating.avg_rating : 0));        
+            res.status(200).json(teacher);
+        } 
+        else {
+            res.status(400).json({ error: 'No existe el profesor con Id ' + teacherId });
+        }
+    }
+    catch (error) {
+        res.status(400).json({ error: "Error " + error.errno + ": " + error.message});
+    }   
+});
+
+router.get('/hours/:teacherId', async (req, res) => {
+
+    const { teacherId } = req.params;
+    
+    try {
+        const teacher = await getTeacherHours(teacherId);
+
+        if (teacher) {            
             res.status(200).json(teacher);
         } 
         else {

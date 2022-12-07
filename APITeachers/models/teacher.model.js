@@ -27,6 +27,7 @@ const sqlTeacherClasses = 'select  c.id as class_id, c.student_id, u.name, u.sur
                           'from classes c, teachers t, students s, users u, branches b ' +
                           'where (c.teacher_id = t.id) and (c.student_id = s.id) and (t.branch_id = b.id) and (s.user_id = u.id) and (t.id=?) order by class_datetime';
 
+const sqlTeacherHours = 'select start_class_hour, end_class_hour from teachers where id = ?';
 
 /**
  * Get the teacher with the given id.
@@ -96,7 +97,10 @@ const getTeacherClasses = (teacherId) => {
     return executeQuery(sqlTeacherClasses, [teacherId]);    
 }
 
+const getTeacherHours = (teacherId) => {
+    return executeQueryOne(sqlTeacherHours, [teacherId]);    
+}
 
 module.exports = {
-    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, updateTeacher, getTeacherClasses, getIdByUserId
+    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, updateTeacher, getTeacherClasses, getIdByUserId, getTeacherHours
 }
