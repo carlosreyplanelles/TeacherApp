@@ -10,7 +10,7 @@ const { newTeacherData, updateTeacherData, checkTeacher, checkBranch, checkEmpty
 
 const { createUser, getUserById, updateUser, cancelUser } = require('../../models/user.model');
 const { createLocation, updateLocation } = require('../../models/location.model');
-const { getAllTeachers, getTeachersByPage, getAllTeachersByFilters, getTeacherById, createTeacher, invalidateTeacher, updateTeacher, getTeacherHours } = require('../../models/teacher.model');
+const { getAllTeachers, getTeachersByPage, getAllTeachersByFilters, getTeacherById, createTeacher, invalidateTeacher, updateTeacher, getTeacherHours, validateTeacher } = require('../../models/teacher.model');
 const { getAverageRatingByTeacher } = require('../../models/rating.model');
 const bcrypt = require('bcryptjs');
 
@@ -159,7 +159,7 @@ router.post('/',
     }
 );
 
-/* PUT - UPDATE*/
+/* PUT - UPDATE GENERAL*/
 router.put('/:teacherId', 
     checkTeacher,
     checkSchema(updateTeacherData),    
@@ -197,6 +197,46 @@ router.put('/:teacherId',
            
            res.status(400).json({ error: "PUT Error " + error.errno + ": " + error.message,
                                    result: "No se pudo actualizar el profesor " + teacherId
+                                });
+        }
+    }
+);
+
+router.put('/validate/:teacherId', 
+    checkTeacher,   
+    async (req, res) => {
+
+        const { teacherId } = req.params;
+       
+        try {          
+            
+            //Validar profesor
+            const resultTeacher = await validateTeacher(teacherId);
+
+            if (resultTeacher.affectedRows !== 1) {
+                res.status(400).json({ error:  "No se pudo validar al profesor " + teacherId });
+            }
+          
+            //Recupero los datos del profesor
+            const teacherData = await getTeacherById(teacherId);
+            
+            //Y lo habilito en usuarios
+            const resultUser = await cancelUser(teacherData.user_id, null);  
+                
+            if (resultUser.affectedRows !== 1) {
+                res.status(400).json({ 
+                    error:  "Se ha validado el profesor " + teacherId + " pero ocurrió un error al quitar la baja en usuarios. Contacte con el administrador", 
+                    data: teacherData
+                });
+            }
+               
+           teacherData.leaving_date = null;          
+           res.status(200).json(teacherData);
+        } 
+        catch (error) {      
+           
+           res.status(400).json({ error: "PUT Error " + error.errno + ": " + error.message,
+                                   result: "No se pudo validar al profesor " + teacherId
                                 });
         }
     }

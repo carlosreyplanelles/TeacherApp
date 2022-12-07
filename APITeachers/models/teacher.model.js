@@ -88,6 +88,10 @@ const invalidateTeacher = (teacherId) => {
     return executeQuery('update teachers set validated = 0 where id = ?', [teacherId]);
 }
 
+const validateTeacher = (teacherId) => {    
+    return executeQuery('update teachers set validated = 1 where id = ?', [teacherId]);
+}
+
 const updateTeacher = (teacherId, { phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects, start_class_hour, end_class_hour }) => {
     return executeQuery('update teachers set phone = ?, branch_id = ?, price_hour = ?, experience =?, validated = ?, location_id = ?, avatar =?, user_id = ?, subjects = ?, start_class_hour = ?, end_class_hour = ? where id = ?', 
                        [phone, branch_id, price_hour, experience, validated, location_id, avatar, user_id ,subjects, start_class_hour, end_class_hour, teacherId]);
@@ -102,5 +106,6 @@ const getTeacherHours = (teacherId) => {
 }
 
 module.exports = {
-    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, updateTeacher, getTeacherClasses, getIdByUserId, getTeacherHours
+    getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher, 
+    updateTeacher, getTeacherClasses, getIdByUserId, getTeacherHours, validateTeacher
 }
