@@ -22,11 +22,11 @@ export class AdminViewComponent implements OnInit {
   currentUser!: Admin | User | any;
 
   numStudents: number = 0;
-  numInactives: number = 0;
+  // numInactives: number = 0;
   numTeachers: number = 0;
-  numPending: number = 0;
+  // numPending: number = 0;
 
-  actualTab: string = 'pending';
+  actualTab: string = 'teachers';
 
   token: string | null = localStorage.getItem('user-token');
   tokenInfo: any;
@@ -57,21 +57,21 @@ export class AdminViewComponent implements OnInit {
     }
 
     this.numStudents = await this.getNumStudents();
-    this.numInactives = await this.getNumInactives();
+    // this.numInactives = await this.getNumInactives();
     this.numTeachers = await this.getNumTeachers();
-    this.numPending = await this.getNumPending();
+    // this.numPending = await this.getNumPending();
 
   }
 
   async getNumStudents(): Promise<number> {
-    let response = await this.studentsService.getActiveStudent();
+    let response = await this.studentsService.getAll();
     return response.length;
   }
 
-  async getNumInactives(): Promise<number> {
-    let response = await this.studentsService.getInactiveStudent();
-    return response.length;
-  }
+  // async getNumInactives(): Promise<number> {
+  //   let response = await this.studentsService.getInactiveStudent();
+  //   return response.length;
+  // }
 
   async getNumTeachers(): Promise<number> {
     // let response = await this.teachersService.getActiveTeachers();
@@ -79,11 +79,11 @@ export class AdminViewComponent implements OnInit {
     return response.length;
   }
 
-  async getNumPending(): Promise<number> {
-    let response = await this.teachersService.getPendingTeachers();
-    console.log(response);
-    return response.length;
-  }
+  // async getNumPending(): Promise<number> {
+  //   let response = await this.teachersService.getPendingTeachers();
+  //   console.log(response);
+  //   return response.length;
+  // }
 
   chargeTab(tab: string): void {
     this.actualTab = tab;
