@@ -16,19 +16,20 @@ import { LoginAuthService } from './login-auth.service';
 export class TeachersService {
 
   baseUrl = 'http://localhost:3000/api/teachers/';
-  baseUrlClasses = 'http://localhost:3000/api/teacher-classes/'; 
+  baseUrlClasses = 'http://localhost:3000/api/teacher-classes/';
+  baseUrlAdmin = 'http://localhost:3000/api/admin/';
 
   constructor(
     private httpClient: HttpClient,
     private loginAuthService: LoginAuthService
-    ) { }
+  ) { }
 
   getAllTeachers(): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}`, this.loginAuthService.getTokenHeader())
     );
   }
-  
+
   getAll(page: number = 1): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}`, this.loginAuthService.getTokenHeader())
