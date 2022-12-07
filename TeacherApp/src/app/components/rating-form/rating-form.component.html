@@ -11,7 +11,7 @@
         <small class="text-black-50 font-weight-bold">{{ currentTeacher?.subjects }}</small>
 
 
-        <div class="rate bg-dark py-3 text-white mt-3">
+        <div class="rate form py-3 text-white mt-3">
 
             <form [formGroup]="ratingForm" (ngSubmit)="getRating()">
                 <p class="text-danger px-1" *ngIf="currentRating">Existe una valoración anterior para este profesor. Si valoras de nuevo al profesor, la nueva información sobrescribirá la valoración anterior</p>

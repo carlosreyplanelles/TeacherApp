@@ -29,7 +29,6 @@ export class StudentViewComponent implements OnInit {
       this.currentStudent = await this.studentsService.getById(this.studentId);
     } catch (err: any) {
       console.log(err);
-      alert(err.error.error);
     }
   }
 

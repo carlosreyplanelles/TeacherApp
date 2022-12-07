@@ -13,6 +13,7 @@ const { createLocation, updateLocation } = require('../../models/location.model'
 const { getAllTeachers, getTeachersByPage, getAllTeachersByFilters, getTeacherById, createTeacher, invalidateTeacher, updateTeacher, getTeacherHours, validateTeacher } = require('../../models/teacher.model');
 const { getAverageRatingByTeacher } = require('../../models/rating.model');
 const bcrypt = require('bcryptjs');
+const Auth = require('../../helpers/midelwares');
 
 /* GET - READ */
 router.get('/', async (req, res) => {
@@ -161,6 +162,7 @@ router.post('/',
 
 /* PUT - UPDATE GENERAL*/
 router.put('/:teacherId', 
+    Auth.checkToken,
     checkTeacher,
     checkSchema(updateTeacherData),    
     checkError,
@@ -244,6 +246,8 @@ router.put('/validate/:teacherId',
 
 /* DELETE */
 router.delete('/:teacherId',
+    Auth.checkToken,
+    Auth.checkRole('admin'),
     checkTeacher,
     async (req, res) => {
 
