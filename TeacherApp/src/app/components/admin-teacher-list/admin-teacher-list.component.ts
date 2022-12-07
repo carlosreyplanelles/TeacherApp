@@ -21,11 +21,11 @@ import { TeachersService } from 'src/app/services/teachers.service';
   ],
 })
 export class AdminTeacherListComponent implements AfterViewInit {
-  
+
   selectStatus: any[] = [
     { value: '', viewValue: 'Todos' },
-    { value: '0', viewValue: 'Desactivado' },
-    { value: '1', viewValue: 'Activado' },
+    { value: '0', viewValue: 'Activado' },
+    { value: '1', viewValue: 'Desactivado' },
   ];
 
   displayedColumns: string[] = [
@@ -53,7 +53,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   applyFilterName(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();   
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -62,7 +62,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   applyFilterStatus(event: Event | string) {
     this.dataSource.filter = event.toString();
-    console.log(this.dataSource.filter);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -89,7 +88,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   deleteTeacher(teacherId: number) {
     const idTeacher = teacherId;
-    console.log("AdminTeacherListComponent ~ idTeacher", idTeacher);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-primary',
@@ -110,8 +108,8 @@ export class AdminTeacherListComponent implements AfterViewInit {
       .then(async (result) => {
         if (result.isConfirmed) {
           try {
+            // let response = await this.teachersService.delete(idTeacher);
             let response = await this.teachersService.delete(idTeacher);
-            console.log("⭐AdminTeacherListComponent ~ response", response);
             if (response.affectedRows > 0) {
               swalWithBootstrapButtons.fire('Usuario borrado');
               this.ngOnInit();

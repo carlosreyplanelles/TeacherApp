@@ -39,6 +39,8 @@ import { TeacherClassesListComponent } from './components/teacher-classes-list/t
 import { TeacherPublicViewComponent } from './components/teacher-public-view/teacher-public-view.component';
 import { StudentPublicViewComponent } from './components/student-public-view/student-public-view.component';
 import { ClassBookingComponent } from './components/class-booking/class-booking.component';
+import { AdminPendingListComponent } from './components/admin-pending-list/admin-pending-list.component';
+import { AdminInactiveListComponent } from './components/admin-inactive-list/admin-inactive-list.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { ClassBookingComponent } from './components/class-booking/class-booking.
     TeacherClassesListComponent,
     TeacherPublicViewComponent,
     StudentPublicViewComponent,
-    ClassBookingComponent
+    ClassBookingComponent,
+    AdminPendingListComponent,
+    AdminInactiveListComponent
   ],
   imports: [
     BrowserModule,

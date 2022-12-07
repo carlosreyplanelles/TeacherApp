@@ -1,15 +1,10 @@
 const router = require('express').Router();
+
 const { checkSchema } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-
 const { newStudent } = require('../helpers/student.validators');
 const { checkError, checkCity} = require('../helpers/common.validators');
-const { newTeacherData, checkBranch } = require('../helpers/teacher.validator');
-
-const { createUser } = require('../models/user.model');
-const { createLocation } = require('../models/location.model');
-const { getTeacherById, createTeacher } = require('../models/teacher.model');
 const Student = require('../models/student.model');
 const Location = require('../models/location.model');
 const User = require('../models/user.model');
@@ -36,46 +31,5 @@ router.post('/student', checkSchema(newStudent), checkCity, checkError, async (r
         res.json({ error: err.message });
     }
 });
-
-router.post('/teacher',     
-   checkSchema(newTeacherData),
-   checkError,   
-   checkBranch,
-   checkCity,
-    async (req, res) => {
-
-        /**TODO: Mysql transaction process*/
-
-        try {
-            req.body.password = bcrypt.hashSync(req.body.password, 8);
-
-            console.log("req.body", req.body);
-
-            //Inserción en user
-            const resultUser = await createUser(req.body);
-            req.body.user_id = resultUser.insertId;
-
-            //Insercion en location
-            const resultLocation = await createLocation(req.body);             
-            req.body.location_id = resultLocation.insertId;
-   
-             //Insercion en teacher
-            const result = await createTeacher(req.body);            
-            const teacher = await getTeacherById(result.insertId);
-
-            res.status(200).json(teacher);
-        } 
-        catch (error) {
-            console.log(error);
-            if (error.code === 'ECONNREFUSED') {
-                res.status(503);
-            }
-            else {
-                res.status(400);
-            }
-            res.json({ error: "POST Error " + error.errno + ": " + error.message});
-        }
-    }
-);
 
 module.exports = router
