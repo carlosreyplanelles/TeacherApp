@@ -43,7 +43,9 @@ export class TeachersService {
   }
 
   create(teacher: Teacher): Promise<Teacher> {
-    return lastValueFrom(this.httpClient.post<Teacher>(`${this.baseUrl}`, teacher));
+    return lastValueFrom(
+      this.httpClient.post<Teacher>(`${this.baseUrl}`, teacher)
+    );
   }
 
   delete(teacherId: number): Promise<any> {
@@ -59,7 +61,21 @@ export class TeachersService {
   }
 
   getClassesByTeacherId(teacherId: number): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrlClasses}${teacherId}`, this.loginAuthService.getTokenHeader()));
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrlClasses}${teacherId}`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getActiveTeachers(): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrl}active`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getPendingTeachers(): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrl}pending`, this.loginAuthService.getTokenHeader())
+    );
   }
 
   getTeacherHours(teacherId: number): Promise<any> {

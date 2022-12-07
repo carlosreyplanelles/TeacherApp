@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
     await this.setCurrentLocation();
 
     /* AÑADIR PROFESORES EN EL MAPA */
-    let teacher_markers = await this.getAllTeachers();
+    await this.getAllTeachers();
 
     /* BUSQUEDA DE UBICACION */
     const input = document.getElementById('autocomplete');
@@ -93,6 +93,7 @@ export class HomeComponent implements OnInit {
             lat: position.coords.latitude,
             lon: position.coords.longitude
           }
+          console.log(this.currentUser);
           let response = await this.usersService.saveLocation(this.currentUser, newLocation);
         }
       })

@@ -57,31 +57,32 @@ export class AdminViewComponent implements OnInit {
     }
 
     this.numStudents = await this.getNumStudents();
+    this.numInactives = await this.getNumInactives();
     this.numTeachers = await this.getNumTeachers();
-    // getNumInactives();
-    // getNumPending();
-
-    // console.log(this.currentUser);
+    this.numPending = await this.getNumPending();
 
   }
 
   async getNumStudents(): Promise<number> {
-    let response = await this.studentsService.getAll();
+    let response = await this.studentsService.getActiveStudent();
     return response.length;
   }
 
-  getNumInactives() {
-
+  async getNumInactives(): Promise<number> {
+    let response = await this.studentsService.getInactiveStudent();
+    return response.length;
   }
 
   async getNumTeachers(): Promise<number> {
+    // let response = await this.teachersService.getActiveTeachers();
     let response = await this.teachersService.getAllTeachers();
-    console.log(response);
     return response.length;
   }
 
-  getNumPending() {
-
+  async getNumPending(): Promise<number> {
+    let response = await this.teachersService.getPendingTeachers();
+    console.log(response);
+    return response.length;
   }
 
   chargeTab(tab: string): void {

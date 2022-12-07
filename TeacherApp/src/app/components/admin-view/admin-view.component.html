@@ -113,7 +113,9 @@
         </div>
         <div class="container">
             <app-admin-student-list *ngIf="actualTab === 'students'"> </app-admin-student-list>
+            <app-admin-inactive-list *ngIf="actualTab === 'inactive'"></app-admin-inactive-list>
             <app-admin-teacher-list *ngIf="actualTab === 'teachers'"> </app-admin-teacher-list>
+            <app-admin-pending-list *ngIf="actualTab === 'pending'"></app-admin-pending-list>
         </div>
     </div>
 </div>
