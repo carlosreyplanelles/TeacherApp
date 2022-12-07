@@ -1,5 +1,8 @@
+.all{
+    align-items: center;
+}
 .all-login{
-    margin: 5rem 30rem;
+    margin: 5rem 20%;
     align-items: center;
     padding: 2rem;
 }
@@ -12,6 +15,7 @@
 }
 
 .email, .password{
+    width: 100%;
     margin-bottom: 2rem;
     padding: 0.5rem 1rem;
     border: 2px solid black;
@@ -22,4 +26,10 @@
 }
 .btn{
     margin: 0 2rem;
+}
+
+@media (max-width: 595px) {
+    .login-title{
+        font-size: 1.5rem;
+    }
 }
