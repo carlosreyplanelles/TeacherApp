@@ -2,12 +2,11 @@
     <div class="text-center">
         <img alt="" class="rounded-circle" [src]="myTeacher.avatar">
     </div>
-    <div class="card-body text-center">
+    <div class="card-body text-center pb-0">
         <h5 class="m-b-xs m-0"><strong>{{myTeacher.name}}</strong></h5>
         <h5 class="m-b-xs mt-0 "><strong>{{myTeacher.surname}}</strong></h5>
 
         <div class="d-flex justify-content-center align-items-center mb-2">
-            <!-- <mat-icon fontIcon="school">Rama</mat-icon> -->
             <span class="ms-2">{{myTeacher.branch_title}}</span>
         </div>
 
@@ -27,10 +26,10 @@
         </button> -->
     </div>
 
-    <div class="card-footer text-center">
-        <div class="m-t-xs btn-group" >
+    <div class="card-footer">
+        <div class="m-t-xs d-flex justify-content-evenly" >
             <span class="btn btn-xs" *ngIf="myTeacher.avg_rating == 0">No valorado</span>
-            <a *ngFor="let i of ' '.repeat(myTeacher.avg_rating).split('')" class="btn btn-xs text-warning"><i class="fa fa-star"></i></a>
+            <a *ngFor="let i of ' '.repeat(myTeacher.avg_rating).split('')" class="text-warning "><i class="fa fa-star"></i></a>
         </div>
     </div>
 
