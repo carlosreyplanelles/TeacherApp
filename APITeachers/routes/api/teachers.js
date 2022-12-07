@@ -178,6 +178,9 @@ router.put('/:teacherId',
 
         try {
            
+            //Encripto password
+            req.body.password = bcrypt.hashSync(req.body.password, 8);
+
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
            
