@@ -33,7 +33,7 @@
             </ng-container>
 
             <!-- Contact Column -->
-            <ng-container matColumnDef="contact">
+            <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Contacto </th>
                 <td mat-cell *matCellDef="let student"> {{student.email}} <br>{{student.phone}}</td>
 
@@ -41,13 +41,13 @@
 
             <!-- Creation Date Column -->
             <ng-container matColumnDef="creation_date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Alta</th>
+                <th mat-header-cell *matHeaderCellDef>Alta</th>
                 <td mat-cell *matCellDef="let student"> {{student.creation_date}} </td>
             </ng-container>
 
             <!--  Admin Column -->
             <ng-container matColumnDef="admin">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Administración</th>
+                <th mat-header-cell *matHeaderCellDef>Administración</th>
                 <td mat-cell *matCellDef="let student">
 
                     <span class="d-flex m-2 ms-4">
