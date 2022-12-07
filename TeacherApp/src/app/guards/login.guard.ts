@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
+import Swal from 'sweetalert2';
+
 import { LoginAuthService } from '../services/login-auth.service';
 
 @Injectable({
@@ -21,7 +23,11 @@ export class LoginGuard implements CanActivate {
       const userRole = this.loginAuthService.getRole();
 
       if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
-        alert('No tienes permiso para ver esta página');
+        Swal.fire({
+          icon: 'warning',
+          text: 'No tienes permiso para ver esta página'
+        });
+        this.router.navigate(['/perfil']);
         return false;
       }
       return true;
