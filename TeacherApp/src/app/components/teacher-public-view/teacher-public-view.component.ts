@@ -27,8 +27,8 @@ export class TeacherPublicViewComponent implements OnInit {
       //Petición a la API para traer los datos del profesor
       this.currentTeacher = await this.teachersService.getById(this.teacherId);
     } catch (exception: any) {
-        console.log("error getTeacherById", exception);
-        alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
+      console.log("error getTeacherById", exception);
+      // alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
     }
     });
   }
