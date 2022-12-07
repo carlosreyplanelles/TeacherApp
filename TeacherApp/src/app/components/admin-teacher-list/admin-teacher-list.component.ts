@@ -86,6 +86,53 @@ export class AdminTeacherListComponent implements AfterViewInit {
     }
   }
 
+  validateTeacher(teacherId: number) {
+    const idTeacher = teacherId;
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-secondary me-3 ',
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: `¿Deseas activar el usuario?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            // let response = await this.teachersService.delete(idTeacher);
+            let response = await this.teachersService.validateTeacher(idTeacher);
+            if (response.user_id) {
+              swalWithBootstrapButtons.fire('Usuario activado');
+              this.ngOnInit();
+            } else {
+              swalWithBootstrapButtons.fire(
+                'Error',
+                `${response.error}`,
+                'error'
+              );
+            }
+          } catch (error: any) {
+            console.log(error.message);
+          }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire(
+            'Cancelado',
+            'El usuario no ha sido activado',
+            'error'
+          );
+        }
+      });
+  }
+
   deleteTeacher(teacherId: number) {
     const idTeacher = teacherId;
     const swalWithBootstrapButtons = Swal.mixin({
