@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator');
+
 const { getTeacherById, getBranchById } = require("../models/teacher.model");
 
 //Schema Validation
@@ -80,16 +80,16 @@ const newTeacherData = {
     },
     price_hour: {
         exists: {
-            errorMessage: 'EL campo precio/hora es obligatorio',
+            errorMessage: 'EL campo precio por hora es obligatorio',
         },
         isDecimal: {
-            errorMessage: 'The longitude field should be a decimal number'
+            errorMessage: 'El precio por hora debe ser un número decimal utilizando el . como separador'
         }
     },
     experience: {
         optional: true,       
         isInt: {
-            errorMessage: "El campo experiencia debe ser un valor numérico"
+            errorMessage: "El campo años de experiencia debe ser un valor numérico"
         } 
     },
     validated: {
@@ -98,13 +98,15 @@ const newTeacherData = {
         },           
         isInt: {
            // options: { lt: 1, gt: 0 },
-            errorMessage: 'El campo identificador de la rama tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
+            errorMessage: 'El campo validado tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
         }
     }, 
     avatar: {     
-        optional: true,
-        notEmpty: {
-            errorMessage: 'El avatar no puede ser vacío'
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
         },
         trim: true,        
         isURL: {
@@ -114,19 +116,27 @@ const newTeacherData = {
     subjects: {
         optional: true, 
         trim: true        
-    },      
+    },    
     latitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The latitude field should be a decimal number"
+            errorMessage: "La latitud debe ser un número decimal utilizando el . como separador"
         }
     },
     longitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The longitude field should be a decimal number"
+            errorMessage: "La longitud debe ser un número decimal utilizando el . como separador"
         }
     },
     city_id: {
@@ -241,13 +251,13 @@ const updateTeacherData = {
             errorMessage: 'EL campo precio/hora es obligatorio',
         },
         isDecimal: {
-            errorMessage: 'The longitude field should be a decimal number'
+            errorMessage: 'El precio por hora debe ser un número decimal utilizando el .'
         }
     },
     experience: {
         optional: true,       
         isInt: {
-            errorMessage: "El campo experiencia debe ser un valor numérico"
+            errorMessage: "El campo años de experiencia debe ser un valor numérico"
         } 
     },
     validated: {
@@ -256,33 +266,45 @@ const updateTeacherData = {
         },           
         isInt: {
            // options: { lt: 1, gt: 0 },
-            errorMessage: 'El campo identificador de la rama tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
+            errorMessage: 'El campo validado tiene que ser un número: 1 (Validado) - 0 (Pendiente)'
         }
     },
     avatar: {     
-        optional: true,  
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         trim: true,        
         isURL: {
             errorMessage: 'Introduzca una URL válida para el avatar'
         }
-        
     },
     subjects: {
         optional: true, 
         trim: true        
-    },   
+    },  
     latitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The latitude field should be a decimal number"
+            errorMessage: "La latitud debe ser un número decimal utilizando el . como separador"
         }
     },
     longitude: {
-        optional: true,
-        trim: true,
+        optional: {
+            options: { 
+                checkFalsy: true,
+                checkNull: true
+            }
+        },
         isDecimal: {
-            errorMessage: "The longitude field should be a decimal number"
+            errorMessage: "La longitud debe ser un número decimal utilizando el . como separador"
         }
     },
     city_id: {
@@ -336,9 +358,12 @@ const updateTeacherData = {
 
 const checkTeacher = async (req, res, next) => {
 
-    const { teacherId } = req.params;
+    let teacherId;
 
     try {
+
+        //Recupero el id teacher en función del origen   
+        teacherId = ((Object.keys(req.params).length !== 0 && req.params.teacherId !== undefined)? req.params.teacherId : req.body.teacherId);
 
         if (teacherId === undefined) {
             return res.status(400).json({ error: 'Ocurrió un error al validar el identificador del profesor. El valor '+ teacherId + ' no existe'});
@@ -364,7 +389,7 @@ const checkBranch = async (req, res, next) => {
     try {
 
         //Recupero el id branch en función del origen   
-        branchId = ((Object.keys(req.params).length !== 0 && req.params.branchId !== undefined)? req.params.branchId : req.body. branch_id);
+        branchId = ((Object.keys(req.params).length !== 0 && req.params.branchId !== undefined)? req.params.branchId : req.body.branch_id);
 
         if (branchId === undefined) {
             return res.status(400).json({ error: 'Ocurrió un error al validar el identificador de la rama (branch). El valor '+ branchId + ' no existe'});
@@ -383,6 +408,17 @@ const checkBranch = async (req, res, next) => {
     }    
 }
 
+const checkEmptyFields = async (req, res, next) => {
+
+    req.body.latitude = (req.body.latitude === "" || req.body.latitude === undefined ? null : req.body.latitude);
+    req.body.longitude = (req.body.longitude === "" || req.body.longitude === undefined ? null : req.body.longitude);
+    req.body.address = (req.body.address === "" || req.body.address === undefined ? null : req.body.address);
+    req.body.avatar = (req.body.avatar === "" || req.body.avatar === undefined ? null : req.body.avatar);
+    req.body.subjects = (req.body.subjects === "" || req.body.subjects === undefined ? null : req.body.subjects);
+
+     next();       
+}
+
 module.exports = {
-    newTeacherData, updateTeacherData, checkTeacher, checkBranch
+    newTeacherData, updateTeacherData, checkTeacher, checkBranch, checkEmptyFields
 }

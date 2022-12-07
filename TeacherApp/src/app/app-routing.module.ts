@@ -34,7 +34,6 @@ const routes: Routes = [
       { path: 'profesor', component: TeacherFormComponent }
     ]
   },
-  { path: 'reservar/:teacherId', component:ClassBookingComponent },
   { path: 'valorar/:teacherId', component: RatingFormComponent, canActivate: [LoginGuard] },
   { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent, canActivate: [LoginGuard]},
   { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent, canActivate: [LoginGuard]},
