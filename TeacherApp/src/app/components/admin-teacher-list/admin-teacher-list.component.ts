@@ -33,7 +33,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
     'name',
     'city',
     'branch_title',
-    'contact',
+    'email',
     'validated',
     'admin',
   ];
@@ -145,7 +145,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
     swalWithBootstrapButtons
       .fire({
-        title: `¿Deseas borrar el usuario?`,
+        title: `¿Deseas dar de baja el usuario?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -158,7 +158,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
             // let response = await this.teachersService.delete(idTeacher);
             let response = await this.teachersService.delete(idTeacher);
             if (response.user_id) {
-              swalWithBootstrapButtons.fire('Usuario borrado');
+              swalWithBootstrapButtons.fire('Usuario dado de baja');
               this.ngOnInit();
             } else {
               swalWithBootstrapButtons.fire(
@@ -173,7 +173,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire(
             'Cancelado',
-            'El usuario no ha sido borrado',
+            'El usuario no ha sido dado de baja',
             'error'
           );
         }
