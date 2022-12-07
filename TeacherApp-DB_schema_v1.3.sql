@@ -87,7 +87,7 @@ CREATE TABLE `classes` (
   `start_date` date NOT NULL,
   `cancel_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UQ_class_teacher` (`teacher_id`,`create_datetime`),
+  UNIQUE KEY `UQ_class_teacher` (`teacher_id`,`creation_datetime`),
   KEY `FK_Class_student_idx` (`student_id`),
   KEY `FK_Class_teacher_idx` (`teacher_id`),
   CONSTRAINT `FK_Class_student` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`),
