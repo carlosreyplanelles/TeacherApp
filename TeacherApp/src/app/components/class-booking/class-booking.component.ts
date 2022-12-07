@@ -47,7 +47,8 @@ export class ClassBookingComponent implements OnInit {
   }
 
   onSelect(date: Date){
-    this.selected = formatDate(date, this.format ,this.locale);    
+    const selectedDate = formatDate(date, this.format ,this.locale); 
+    this.selected = selectedDate   
     this.createSlots(this.selected);
     this.selectedSlot = null;
   }
@@ -75,9 +76,10 @@ export class ClassBookingComponent implements OnInit {
 
   async bookSlot(){
     let response
+    let bookingDate = formatDate(this.selected, this.format ,this.locale)
     Swal.fire({
       title: 'Reserva de clase',
-      text: `Vas a reservar una clase el dia ${this.selected} a las ${this.selectedSlot.hour} `,
+      text: `Vas a reservar una clase el dia ${bookingDate} a las ${this.selectedSlot.hour} `,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
