@@ -78,7 +78,7 @@ DROP TABLE IF EXISTS `classes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `classes` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `create_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creation_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `teacher_id` int NOT NULL,
   `student_id` int NOT NULL,
   `title` mediumtext COLLATE utf8mb4_unicode_ci,
