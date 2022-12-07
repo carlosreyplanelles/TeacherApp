@@ -1,17 +1,17 @@
 <section id="map-teachers" class="googlemap container mt-3">
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label>Busqueda</label>
         <input type="text" id="autocomplete" class="form-control my-search-box"
             placeholder="Busca la localización que desees" autocorrect="off" autocapitalize="off" spellcheck="off" />
 
-    </div>
+    </div> -->
     <div class="card mapa">
         <!-- User coordinates to locate the map -->
         <agm-map [latitude]="currentUser !== undefined || exists ? userlat : 3"
             [longitude]="currentUser !== undefined || exists ? userlong : 40"
-            [zoom]="currentUser !== undefined || exists ? 13 : 2">
+            [zoom]="currentUser !== undefined && currentUser.longitude || exists ? 13 : 2">
             <!-- User marker -->
-            <agm-marker *ngIf='currentUser !== undefined || exists'
+            <agm-marker *ngIf='currentUser !== undefined && currentUser.longitude || exists'
                 [latitude]="currentUser !== undefined || exists ? userlat : 3"
                 [longitude]="currentUser !== undefined || exists ? userlong : 40"
                 [iconUrl]="$any({url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', scaledSize: { width: 50, height: 50 } })">
@@ -28,8 +28,8 @@
                     </div>
                     <div class="mt-5 text-center">
                         <h4 class="mb-0">{{currentUser?.name}} {{currentUser?.surname}}</h4>
-                        <span class="text-muted d-block mb-2">Madrid</span>
-                        <button class="btn btn-primary btn-sm details">Detalles</button>
+                        <span class="text-muted d-block mb-2">{{currentUser?.city}}, {{currentUser?.province}}</span>
+                        <button class="btn btn-primary btn-sm details" [routerLink]="['/perfil']">Detalles</button>
                         <!-- <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
                             <div class="stats">
                                 <h6 class="mb-0">Profesores</h6>
@@ -83,10 +83,13 @@
             </agm-marker>
         </agm-map>
     </div>
-
+<hr>
 </section>
 
-<app-teacher-list></app-teacher-list>
+<section class="container mt-4">
+    <h4>Explora todos los profesores</h4>
+    <app-teacher-list></app-teacher-list>
+</section>
 
 <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLzQCiwfqymU9I2Ha_PcThWv3oEC78ij4&libraries=places&callback=initMap"></script>

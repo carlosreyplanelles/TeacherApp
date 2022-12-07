@@ -8,17 +8,17 @@ import { LoginAuthService } from './login-auth.service';
   providedIn: 'root',
 })
 export class StudentsService {
-  
+
   baseUrl = 'http://localhost:3000/api/students/';
 
   constructor(
     private httpClient: HttpClient,
     private loginAuthService: LoginAuthService
-    ) {}
+  ) { }
 
   getAll(): Promise<any> {
     return lastValueFrom(
-      this.httpClient.get<any>(`${this.baseUrl}`, this.loginAuthService.getTokenHeader())
+      this.httpClient.get<any>(this.baseUrl, this.loginAuthService.getTokenHeader())
     );
   }
 
@@ -29,8 +29,7 @@ export class StudentsService {
   }
 
   create(student: Student): Promise<Student> {
-    const url = 'http://localhost:3000/register/student'
-    return lastValueFrom(this.httpClient.post<Student>(url, student));
+    return lastValueFrom(this.httpClient.post<Student>(this.baseUrl, student));
   }
 
   delete(studenId: number): Promise<any> {
@@ -42,6 +41,24 @@ export class StudentsService {
   update(student: any): Promise<any> {
     return lastValueFrom(
       this.httpClient.put<any>(`${this.baseUrl}${student.id}`, student, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  activate(student: any): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.put<any>(`${this.baseUrl}${student.id}/activate`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getActiveStudent(): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrl}status/active`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getInactiveStudent(): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrl}status/inactive`, this.loginAuthService.getTokenHeader())
     );
   }
 }

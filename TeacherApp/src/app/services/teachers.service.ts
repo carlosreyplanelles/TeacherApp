@@ -16,19 +16,20 @@ import { LoginAuthService } from './login-auth.service';
 export class TeachersService {
 
   baseUrl = 'http://localhost:3000/api/teachers/';
+
   baseUrlClasses = 'http://localhost:3000/api/teacher-classes/'; 
 
   constructor(
     private httpClient: HttpClient,
     private loginAuthService: LoginAuthService
-    ) { }
+  ) { }
 
   getAllTeachers(): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}`, this.loginAuthService.getTokenHeader())
     );
   }
-  
+
   getAll(page: number = 1): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}`, this.loginAuthService.getTokenHeader())
@@ -42,7 +43,9 @@ export class TeachersService {
   }
 
   create(teacher: Teacher): Promise<Teacher> {
-    return lastValueFrom(this.httpClient.post<Teacher>(`${this.baseUrl}`, teacher));
+    return lastValueFrom(
+      this.httpClient.post<Teacher>(`${this.baseUrl}`, teacher)
+    );
   }
 
   delete(teacherId: number): Promise<any> {
@@ -58,6 +61,30 @@ export class TeachersService {
   }
 
   getClassesByTeacherId(teacherId: number): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrlClasses}${teacherId}`, this.loginAuthService.getTokenHeader()));
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrlClasses}${teacherId}`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getActiveTeachers(): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrl}active`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getPendingTeachers(): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get<any>(`${this.baseUrl}pending`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getTeacherHours(teacherId: number): Promise<any> {
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}hours/${teacherId}`, this.loginAuthService.getTokenHeader()));
+  }
+ 
+  validateTeacher(teacherId: number): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.put<any>(`${this.baseUrl}validate/${teacherId}`, this.loginAuthService.getTokenHeader())
+    );
   }
 }
