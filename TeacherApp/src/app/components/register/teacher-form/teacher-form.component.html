@@ -87,7 +87,7 @@
 
         <div class="row mb-3 m-2">
             <label class="form-label" for="province-selector">Provincia</label>
-            <select (change) = "onSelected($event)" class="form-control " name="province" id="province-selector" formControlName="province_id">
+            <select (change) = "onSelected($event)" class="form-select" name="province" id="province-selector" formControlName="province_id">
                 <option default>Selecciona una provincia</option>
                 <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
             </select>
@@ -98,7 +98,7 @@
         
         <div class="row mb-3 m-2">
             <label  class="form-label" for="city-selector">Ciudad</label>
-            <select class="form-control " name="city" id="city-selector" formControlName="city_id">
+            <select class="form-select" name="city" id="city-selector" formControlName="city_id">
                 <option default>Selecciona tu ciudad de residencia</option>
                 <option *ngFor="let city of citiesbyProvince" [value]="city.id">{{city.name}}</option>
             </select>
@@ -120,7 +120,7 @@
 
         <div class="row mb-3 m-2">
             <label class="form-label"  for="branch">Rama</label>
-            <select class="form-control " name="branch" id="branch-selector" formControlName="branch_id">
+            <select class="form-select" name="branch" id="branch-selector" formControlName="branch_id">
                 <option default>Selecciona una rama</option>
                 <option *ngFor="let branch of branches" [value]="branch.id">{{branch.title}}</option>
             </select>
@@ -145,7 +145,7 @@
             
             <div class="row mb-3 m-2 col-lg-5">
                 <label class="form-label"  for="start_class_hour">Hora de inicio</label>
-                <select class="form-control " name="start_class_hour" id="start_class_hour" formControlName="start_class_hour">
+                <select class="form-select" name="start_class_hour" id="start_class_hour" formControlName="start_class_hour">
                     <option default>Selecciona una hora de inicio</option>
                     <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
                 </select>
@@ -157,7 +157,7 @@
     
             <div class="row mb-3 m-2 col-lg-5">
                 <label class="form-label"  for="end_class_hour">Hora de fin</label>
-                <select class="form-control " name="end_class_hour" id="end_class_hour" formControlName="end_class_hour">
+                <select class="form-select" name="end_class_hour" id="end_class_hour" formControlName="end_class_hour">
                     <option default>Selecciona una hora de fin</option>
                     <option *ngFor="let timestamp of timeStampList" [value]="timestamp.value">{{timestamp.hour}}</option>
                 </select>
