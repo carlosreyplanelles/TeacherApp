@@ -66,13 +66,11 @@ const newStudent = {
         }
     },
     avatar: {
-        exists: {
-            errorMessage: "El campo avatar es obligatorio"
-        }, 
+        optional: true, 
         trim: true,
-        isURL: {
-            errorMessage: 'Introduzca una URL válida para el avatar'
-        }
+        // isURL: {
+        //     errorMessage: 'Introduzca una URL válida para el avatar'
+        // }
     },
     latitude: {
         optional: true,
@@ -131,6 +129,15 @@ const checkStudent = async (req, res, next) => {
     }
 }
 
+const checkEmptyFields = (req, res, next) => {
+    req.body.latitude = (req.body.latitude === "" || req.body.latitude === undefined ? null : req.body.latitude);
+    req.body.longitude = (req.body.longitude === "" || req.body.longitude === undefined ? null : req.body.longitude);
+    req.body.address = (req.body.address === "" || req.body.address === undefined ? null : req.body.address);
+    req.body.avatar = (req.body.avatar === "" || req.body.avatar === undefined ? null : req.body.avatar);
+
+    next();
+}
+
 module.exports = {
-    newStudent, checkStudent
+    newStudent, checkStudent, checkEmptyFields
 }

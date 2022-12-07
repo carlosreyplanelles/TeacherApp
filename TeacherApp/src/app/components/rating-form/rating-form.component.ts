@@ -7,6 +7,7 @@ import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { RatingsService } from 'src/app/services/ratings.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
+import { ClassesService } from 'src/app/services/classes.service';
 
 @Component({
   selector: 'app-rating-form',
@@ -22,11 +23,14 @@ export class RatingFormComponent implements OnInit {
   teacherId!: number;
   currentTeacher: Teacher | any;
 
+  activeClasses: any[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private ratingsService: RatingsService,
     private teachersService: TeachersService,
     private loginAuthService: LoginAuthService,
+    private classesService: ClassesService,
     private router: Router
   ) {
     this.ratingForm = new FormGroup({
@@ -46,11 +50,31 @@ export class RatingFormComponent implements OnInit {
         this.currentTeacher = await this.teachersService.getById(this.teacherId);
       } catch (exception: any) {
           console.log("error getTeacherById", exception);
-          alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
+          // alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
       }
 
-      // Check if there is a previous rating to show
       try {
+        
+        // Comprueba si el profesor ha tenido alguna clase con el alumno logeado
+        this.activeClasses = await this.classesService.getByStudent(this.studentId);
+
+        const isTeacher = this.activeClasses.some((activeClass): boolean => {
+          if (activeClass.teacher_id === this.teacherId) {
+            return true;
+          }
+          return false;
+        });
+
+        if (!isTeacher) {
+          Swal.fire({
+            icon: 'warning',
+            text: 'Solo puedes valorar a profesores con los que has tenido clase'
+          })
+          this.loginAuthService.loggedIn();
+          this.router.navigate(['/perfil']);
+        }
+
+        // Check if there is a previous rating to show
         const response = await this.ratingsService.getByTeacherAndStudent(this.teacherId, this.studentId);
         
         if (response !== null) {
@@ -77,15 +101,28 @@ export class RatingFormComponent implements OnInit {
 
       if (newRating.id) {
         // UPDATE
-        const response = await this.ratingsService.update(newRating);
-        // TODO: Gestionar respuesta si hay error
+        try {
+          const response = await this.ratingsService.update(newRating);
+        } catch (err) {
+          console.log(err);
+        }
         
       } else {
         //CREATE
-        const response = await this.ratingsService.create(newRating);
-        // TODO: Gestionar respuesta si hay error
+        try {
+          const response = await this.ratingsService.create(newRating);
+        } catch (err) {
+          console.log(err);
+        }
         
       }
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Valoración realizada',
+        showConfirmButton: false,
+        timer: 1500
+      })
 
       this.router.navigate(['/perfil']);
     } else {

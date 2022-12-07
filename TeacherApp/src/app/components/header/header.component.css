@@ -9,6 +9,9 @@
 .navbar {
     background-color: #001033 !important;
 }
+.register-btn{
+    margin-right: 0.5rem;
+}
 .register-btn,
 .login-btn,
 .profile-btn {
@@ -16,13 +19,14 @@
     width: 180px;
     height: 60px;
     font-size: 1.1rem;
-    border-radius: 50px;
+    border-radius: 15px;
     margin-left: 1rem;
+    background-color: rgba(178, 178, 178, 0.3);
 }
 
 .register-btn:hover,
 .login-btn:hover {
-    background-color: rgba(38, 255, 38, 0.3);
+    background-color: rgba(38, 255, 38, 0.5);
     transition: all .5s;
 }
 

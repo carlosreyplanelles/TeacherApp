@@ -44,11 +44,11 @@ export class TeacherFormComponent implements OnInit {
       ]),
       name: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z]+$/)
+        Validators.pattern(/^[A-Za-z\s]+$/)
       ]),
       surname: new FormControl('',[
         Validators.required,
-        Validators.pattern(/^[A-Za-z]+$/)
+        Validators.pattern(/^[A-Za-z\s]+$/)
       ]),
       password: new FormControl('',[
         Validators.required,
@@ -91,7 +91,6 @@ export class TeacherFormComponent implements OnInit {
           name: this.storedTeacher.name,
           surname: this.storedTeacher.surname,
           email: this.storedTeacher.email,
-          password: this.storedTeacher.password,
           address: this.storedTeacher.address,
           avatar: this.storedTeacher.avatar,
           phone: this.storedTeacher.phone,

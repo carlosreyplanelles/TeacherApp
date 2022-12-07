@@ -25,17 +25,13 @@ export class TeacherViewComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log("teacherId" , this.teacherId);
-
     try {
           //Petición a la API para traer los datos del profesor
           this.teacherData = await this.teachersService.getById(this.teacherId);
-          
-          console.log("result getTeacherById API ",  this.teacherData);  //result.name
     }
     catch (exception: any) {
         console.log("error getTeacherById",exception);
-        alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
+        // alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
     }
   }
 

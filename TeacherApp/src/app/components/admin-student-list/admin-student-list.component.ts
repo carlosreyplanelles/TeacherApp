@@ -22,7 +22,7 @@ export class AdminStudentListComponent implements AfterViewInit {
     'id',
     'name',
     'city',
-    'contact',
+    'email',
     'creation_date',
     'admin',
   ];
@@ -70,7 +70,7 @@ export class AdminStudentListComponent implements AfterViewInit {
 
     swalWithBootstrapButtons
       .fire({
-        title: `¿Deseas borrar el usuario?`,
+        title: `¿Deseas desactivar el usuario?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -82,7 +82,7 @@ export class AdminStudentListComponent implements AfterViewInit {
           try {
             let response = await this.studentsService.delete(idStudent);
             if (response.affectedRows > 0) {
-              swalWithBootstrapButtons.fire('Usuario borrado');
+              swalWithBootstrapButtons.fire('Usuario desactivado');
               this.ngOnInit();
             } else {
               swalWithBootstrapButtons.fire(
@@ -99,7 +99,7 @@ export class AdminStudentListComponent implements AfterViewInit {
         ) {
           swalWithBootstrapButtons.fire(
             'Cancelado',
-            'El usuario no ha sido borrado',
+            'El usuario no ha sido desactivado',
             'error'
           );
         }

@@ -16,7 +16,8 @@ import { LoginAuthService } from './login-auth.service';
 export class TeachersService {
 
   baseUrl = 'http://localhost:3000/api/teachers/';
-  baseUrlClasses = 'http://localhost:3000/api/teacher-classes/';
+
+  baseUrlClasses = 'http://localhost:3000/api/teacher-classes/'; 
 
   constructor(
     private httpClient: HttpClient,
@@ -74,6 +75,16 @@ export class TeachersService {
   getPendingTeachers(): Promise<any> {
     return lastValueFrom(
       this.httpClient.get<any>(`${this.baseUrl}pending`, this.loginAuthService.getTokenHeader())
+    );
+  }
+
+  getTeacherHours(teacherId: number): Promise<any> {
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}hours/${teacherId}`, this.loginAuthService.getTokenHeader()));
+  }
+ 
+  validateTeacher(teacherId: number): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.put<any>(`${this.baseUrl}validate/${teacherId}`, this.loginAuthService.getTokenHeader())
     );
   }
 }

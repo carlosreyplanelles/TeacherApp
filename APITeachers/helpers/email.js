@@ -35,7 +35,7 @@ async function sendMailAPiTeachers(dataTeacherMail) {
     let mailBody = `
         <div>
             <p>Hola administrador,</p>
-            <p>Un nuevo profesor ha sido dado de alta, vaya a <a href="http://localhost:${process.env.port}/api/teachers/">TeacherApp</a> para validarlo.</p>
+            <p>Un nuevo profesor ha sido dado de alta, vaya a la consola de administración de TeacherApp para validarlo.</p>
         </div>
         <div>
             <p><b>Datos del profesor:</b></p>

@@ -7,9 +7,9 @@ const Student = require('../../models/student.model');
 const Location = require('../../models/location.model');
 const User = require('../../models/user.model');
 
-const { newStudent, checkStudent } = require('../../helpers/student.validators');
+const { newStudent, checkStudent, checkEmptyFields } = require('../../helpers/student.validators');
 const { checkError, checkUser, checkCity, checkLocation, checkRole } = require('../../helpers/common.validators');
-//const { checkToken, checkRole } = require('../../helpers/midelwares');
+const Auth = require('../../helpers/midelwares');
 
 // GET ALL
 router.get('/', async (req, res) => {
@@ -23,10 +23,8 @@ router.get('/', async (req, res) => {
 
 // GET BY ID
 router.get('/:studentId',
-    // checkToken,
-    // checkRole('student'),
     checkStudent, async (req, res) => {
-        const { studentId } = req.params;
+    const { studentId } = req.params;
 
         try {
             const student = await Student.getById(studentId);
@@ -38,14 +36,17 @@ router.get('/:studentId',
 
 // POST
 router.post('/',
+    checkEmptyFields,
     checkSchema(newStudent),
     checkCity,
     checkError,
     async (req, res) => {
-        try {
-            // Insert location and get location_id
-            const newLocation = await Location.create(req.body);
-            req.body.location_id = newLocation.insertId;
+    try {
+        req.body.password = bcrypt.hashSync(req.body.password, 8);
+
+        // Insert location and get location_id
+        const newLocation = await Location.create(req.body);
+        req.body.location_id = newLocation.insertId;
 
             // Insert user and get user_id
             const newUser = await User.create(req.body);
@@ -64,6 +65,8 @@ router.post('/',
 
 // UPDATE
 router.put('/:studentId',
+    Auth.checkToken,
+    checkEmptyFields,
     checkStudent,
     checkSchema(newStudent),
     checkUser,
@@ -112,6 +115,8 @@ router.put('/:studentId',
 //     }
 // });
 router.delete('/:studentId',
+    Auth.checkToken,
+    Auth.checkRole('admin'),
     checkStudent,
     async (req, res) => {
 

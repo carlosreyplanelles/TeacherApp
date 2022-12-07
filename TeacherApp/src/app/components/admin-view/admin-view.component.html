@@ -4,7 +4,7 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="main-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a [routerLink]="['/home']">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">User Profile</li>
             </ol>
         </nav>
@@ -75,34 +75,34 @@
                     <div class="container">
                         <div class="counter">
                             <div class="row">
-                                <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'students' }"
+                                <div class="col-12 col-lg-6 btn" [ngClass]="{ 'activo': actualTab === 'students' }"
                                     (click)="chargeTab('students')">
                                     <div class="count-data text-center">
                                         <h6 class="count h2">{{numStudents}}</h6>
                                         <p class="m-0px font-w-600">Estudiantes</p>
                                     </div>
                                 </div>
-                                <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'inactive' }"
+                                <!-- <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'inactive' }"
                                     (click)="chargeTab('inactive')">
                                     <div class="count-data text-center">
                                         <h6 class="count h2">{{numInactives}}</h6>
                                         <p class="m-0px font-w-600">Estudiantes Inactivos</p>
                                     </div>
-                                </div>
-                                <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'teachers' }"
+                                </div> -->
+                                <div class="col-12 col-lg-6 btn" [ngClass]="{ 'activo': actualTab === 'teachers' }"
                                     (click)="chargeTab('teachers')">
                                     <div class="count-data text-center">
                                         <h6 class="count h2">{{numTeachers}}</h6>
                                         <p class="m-0px font-w-600">Profesores</p>
                                     </div>
                                 </div>
-                                <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'pending' }"
+                                <!-- <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'pending' }"
                                     (click)="chargeTab('pending')">
                                     <div class="count-data text-center">
                                         <h6 class="count h2">{{numPending}}</h6>
                                         <p class="m-0px font-w-600"> Profesores Pendientes</p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -113,9 +113,9 @@
         </div>
         <div class="container">
             <app-admin-student-list *ngIf="actualTab === 'students'"> </app-admin-student-list>
-            <app-admin-inactive-list *ngIf="actualTab === 'inactive'"></app-admin-inactive-list>
+            <!-- <app-admin-inactive-list *ngIf="actualTab === 'inactive'"></app-admin-inactive-list> -->
             <app-admin-teacher-list *ngIf="actualTab === 'teachers'"> </app-admin-teacher-list>
-            <app-admin-pending-list *ngIf="actualTab === 'pending'"></app-admin-pending-list>
+            <!-- <app-admin-pending-list *ngIf="actualTab === 'pending'"></app-admin-pending-list> -->
         </div>
     </div>
 </div>

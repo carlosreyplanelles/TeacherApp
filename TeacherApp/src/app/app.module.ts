@@ -91,9 +91,6 @@ import { AdminInactiveListComponent } from './components/admin-inactive-list/adm
     MaterialModule,
     SweetAlert2Module.forRoot(),
     NgxPaginationModule,
-    
-
-
   ],
   providers: [],
   bootstrap: [AppComponent],
