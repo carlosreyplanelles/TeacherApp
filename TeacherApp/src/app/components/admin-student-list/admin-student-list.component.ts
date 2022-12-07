@@ -13,7 +13,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
   selector: 'app-admin-student-list',
   templateUrl: './admin-student-list.component.html',
   styleUrls: ['./admin-student-list.component.css'],
-  providers:[{
+  providers: [{
     provide: MatPaginatorIntl, useValue: CustomPaginator()
   }]
 })
@@ -51,7 +51,7 @@ export class AdminStudentListComponent implements AfterViewInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      let response = await this.studentsService.getAll();
+      let response = await this.studentsService.getActiveStudent();
       this.dataSource.data = response;
     } catch (err: any) {
       console.log(err.error);

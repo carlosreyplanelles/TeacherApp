@@ -23,18 +23,18 @@ router.get('/', async (req, res) => {
 
 // GET BY ID
 router.get('/:studentId',
-            // checkToken,
-            // checkRole('student'),
-            checkStudent, async (req, res) => {
-    const { studentId } = req.params;
+    // checkToken,
+    // checkRole('student'),
+    checkStudent, async (req, res) => {
+        const { studentId } = req.params;
 
-    try {
-        const student = await Student.getById(studentId);
-        res.status(200).json(student);
-    } catch (err) {
-        res.json({ error: err.message });
-    }
-});
+        try {
+            const student = await Student.getById(studentId);
+            res.status(200).json(student);
+        } catch (err) {
+            res.json({ error: err.message });
+        }
+    });
 
 // POST
 router.post('/',
@@ -42,25 +42,25 @@ router.post('/',
     checkCity,
     checkError,
     async (req, res) => {
-    try {
-        // Insert location and get location_id
-        const newLocation = await Location.create(req.body);
-        req.body.location_id = newLocation.insertId;
+        try {
+            // Insert location and get location_id
+            const newLocation = await Location.create(req.body);
+            req.body.location_id = newLocation.insertId;
 
-        // Insert user and get user_id
-        const newUser = await User.create(req.body);
-        req.body.user_id = newUser.insertId;
+            // Insert user and get user_id
+            const newUser = await User.create(req.body);
+            req.body.user_id = newUser.insertId;
 
-        // Insert user and get data
-        const response = await Student.create(req.body);
-        const student = await Student.getById(response.insertId);
+            // Insert user and get data
+            const response = await Student.create(req.body);
+            const student = await Student.getById(response.insertId);
 
-        res.status(200).json(student);
-        
-    } catch (err) {
-        res.json({ error: err.message });
-    }
-});
+            res.status(200).json(student);
+
+        } catch (err) {
+            res.json({ error: err.message });
+        }
+    });
 
 // UPDATE
 router.put('/:studentId',
@@ -71,35 +71,34 @@ router.put('/:studentId',
     checkCity,
     checkError,
     async (req, res) => {
-    const { studentId } = req.params;
+        const { studentId } = req.params;
 
-    try {
-        req.body.password = bcrypt.hashSync(req.body.password, 8);
+        try {
+            req.body.password = bcrypt.hashSync(req.body.password, 8);
 
-        console.log('update', req.body);
+            // Get student data
+            const student = await Student.get(studentId);
+            req.body.location_id = student.location_id;
+            req.body.user_id = student.user_id;
 
-        // Get student data
-        const student = await Student.get(studentId);
-        req.body.location_id = student.location_id;
-        req.body.user_id = student.user_id;
-        
-        // Update locations table
-        await Location.update(student.location_id, req.body)
+            // Update locations table
+            await Location.update(student.location_id, req.body)
 
-        // Update users table
-        await User.update(student.user_id, req.body)
+            // Update users table
+            await User.update(student.user_id, req.body)
 
-        // Update students table
-        await Student.update(student.id, req.body);
-        const newStudent = await Student.getById(student.id);
+            // Update students table
+            await Student.update(student.id, req.body);
+            const newStudent = await Student.getById(student.id);
 
-        res.status(200).json(newStudent);
-    } catch (err) {
-        res.status(400).json({ error: "PUT Error " + err.errno + ": " + err.message,
-                                   result: "No se pudo actualizar el estudiante " + studentId
-                                });
-    }
-});
+            res.status(200).json(newStudent);
+        } catch (err) {
+            res.status(400).json({
+                error: "PUT Error " + err.errno + ": " + err.message,
+                result: "No se pudo actualizar el estudiante " + studentId
+            });
+        }
+    });
 
 // DELETE
 // router.delete('/:studentId', checkStudent, async (req, res) => {
@@ -120,7 +119,7 @@ router.delete('/:studentId',
 
         /**TODO: mysql transaction*/
 
-        try {    
+        try {
             // Recupero al estudiante
             const student = await Student.getById(studentId);
 
@@ -130,24 +129,67 @@ router.delete('/:studentId',
 
             // Fecha de baja  
             const leavingDate = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
-          
+
             //update user
             const resultUser = await User.cancelUser(student.user_id, leavingDate);
-                     
+
             // Se desactiva el estudiante
             const resultStudent = await Student.deactivate(studentId);
-            
+
             // Datos actualizados del estudiante
             const deactivatedStudent = await Student.getById(studentId);
 
             res.status(200).json(resultStudent);
-        } 
-        catch (error) {        
-            res.status(400).json({ error: "DELETE Error " + error.errno + ": " + error.message,
-                                   result: "No se pudo dar de baja al estudiante " + studentId
-                                });
+        }
+        catch (error) {
+            res.status(400).json({
+                error: "DELETE Error " + error.errno + ": " + error.message,
+                result: "No se pudo dar de baja al estudiante " + studentId
+            });
         }
     }
 );
+
+// GET ALL ACTIVE STUDENTS
+router.get('/status/active', async (req, res) => {
+    try {
+        const students = await Student.getActiveStudent();
+        res.status(200).json(students);
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
+// GET ALL INACTIVE STUDENTS
+router.get('/status/inactive', async (req, res) => {
+    try {
+        const students = await Student.getInactiveStudent();
+        res.status(200).json(students);
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
+// UPDATE
+router.put('/:studentId/activate',
+    checkStudent,
+    checkUser,
+    checkRole,
+    checkError,
+    async (req, res) => {
+        const { studentId } = req.params;
+
+        try {
+            // Update students table
+            await Student.activate(studentId);
+            const student = await Student.getById(studentId);
+            res.status(200).json(student);
+        } catch (err) {
+            res.status(400).json({
+                error: "PUT Error " + err.errno + ": " + err.message,
+                result: "No se pudo actualizar el estudiante " + studentId
+            });
+        }
+    });
 
 module.exports = router;

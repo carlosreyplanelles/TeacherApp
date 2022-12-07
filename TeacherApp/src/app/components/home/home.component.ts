@@ -8,6 +8,7 @@ import { Teacher } from 'src/app/interfaces/teacher.interface';
 import { StudentsService } from 'src/app/services/students.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { UsersService } from 'src/app/services/users.service';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 
 @Component({
   selector: 'app-home',
@@ -33,18 +34,15 @@ export class HomeComponent implements OnInit {
     private studentsService: StudentsService,
     private teachersService: TeachersService,
     private activatedRoute: ActivatedRoute,
+    private loginAuthService: LoginAuthService,
     private router: Router) {
 
-    if (this.token) {
-      this.tokenInfo = this.getDecodedAccessToken(this.token);
-      this.userid = this.tokenInfo.user_id;
-    }
+    this.userid = this.loginAuthService.getId();
 
   }
 
   async ngOnInit(): Promise<void> {
-
-    /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO POR RUTA */
+    /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO */
     if (this.userid !== undefined) {
       let response = await this.usersService.getById(this.userid);
       this.currentUser = response;
@@ -54,7 +52,7 @@ export class HomeComponent implements OnInit {
     await this.setCurrentLocation();
 
     /* AÑADIR PROFESORES EN EL MAPA */
-    let teacher_markers = await this.getAllTeachers();
+    await this.getAllTeachers();
 
     /* BUSQUEDA DE UBICACION */
     const input = document.getElementById('autocomplete');
@@ -70,6 +68,7 @@ export class HomeComponent implements OnInit {
 
   async setCurrentLocation() {
     /* SI ACEPTA UTILIZAR SU UBICACION */
+    console.log(navigator.geolocation);
     if ('geolocation' in navigator) {
       await navigator.geolocation.getCurrentPosition(async (position) => {
         this.exists = true;
@@ -84,6 +83,7 @@ export class HomeComponent implements OnInit {
             lat: position.coords.latitude,
             lon: position.coords.longitude
           }
+          console.log(this.currentUser);
           let response = await this.usersService.saveLocation(this.currentUser, newLocation);
         }
       })

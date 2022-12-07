@@ -11,8 +11,8 @@ Content-Type: application/json
 {
     "name": " Laura ", 
     "surname": "Marquinez", 
-    "email": "laura@gmail.com", 
-    "password": "jnsjkadna",
+    "email": "admin@gmail.com", 
+    "password": "12345678",
     "role_id": 1
 }
 
