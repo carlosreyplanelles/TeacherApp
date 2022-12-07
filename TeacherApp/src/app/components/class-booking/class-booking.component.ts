@@ -52,10 +52,8 @@ export class ClassBookingComponent implements OnInit {
     this.selectedSlot = null;
   }
 
-  selectTime(slot:any, event:any){
+  selectTime(slot:any){
    this.selectedSlot = slot
-   console.log(event.target)
-
   }
 
   async createSlots(date:string = ""){
