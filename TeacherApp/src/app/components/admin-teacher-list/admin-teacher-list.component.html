@@ -49,7 +49,7 @@
             </ng-container>
 
             <!-- Contact Column -->
-            <ng-container matColumnDef="contact">
+            <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Contacto </th>
                 <td mat-cell *matCellDef="let teacher"> {{teacher.email}} <br>{{teacher.phone}}</td>
             </ng-container>
@@ -65,7 +65,7 @@
 
             <!--  Admin Column -->
             <ng-container matColumnDef="admin">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Administración</th>
+                <th mat-header-cell *matHeaderCellDef>Administración</th>
                 <td mat-cell *matCellDef="let teacher">
 
                     <span class="d-flex m-2 ms-4">
