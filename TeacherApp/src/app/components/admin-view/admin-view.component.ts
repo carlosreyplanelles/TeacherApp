@@ -54,7 +54,6 @@ export class AdminViewComponent implements OnInit {
       console.log(this.currentUser);
     } catch (err: any) {
       console.log(err);
-      alert(err.error.error);
     }
 
     this.numStudents = await this.getNumStudents();

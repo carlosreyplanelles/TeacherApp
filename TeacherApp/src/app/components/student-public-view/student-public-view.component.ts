@@ -21,16 +21,16 @@ export class StudentPublicViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(async (params: any) => {
-      this.studentId = parseInt(params.studentId);
-  
-      try {
-        //Petición a la API para traer los datos del estudiante
-        this.currentStudent = await this.studentsService.getById(this.studentId);
-      } catch (exception: any) {
-          console.log("error getStudentById", exception);
-          alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
-      }
-      });
+    this.studentId = parseInt(params.studentId);
+
+    try {
+      //Petición a la API para traer los datos del estudiante
+      this.currentStudent = await this.studentsService.getById(this.studentId);
+    } catch (exception: any) {
+      console.log("error getStudentById", exception);
+      // alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
+    }
+    });
   }
 
 }

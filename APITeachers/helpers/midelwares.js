@@ -26,7 +26,7 @@ const checkToken = async (req, res, next) => {
     // Check expiration date
     if (obj.expiration_date < dayjs().unix()) {
         return res.status(401)
-            .json({ error: 'El token está caducado' });
+            .json({ error: 'La sesión ha expirado' });
     }
 
     next();

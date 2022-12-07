@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
 import Swal from 'sweetalert2';
 import { ClassesService } from 'src/app/services/classes.service';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-class-booking',
@@ -24,26 +25,35 @@ export class ClassBookingComponent implements OnInit {
 
   constructor(
     private loginAuthService:LoginAuthService,
-    private classesService: ClassesService
+    private classesService: ClassesService,
+    private teachersService: TeachersService
   ) { }
 
-  ngOnInit(): void {
-    //TODO: Añadirllamada para recuperar horario de profesor y asignar a starting y ending hour
-      this.startingHour = 9
-      this.endingHour = 20
-      this.createSlots()
+  async ngOnInit(): Promise<void> {
+   //Obtener horario del profesor 
+    try {
+      const hoursData =  await this.teachersService.getTeacherHours(this.teacherId);
+      this.startingHour = hoursData.start_class_hour;
+      this.endingHour = hoursData.end_class_hour;
+      this.createSlots();
+    }
+    catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al reservar',
+        text: 'No se ha podido acceder al horario del profesor',
+      });
+    }
   }
 
-  onSelect(date:Date){
-    this.selected = formatDate(date, this.format ,this.locale)
-    this.createSlots(this.selected)
-    this.selectedSlot= null
+  onSelect(date: Date){
+    this.selected = formatDate(date, this.format ,this.locale);    
+    this.createSlots(this.selected);
+    this.selectedSlot = null;
   }
 
-  selectTime(slot:any, event:any){
+  selectTime(slot:any){
    this.selectedSlot = slot
-   console.log(event.target)
-
   }
 
   async createSlots(date:string = ""){

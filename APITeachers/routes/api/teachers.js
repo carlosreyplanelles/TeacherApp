@@ -10,9 +10,10 @@ const { newTeacherData, updateTeacherData, checkTeacher, checkBranch, checkEmpty
 
 const { createUser, getUserById, updateUser, cancelUser } = require('../../models/user.model');
 const { createLocation, updateLocation } = require('../../models/location.model');
-const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getAllTeachersByFilters, getTeacherById, getTeacherByEmail, createTeacher, invalidateTeacher, updateTeacher } = require('../../models/teacher.model');
+const { getAllTeachers, getTeachersByPage, getAllTeachersByFilters, getTeacherById, createTeacher, invalidateTeacher, updateTeacher, getTeacherHours, validateTeacher } = require('../../models/teacher.model');
 const { getAverageRatingByTeacher } = require('../../models/rating.model');
 const bcrypt = require('bcryptjs');
+const Auth = require('../../helpers/midelwares');
 
 /* GET - READ */
 router.get('/', async (req, res) => {
@@ -47,6 +48,25 @@ router.get('/:teacherId', async (req, res) => {
             //Añadir su puntuación media
             const averageRating = await getAverageRatingByTeacher(teacherId);
             teacher.avg_rating = Math.round((averageRating.avg_rating !== null ? averageRating.avg_rating : 0));        
+            res.status(200).json(teacher);
+        } 
+        else {
+            res.status(400).json({ error: 'No existe el profesor con Id ' + teacherId });
+        }
+    }
+    catch (error) {
+        res.status(400).json({ error: "Error " + error.errno + ": " + error.message});
+    }   
+});
+
+router.get('/hours/:teacherId', async (req, res) => {
+
+    const { teacherId } = req.params;
+    
+    try {
+        const teacher = await getTeacherHours(teacherId);
+
+        if (teacher) {            
             res.status(200).json(teacher);
         } 
         else {
@@ -140,8 +160,9 @@ router.post('/',
     }
 );
 
-/* PUT - UPDATE*/
+/* PUT - UPDATE GENERAL*/
 router.put('/:teacherId', 
+    Auth.checkToken,
     checkTeacher,
     checkSchema(updateTeacherData),    
     checkError,
@@ -159,6 +180,9 @@ router.put('/:teacherId',
 
         try {
            
+            //Encripto password
+            req.body.password = bcrypt.hashSync(req.body.password, 8);
+
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
            
@@ -180,8 +204,50 @@ router.put('/:teacherId',
     }
 );
 
+router.put('/validate/:teacherId', 
+    checkTeacher,   
+    async (req, res) => {
+
+        const { teacherId } = req.params;
+       
+        try {          
+            
+            //Validar profesor
+            const resultTeacher = await validateTeacher(teacherId);
+
+            if (resultTeacher.affectedRows !== 1) {
+                res.status(400).json({ error:  "No se pudo validar al profesor " + teacherId });
+            }
+          
+            //Recupero los datos del profesor
+            const teacherData = await getTeacherById(teacherId);
+            
+            //Y lo habilito en usuarios
+            const resultUser = await cancelUser(teacherData.user_id, null);  
+                
+            if (resultUser.affectedRows !== 1) {
+                res.status(400).json({ 
+                    error:  "Se ha validado el profesor " + teacherId + " pero ocurrió un error al quitar la baja en usuarios. Contacte con el administrador", 
+                    data: teacherData
+                });
+            }
+               
+           teacherData.leaving_date = null;          
+           res.status(200).json(teacherData);
+        } 
+        catch (error) {      
+           
+           res.status(400).json({ error: "PUT Error " + error.errno + ": " + error.message,
+                                   result: "No se pudo validar al profesor " + teacherId
+                                });
+        }
+    }
+);
+
 /* DELETE */
 router.delete('/:teacherId',
+    Auth.checkToken,
+    Auth.checkRole('admin'),
     checkTeacher,
     async (req, res) => {
 

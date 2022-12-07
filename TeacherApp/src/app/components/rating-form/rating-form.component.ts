@@ -46,12 +46,21 @@ export class RatingFormComponent implements OnInit {
         this.currentTeacher = await this.teachersService.getById(this.teacherId);
       } catch (exception: any) {
           console.log("error getTeacherById", exception);
-          alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
+          // alert('Error ' + exception.status +' - ' + exception.statusText + ": " + exception.error.error);
       }
 
       // Check if there is a previous rating to show
       try {
         const response = await this.ratingsService.getByTeacherAndStudent(this.teacherId, this.studentId);
+
+        // Comprueba si el profesor ha tenido alguna clase con el alumno logeado
+        if (!response) {
+          Swal.fire({
+            icon: 'warning',
+            text: 'Solo puedes valorar a profesores con los que has tenido clase'
+          })
+          this.router.navigate(['/perfil']);
+        }
         
         if (response !== null) {
           this.currentRating = response;
@@ -77,15 +86,28 @@ export class RatingFormComponent implements OnInit {
 
       if (newRating.id) {
         // UPDATE
-        const response = await this.ratingsService.update(newRating);
-        // TODO: Gestionar respuesta si hay error
+        try {
+          const response = await this.ratingsService.update(newRating);
+        } catch (err) {
+          console.log(err);
+        }
         
       } else {
         //CREATE
-        const response = await this.ratingsService.create(newRating);
-        // TODO: Gestionar respuesta si hay error
+        try {
+          const response = await this.ratingsService.create(newRating);
+        } catch (err) {
+          console.log(err);
+        }
         
       }
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Valoración realizada',
+        showConfirmButton: false,
+        timer: 1500
+      })
 
       this.router.navigate(['/perfil']);
     } else {
