@@ -1,15 +1,18 @@
 const router = require('express').Router();
 
 const dayjs = require('dayjs');
+const { sendMailAPiTeachers } = require('../../helpers/email')
 const { checkSchema } = require('express-validator');
 
+
 const { checkError, checkUser, checkCity, checkLocation, checkRole } = require('../../helpers/common.validators');
-const { newTeacherData, updateTeacherData, checkTeacher, checkBranch } = require('../../helpers/teacher.validator');
+const { newTeacherData, updateTeacherData, checkTeacher, checkBranch, checkEmptyFields } = require('../../helpers/teacher.validator');
 
 const { createUser, getUserById, updateUser, cancelUser } = require('../../models/user.model');
 const { createLocation, updateLocation } = require('../../models/location.model');
 const { getAllTeachers, getTeachersByPage, getTeacherByUserId, getAllTeachersByFilters, getTeacherById, getTeacherByEmail, createTeacher, invalidateTeacher, updateTeacher } = require('../../models/teacher.model');
 const { getAverageRatingByTeacher } = require('../../models/rating.model');
+const bcrypt = require('bcryptjs');
 const Auth = require('../../helpers/midelwares');
 
 /* GET - READ */
@@ -91,13 +94,18 @@ router.post('/',
    checkError,   
    checkBranch,
    checkCity,
+   checkEmptyFields,
     async (req, res) => {
+
+        // Info Teacher to Email
+        const  dataTeacherMail  = req.body
+
         /**TODO: Mysql transaction process*/
 
         try {
             
-            //console.log("POST insert req.body antes", req.body);
-
+            req.body.password = bcrypt.hashSync(req.body.password, 8);
+                     
             //Inserción en user
             const resultUser = await createUser(req.body);
             req.body.user_id = resultUser.insertId;
@@ -105,14 +113,20 @@ router.post('/',
             //Insercion en location
             const resultLocation = await createLocation(req.body);
             req.body.location_id = resultLocation.insertId;
-
-            //console.log("POST insert req.body tras user y location", req.body);
-   
+  
              //Insercion en teacher
             const result = await createTeacher(req.body);            
             const teacher = await getTeacherById(result.insertId);
-
+         
             res.status(200).json(teacher);
+
+            // Send email to activate Teacher
+            try {
+                await sendMailAPiTeachers(dataTeacherMail);      
+            } 
+            catch (error) {
+                console.log('Mail no enviado:', error.message);
+            } 
 
         } 
         catch (error) {            
@@ -138,6 +152,7 @@ router.put('/:teacherId',
     checkBranch,
     checkLocation,
     checkCity,
+    checkEmptyFields,
     async (req, res) => {
 
         const { teacherId } = req.params;
@@ -145,19 +160,16 @@ router.put('/:teacherId',
         /**TODO: Mysql transaction process*/
 
         try {
-
-            //console.log("PUT update req.body", req.body);
-
+           
             //Actualizo user
             const resultUser = await updateUser(req.body.user_id,req.body);
-            //console.log("resultUser", resultUser);
-
+           
             //Actualizo location
             const resultLocation = await updateLocation(req.body.location_id,req.body);
-            //console.log("resultLocation", resultLocation);
-
+          
             //Actualizo teacher
             const result = await updateTeacher(teacherId, req.body);
+
             /**TODO: Respuesta: ¿Resultado de la operación o los datos getTeacherbyid?*/
             res.status(200).json(result);
         } 

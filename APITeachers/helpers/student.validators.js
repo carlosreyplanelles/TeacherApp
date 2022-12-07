@@ -105,9 +105,12 @@ const newStudent = {
 }
 
 const checkStudent = async (req, res, next) => {
-    const { studentId } = req.params;
+   
+    let studentId;
 
     try {
+       
+        studentId = ((Object.keys(req.params).length !== 0 && req.params.studentId !== undefined)? req.params.studentId : req.body.studentId);
 
         if (studentId === undefined) {
             return res.status(400).json({ error: 'Ocurrió un error al validar el identificador del estudiante. El valor '+ studentId + ' no existe'});

@@ -8,6 +8,7 @@ router.use('/student-classes', require('./api/student-classes'));
 router.use('/ratings', require('./api/ratings'));
 router.use('/teachers', require('./api/teachers'));
 router.use('/teacher-classes', require('./api/teacher-classes'));
+router.use('/booking', require('./api/booking'));
 
 /*Isabel Para probar transacciones*/
 // router.use('/teachers-trans', require('./api/teachers-trans'));
