@@ -13,7 +13,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
   selector: 'app-admin-student-list',
   templateUrl: './admin-student-list.component.html',
   styleUrls: ['./admin-student-list.component.css'],
-  providers:[{
+  providers: [{
     provide: MatPaginatorIntl, useValue: CustomPaginator()
   }]
 })
@@ -22,7 +22,7 @@ export class AdminStudentListComponent implements AfterViewInit {
     'id',
     'name',
     'city',
-    'contact',
+    'email',
     'creation_date',
     'admin',
   ];
@@ -51,7 +51,7 @@ export class AdminStudentListComponent implements AfterViewInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      let response = await this.studentsService.getAll();
+      let response = await this.studentsService.getActiveStudent();
       this.dataSource.data = response;
     } catch (err: any) {
       console.log(err.error);
@@ -70,7 +70,7 @@ export class AdminStudentListComponent implements AfterViewInit {
 
     swalWithBootstrapButtons
       .fire({
-        title: `¿Deseas borrar el usuario?`,
+        title: `¿Deseas desactivar el usuario?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -82,7 +82,7 @@ export class AdminStudentListComponent implements AfterViewInit {
           try {
             let response = await this.studentsService.delete(idStudent);
             if (response.affectedRows > 0) {
-              swalWithBootstrapButtons.fire('Usuario borrado');
+              swalWithBootstrapButtons.fire('Usuario desactivado');
               this.ngOnInit();
             } else {
               swalWithBootstrapButtons.fire(
@@ -99,7 +99,7 @@ export class AdminStudentListComponent implements AfterViewInit {
         ) {
           swalWithBootstrapButtons.fire(
             'Cancelado',
-            'El usuario no ha sido borrado',
+            'El usuario no ha sido desactivado',
             'error'
           );
         }

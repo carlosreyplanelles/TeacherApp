@@ -16,6 +16,9 @@ import { TeacherViewComponent } from './components/teacher-view/teacher-view.com
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginGuard } from './guards/login.guard';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ClassBookingComponent } from './components/class-booking/class-booking.component';
+import { TeacherPublicViewComponent } from './components/teacher-public-view/teacher-public-view.component';
+import { StudentPublicViewComponent } from './components/student-public-view/student-public-view.component';
 
 
 const routes: Routes = [
@@ -31,18 +34,14 @@ const routes: Routes = [
       { path: 'profesor', component: TeacherFormComponent }
     ]
   },
-  { path: 'valorar/:teacherId', component: RatingFormComponent },
-  { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent},
-  { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent},
+  { path: 'valorar/:teacherId', component: RatingFormComponent, canActivate: [LoginGuard] },
+  { path: 'actualizar/estudiante/:studentId', component:StudentFormComponent, canActivate: [LoginGuard]},
+  { path: 'actualizar/profesor/:teacherId', component:TeacherFormComponent, canActivate: [LoginGuard]},
   //{ path: 'admin-estudiantes', component: AdminStudentListComponent },
   //{ path: 'admin-profesores', component: AdminTeacherListComponent },
   { path: 'profesores', component: TeacherListComponent },
-  //{ path: 'profile-student', component: StudentViewComponent, canActivate: [LoginGuard] },
-  //{ path: 'profile-teacher/:teacherId', component: TeacherViewComponent },
-  //{ path: 'profile-admin', component: AdminViewComponent },
-  // TODO - Vista pública del perfil de profesor
-  { path: 'profesor/:teacherId', component: TeacherViewComponent },
-  { path: 'estudiante/:studentId', component: StudentViewComponent },
+  { path: 'profesor/:teacherId', component: TeacherPublicViewComponent, canActivate: [LoginGuard], data: {role: ['student', 'admin'] } },
+  { path: 'estudiante/:studentId', component: StudentPublicViewComponent, canActivate: [LoginGuard], data: {role: ['teacher', 'admin'] } },
   { path: 'perfil', component: ProfileComponent, canActivate: [LoginGuard] },
   /* This is a wildcard route. It will match any route that is not defined in the application. */
   { path: '**', component: Error404Component }

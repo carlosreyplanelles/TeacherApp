@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 import jwt_decode from 'jwt-decode';
+
 
 import { Admin } from 'src/app/interfaces/admin.interface';
 import { User } from 'src/app/interfaces/user.interface';
@@ -9,6 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { AdminsService } from 'src/app/services/admins.service';
 import { StudentsService } from 'src/app/services/students.service';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { LoginAuthService } from 'src/app/services/login-auth.service';
 
 
 @Component({
@@ -21,52 +22,44 @@ export class AdminViewComponent implements OnInit {
   currentUser!: Admin | User | any;
 
   numStudents: number = 0;
-  numInactives: number = 0;
+  // numInactives: number = 0;
   numTeachers: number = 0;
-  numPending: number = 0;
+  // numPending: number = 0;
 
-  actualTab: string = 'pending';
+  actualTab: string = 'teachers';
 
   token: string | null = localStorage.getItem('user-token');
   tokenInfo: any;
-  adminId!: number;
+  userid!: number;
 
   constructor(
     private userService: UsersService,
     private adminService: AdminsService,
     private studentsService: StudentsService,
     private teachersService: TeachersService,
-    private activatedRoute: ActivatedRoute,
+    private loginAuthService: LoginAuthService,
     private router: Router
   ) {
     if (this.token) {
       this.tokenInfo = this.getDecodedAccessToken(this.token);
-      this.adminId = this.tokenInfo.user_id;
+      this.userid = this.tokenInfo.user_id;
     }
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      //   let adminid: number = parseInt(params.adminid)
-      //   let resAdmin = await this.adminService.getAdminById(206);
-      //   this.currentAdmin = resAdmin;
+  async ngOnInit(): Promise<void> {
 
-      // this.userService.getById(this.adminId)
-      this.userService.getById(201)
-        .then(response => {
-          this.currentUser = response;
-        })
-        .catch(error => {
-          console.log('ERROR', error)
-        })
+    try {
+      let response = await this.userService.getById(this.userid);
+      this.currentUser = response;
+      console.log(this.currentUser);
+    } catch (err: any) {
+      console.log(err);
+    }
 
-      this.numStudents = await this.getNumStudents();
-      this.numTeachers = await this.getNumTeachers();
-      // getNumInactives();
-      // getNumPending();
-    })
-
-    console.log(this.currentUser);
+    this.numStudents = await this.getNumStudents();
+    // this.numInactives = await this.getNumInactives();
+    this.numTeachers = await this.getNumTeachers();
+    // this.numPending = await this.getNumPending();
 
   }
 
@@ -75,26 +68,29 @@ export class AdminViewComponent implements OnInit {
     return response.length;
   }
 
-  getNumInactives() {
-
-  }
+  // async getNumInactives(): Promise<number> {
+  //   let response = await this.studentsService.getInactiveStudent();
+  //   return response.length;
+  // }
 
   async getNumTeachers(): Promise<number> {
+    // let response = await this.teachersService.getActiveTeachers();
     let response = await this.teachersService.getAllTeachers();
-    console.log(response);
     return response.length;
   }
 
-  getNumPending() {
-
-  }
+  // async getNumPending(): Promise<number> {
+  //   let response = await this.teachersService.getPendingTeachers();
+  //   console.log(response);
+  //   return response.length;
+  // }
 
   chargeTab(tab: string): void {
     this.actualTab = tab;
   }
 
   logout() {
-    localStorage.removeItem('user-token');
+    this.loginAuthService.logout();
     this.router.navigate(['/login']);
   }
 
@@ -105,5 +101,4 @@ export class AdminViewComponent implements OnInit {
       return null;
     }
   }
-
 }

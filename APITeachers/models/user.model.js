@@ -19,8 +19,6 @@ const updateUser = (userId, { name, surname, email, password, role_id }) => {
 
 const cancelUser = (userId, leaving_date) => {
     console.log("canceluser");
-    console.log(userId);
-    console.log(leaving_date);
     return executeQuery('UPDATE users SET leaving_date = ? WHERE id = ?', [leaving_date, userId]);
 };
 
@@ -37,7 +35,7 @@ const getAllUsers = () => {
 
 const getById = (userid) => {
     return executeQueryOne(
-        'SELECT * FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.id = ?',
+        'SELECT u.id AS user_id,creation_date, leaving_date, name, surname, email, password, role_id, title, description FROM users AS u INNER JOIN roles AS r ON r.id = u.role_id WHERE u.id = ?',
         [userid]
     );
 };
@@ -67,10 +65,10 @@ const getUserByEmail = (email) => {
     return executeQueryOne('SELECT * FROM users where email = ?', [email]);
 };
 
-const updateLocation = (userid, { role, latitude, longitude }) => {
+const updateLocation = (userid, { role, lat, lon }) => {
     return executeQuery(
         'UPDATE users AS u INNER JOIN ' + role + 's AS r ON r.user_id = u.id INNER JOIN locations AS l ON l.id = r.location_id SET latitude = ?, longitude = ? WHERE u.id = ?',
-        [latitude, longitude, userid]
+        [lat, lon, userid]
     );
 }
 

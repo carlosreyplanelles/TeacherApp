@@ -1,3 +1,7 @@
+#offcanvasDarkNavbarLabel {
+    cursor: pointer
+}
+
 .active {
     transition: 0.2s ease;
 }
@@ -6,22 +10,27 @@
     background-color: #001033 !important;
 }
 .register-btn{
+    margin-right: 0.5rem;
+}
+.register-btn,
+.login-btn,
+.profile-btn {
     color: white;
-    width: 250px;
+    width: 180px;
     height: 60px;
     font-size: 1.1rem;
-    border-radius: 50px;
+    border-radius: 15px;
     margin-left: 1rem;
+    background-color: rgba(178, 178, 178, 0.3);
 }
-.student-btn{
-    background-color: transparent;
+
+.register-btn:hover,
+.login-btn:hover {
+    background-color: rgba(38, 255, 38, 0.5);
+    transition: all .5s;
 }
-.student-btn:hover{
-    background-color: rgba(38, 255, 38, 0.3);
-    transition: all 1s;
-}
-.teacher-btn:hover{
-    background-color: rgba(38, 255, 38, 0.3);
-    font-size: 1.1rem;
-    transition: all 1s;
+
+.profile-btn:hover {
+    background-color: #001033;
+    transition: all .5s;
 }

@@ -21,11 +21,11 @@ import { TeachersService } from 'src/app/services/teachers.service';
   ],
 })
 export class AdminTeacherListComponent implements AfterViewInit {
-  
+
   selectStatus: any[] = [
     { value: '', viewValue: 'Todos' },
-    { value: '0', viewValue: 'Desactivado' },
-    { value: '1', viewValue: 'Activado' },
+    { value: '0', viewValue: 'Activado' },
+    { value: '1', viewValue: 'Desactivado' },
   ];
 
   displayedColumns: string[] = [
@@ -33,7 +33,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
     'name',
     'city',
     'branch_title',
-    'contact',
+    'email',
     'validated',
     'admin',
   ];
@@ -53,7 +53,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   applyFilterName(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();   
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -62,7 +62,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   applyFilterStatus(event: Event | string) {
     this.dataSource.filter = event.toString();
-    console.log(this.dataSource.filter);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -87,9 +86,8 @@ export class AdminTeacherListComponent implements AfterViewInit {
     }
   }
 
-  deleteTeacher(teacherId: number) {
+  validateTeacher(teacherId: number) {
     const idTeacher = teacherId;
-    console.log("AdminTeacherListComponent ~ idTeacher", idTeacher);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-primary',
@@ -100,7 +98,7 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
     swalWithBootstrapButtons
       .fire({
-        title: `¿Deseas borrar el usuario?`,
+        title: `¿Deseas activar el usuario?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -110,10 +108,10 @@ export class AdminTeacherListComponent implements AfterViewInit {
       .then(async (result) => {
         if (result.isConfirmed) {
           try {
-            let response = await this.teachersService.delete(idTeacher);
-            console.log("⭐AdminTeacherListComponent ~ response", response);
-            if (response.affectedRows > 0) {
-              swalWithBootstrapButtons.fire('Usuario borrado');
+            // let response = await this.teachersService.delete(idTeacher);
+            let response = await this.teachersService.validateTeacher(idTeacher);
+            if (response.user_id) {
+              swalWithBootstrapButtons.fire('Usuario activado');
               this.ngOnInit();
             } else {
               swalWithBootstrapButtons.fire(
@@ -128,7 +126,54 @@ export class AdminTeacherListComponent implements AfterViewInit {
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire(
             'Cancelado',
-            'El usuario no ha sido borrado',
+            'El usuario no ha sido activado',
+            'error'
+          );
+        }
+      });
+  }
+
+  deleteTeacher(teacherId: number) {
+    const idTeacher = teacherId;
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-secondary me-3 ',
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: `¿Deseas dar de baja el usuario?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            // let response = await this.teachersService.delete(idTeacher);
+            let response = await this.teachersService.delete(idTeacher);
+            if (response.user_id) {
+              swalWithBootstrapButtons.fire('Usuario dado de baja');
+              this.ngOnInit();
+            } else {
+              swalWithBootstrapButtons.fire(
+                'Error',
+                `${response.error}`,
+                'error'
+              );
+            }
+          } catch (error: any) {
+            console.log(error.message);
+          }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire(
+            'Cancelado',
+            'El usuario no ha sido dado de baja',
             'error'
           );
         }

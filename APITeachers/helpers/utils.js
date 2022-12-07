@@ -24,7 +24,7 @@ const createToken = (pId, pRole) => {
     const obj = {
         user_id: pId,
         user_role: pRole,
-        expiration_date: dayjs().add(5, 'minutes').unix()
+        expiration_date: dayjs().add(5, 'hours').unix()
     }
 
     return jwt.sign(obj, process.env.SECRET_KEY);

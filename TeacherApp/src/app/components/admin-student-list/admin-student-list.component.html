@@ -33,7 +33,7 @@
             </ng-container>
 
             <!-- Contact Column -->
-            <ng-container matColumnDef="contact">
+            <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Contacto </th>
                 <td mat-cell *matCellDef="let student"> {{student.email}} <br>{{student.phone}}</td>
 
@@ -41,25 +41,25 @@
 
             <!-- Creation Date Column -->
             <ng-container matColumnDef="creation_date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Alta</th>
+                <th mat-header-cell *matHeaderCellDef>Alta</th>
                 <td mat-cell *matCellDef="let student"> {{student.creation_date}} </td>
             </ng-container>
 
             <!--  Admin Column -->
             <ng-container matColumnDef="admin">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Administración</th>
+                <th mat-header-cell *matHeaderCellDef>Administración</th>
                 <td mat-cell *matCellDef="let student">
 
                     <span class="d-flex m-2 ms-4">
-                        <button type="button" class="btn btn-outline-primary me-2 rounded-circle justify-content-center">
+                        <button type="button" class="btn btn-outline-primary me-2 rounded-circle justify-content-center" title="Detalles">
                             <mat-icon fontIcon="info" [routerLink]="['/estudiante', student?.id]">Detalles</mat-icon>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary me-2 rounded-circle">
+                        <button type="button" class="btn btn-outline-secondary me-2 rounded-circle" title="Editar">
                             <mat-icon fontIcon="edit" [routerLink]="['/actualizar/estudiante', student?.id]">Editar
                             </mat-icon>
                         </button>
-                        <button type="button" class="btn btn-outline-danger rounded-circle">
-                            <mat-icon fontIcon="delete" (click)="deleteStudent(student.id)">Delete</mat-icon>
+                        <button type="button" class="btn btn-outline-danger rounded-circle" title="Borrar">
+                            <mat-icon fontIcon="delete" (click)="deleteStudent(student?.id)">Delete</mat-icon>
                         </button>
                     </span>
 

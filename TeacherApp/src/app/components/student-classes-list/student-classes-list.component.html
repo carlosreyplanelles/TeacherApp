@@ -6,18 +6,26 @@
             <tr>
                 <th scope="col">Profesor</th>
                 <th scope="col">Materia</th>
-                <th scope="col">Fecha</th>
+                <th scope="col">Fecha reserva</th>              
+                <th scope="col">Fecha clase</th>
+                <th scope="col">Hora clase</th>
                 <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
+            <tr *ngIf="activeClasses.length === 0">
+                <td colspan="4" align="center">No existen clases programadas en estos momentos.</td>
+            </tr>
+
             <tr *ngFor="let class of activeClasses">
                 <td>{{ class.teacher_name }} {{ class.teacher_surname }}</td>
                 <td>{{ class.branch }}</td>
-                <td>{{ class.class_datetime }}</td>
+                <td>{{ class.booking_creation}}</td>
+                <td>{{ class.start_date }}</td>
+                <td>{{ class.start_hour }}:00 - {{ class.end_hour }}:00</td>
                 <td>
-                    <a class="btn btn-info me-2">Contacto</a>
-                    <a class="btn btn-primary text-white" [routerLink]="['/valorar', class.teacher_id]">Valorar profesor</a>
+                    <a class="btn btn-info me-2" [routerLink]="['/profesor', class.teacher_id]"><i class="fa-regular fa-address-card"></i> Ver perfil</a>
+                    <a class="btn btn-primary text-white" [routerLink]="['/valorar', class.teacher_id]"><i class="fa-solid fa-star"></i> Valorar profesor</a>
                 </td>
             </tr>
         </tbody>

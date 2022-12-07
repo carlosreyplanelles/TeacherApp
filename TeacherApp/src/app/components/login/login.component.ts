@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+
 import { Users } from 'src/app/interfaces/users.interface';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
-
-import jwt_decode from 'jwt-decode'
 
 @Component({
   selector: 'app-login',
@@ -30,29 +30,16 @@ export class LoginComponent implements OnInit {
   async login(): Promise<void> {
     let response = await this.loginAuthService.login(this.user);
 
-    // console.log(response);
-
-    const tokenInfo = this.getDecodedAccessToken(response.token);
-    console.log(tokenInfo);
-
     if (response.success) {
       localStorage.setItem('user-token', response.token);
-      // localStorage.setItem('user-data', JSON.stringify({
-      //   id: Number(response.user_id),
-      //   role: Number(response.user_role)
-      // }));
+      this.loginAuthService.loggedIn();
 
       this.router.navigate(['/perfil']);
     } else {
-      alert(response.error);
-    }
-  }
-
-  getDecodedAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
-    } catch(Error) {
-      return null;
+      Swal.fire({
+        icon: 'error',
+        text: response.error
+      })
     }
   }
 }
