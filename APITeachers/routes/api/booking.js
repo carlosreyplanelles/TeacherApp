@@ -35,10 +35,6 @@ router.get('/teacher/teacher=:teacherId&date=:startDate', async (req, res) => {
     const { teacherId, startDate } = req.params;
 
     try {
-
-        console.log("teacherId", teacherId);
-        console.log("startDate", startDate);
-
         /**TODO: Habría que comprobar formato fecha a ver como viene*/
         const classesData = await getActiveClassesBooked(teacherId, startDate);
         
@@ -64,18 +60,13 @@ router.post('/',
    async (req, res) => {
 
         try {
-            
-            console.log("req.body post classvalidator", req.body);
-
             //Añadir la hora de fin de la clase. Clases de 60 min
             req.body.end_hour = parseInt(req.body.start_hour) + 1;
 
             //Inserción en classes
             const result = await createBooking(req.body);
-            console.log("result req.body post classvalidator", result);
 
             const classBooked = await getClassBooked(result.insertId);
-            console.log("classBooked req.body post classvalidator", classBooked);
          
             res.status(200).json(classBooked);
         } 

@@ -18,7 +18,6 @@ const updateUser = (userId, { name, surname, email, password, role_id }) => {
 };
 
 const cancelUser = (userId, leaving_date) => {
-    console.log("canceluser");
     return executeQuery('UPDATE users SET leaving_date = ? WHERE id = ?', [leaving_date, userId]);
 };
 

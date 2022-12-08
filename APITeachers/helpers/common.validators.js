@@ -48,9 +48,6 @@ const checkCity = async (req, res, next) => {
     let cityId;
     
     try {
-
-        console.log("req", req.params);
-        console.log("body", req.body);
         //Recupero el id city en función del origen   
         cityId = ((Object.keys(req.params).length !== 0 && req.params.cityId !== undefined)? req.params.cityId : req.body.city_id);
 
@@ -76,9 +73,6 @@ const checkLocation = async (req, res, next) => {
     let locationId;
     
     try {
-
-        console.log("req", req.params);
-        console.log("body", req.body);
         //Recupero el id location en función del origen   
         locationId = ((Object.keys(req.params).length !== 0 && req.params.locationId !== undefined)? req.params.locationId : req.body.location_id);
 
@@ -104,9 +98,6 @@ const checkRole = async (req, res, next) => {
     let roleId;
     
     try {
-
-        console.log("req", req.params);
-        console.log("body", req.body);
         //Recupero el id location en función del origen   
         roleId = ((Object.keys(req.params).length !== 0 && req.params.roleId !== undefined)? req.params.roleId : req.body.role_id);
 
