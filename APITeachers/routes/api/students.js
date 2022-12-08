@@ -32,21 +32,26 @@ router.get('/:studentId',
         } catch (err) {
             res.json({ error: err.message });
         }
-    });
+});
 
 // POST
 router.post('/',
-    checkEmptyFields,
     checkSchema(newStudent),
-    checkCity,
     checkError,
+    checkCity,    
+    checkEmptyFields,
     async (req, res) => {
-    try {
-        req.body.password = bcrypt.hashSync(req.body.password, 8);
 
-        // Insert location and get location_id
-        const newLocation = await Location.create(req.body);
-        req.body.location_id = newLocation.insertId;
+        try {
+
+            console.log("insert student req.params", req.params);
+            console.log("insert student req.body", req.body);
+
+            req.body.password = bcrypt.hashSync(req.body.password, 8);
+
+            // Insert location and get location_id
+            const newLocation = await Location.create(req.body);
+            req.body.location_id = newLocation.insertId;
 
             // Insert user and get user_id
             const newUser = await User.create(req.body);
@@ -59,24 +64,27 @@ router.post('/',
             res.status(200).json(student);
 
         } catch (err) {
-            res.json({ error: err.message });
+            res.status(400).json({ error: err.message });
         }
-    });
+});
 
 // UPDATE
 router.put('/:studentId',
-    Auth.checkToken,
-    checkEmptyFields,
+    Auth.checkToken,    
     checkStudent,
     checkSchema(newStudent),
+    checkError,
     checkUser,
     checkRole,
-    checkCity,
-    checkError,
+    checkCity,    
+    checkEmptyFields,
     async (req, res) => {
+        
         const { studentId } = req.params;
 
         try {
+            console.log("update student req.params", req.params);
+            console.log("update student req.body", req.body);
             req.body.password = bcrypt.hashSync(req.body.password, 8);
 
             // Get student data
