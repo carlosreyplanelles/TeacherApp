@@ -36,7 +36,7 @@ router.get('/:studentId',
 
 // POST
 router.post('/',
-    checkEmptyFields,
+//    checkEmptyFields,
     checkSchema(newStudent),
     checkCity,
     checkError,

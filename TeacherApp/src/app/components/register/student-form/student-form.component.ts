@@ -24,6 +24,8 @@ export class StudentFormComponent implements OnInit {
   citiesbyProvince: City[] = []
   accion:string = "Registrar"
   storedStudent: any
+  userLat: number | undefined = undefined
+  userLon: number | undefined = undefined
 
   constructor( 
     private locationsService: LocationsService,
@@ -69,6 +71,11 @@ export class StudentFormComponent implements OnInit {
     this.getProvinces()
     this.getCities()
 
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      this.userLat = latitude,
+      this.userLon = longitude
+    })
     this.activatedRoute.params.subscribe(async (params: any) => {
 
       if (params.studentId) {
@@ -118,13 +125,9 @@ export class StudentFormComponent implements OnInit {
 
   async getDataForm() {
     if (this.studentForm.status === "VALID") {
-      let userLat: number | undefined = undefined
-      let userLon: number | undefined = undefined
-      navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords;
-        userLat = latitude,
-          userLon = longitude
-      })
+      if ('geolocation' in navigator) {
+     
+    }
       this.activatedRoute.params.subscribe(async (params: any) => {
         const user = await this.usersService.findByEmail(this.studentForm.value.email)
         let response!: Student | any
@@ -138,9 +141,9 @@ export class StudentFormComponent implements OnInit {
               text: 'El correo utilizado ya existe.',
             })
           } else {
-            if (userLat != undefined) {
-              student.latitude = userLat
-              student.longitude = userLon
+            if (this.userLat != undefined) {
+              student.latitude = this.userLat
+              student.longitude = this.userLon
             }
             response = await this.studentsService.create(student)
             if (response.id) {
@@ -172,9 +175,9 @@ export class StudentFormComponent implements OnInit {
             this.storedStudent.role_id = this.student_role_id,
           this.storedStudent.latitude = student.latitude,
             this.storedStudent.longitude = student.longitude
-          if (userLat != undefined) {
-            student.latitude = userLat
-            student.longitude = userLon
+          if (this.userLat != undefined) {
+            student.latitude = this.userLat
+            student.longitude = this.userLon
           }
           try {
             const response = await this.studentsService.update(this.storedStudent);
