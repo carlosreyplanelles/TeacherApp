@@ -104,16 +104,6 @@ const getTeacherClasses = (teacherId) => {
 const getTeacherHours = (teacherId) => {
     return executeQueryOne(sqlTeacherHours, [teacherId]);
 }
-const getActiveTeacher = () => {
-    return executeQuery(sqlAllTeachersData + ' WHERE t.validated = 1');
-
-};
-
-const getPendingTeacher = () => {
-    return executeQuery(sqlAllTeachersData + ' WHERE t.validated = 0');
-
-};
-
 
 module.exports = {
     getAllTeachers, getTeachersByPage, getTeacherByUserId, getTeacherById, getAllTeachersByFilters, getTeacherByEmail, getBranchById, createTeacher, invalidateTeacher,
