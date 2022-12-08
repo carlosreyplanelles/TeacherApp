@@ -91,9 +91,7 @@ export class StudentFormComponent implements OnInit {
           avatar: this.storedStudent.avatar,
           phone: this.storedStudent.phone,
           city_id: this.storedStudent.city_id,
-          province_id: this.storedStudent.province_id,
-          latitude: this.storedStudent.latitude,
-          longitude: this.storedStudent.longitude
+          province_id: this.storedStudent.province_id
         })
       }
     })
@@ -176,8 +174,8 @@ export class StudentFormComponent implements OnInit {
           this.storedStudent.latitude = student.latitude,
             this.storedStudent.longitude = student.longitude
           if (this.userLat != undefined) {
-            student.latitude = this.userLat
-            student.longitude = this.userLon
+            this.storedStudent.latitude = this.userLat
+            this.storedStudent.longitude = this.userLon
           }
           try {
             const response = await this.studentsService.update(this.storedStudent);

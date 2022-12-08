@@ -93,7 +93,6 @@ export class HomeComponent implements OnInit {
             lat: position.coords.latitude,
             lon: position.coords.longitude
           }
-          console.log(this.currentUser);
           let response = await this.usersService.saveLocation(this.currentUser, newLocation);
         }
       })
