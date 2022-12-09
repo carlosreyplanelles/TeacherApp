@@ -108,16 +108,6 @@ router.put('/:studentId',
     });
 
 // DELETE
-// router.delete('/:studentId', checkStudent, async (req, res) => {
-//     const { studentId } = req.params;
-
-//     try {
-//         const result = await Student.deleteById(studentId);
-//         res.json(result);
-//     } catch (err) {
-//         res.json({ error: err.message });
-//     }
-// });
 router.delete('/:studentId',
     Auth.checkToken,
     Auth.checkRole('admin'),
@@ -126,14 +116,12 @@ router.delete('/:studentId',
 
         const { studentId } = req.params;
 
-        /**TODO: mysql transaction*/
-
         try {
             // Recupero al estudiante
             const student = await Student.getById(studentId);
-
+           
             if (student.leaving_date !== null) {
-                res.status(400).json({ error: "El estudiante " + studentId + " ya fue dado de baja en el sistema el " + student.leaving_date });
+                return res.status(400).json({ error: "El estudiante " + studentId + " ya fue dado de baja en el sistema el " + student.leaving_date });
             }
 
             // Fecha de baja  
@@ -150,7 +138,7 @@ router.delete('/:studentId',
 
             res.status(200).json(resultStudent);
         }
-        catch (error) {
+        catch (error) {            
             res.status(400).json({
                 error: "DELETE Error " + error.errno + ": " + error.message,
                 result: "No se pudo dar de baja al estudiante " + studentId
@@ -179,24 +167,44 @@ router.get('/status/inactive', async (req, res) => {
     }
 });
 
-// UPDATE
+// UPDATE - ACTIVATE STUDENT
 router.put('/:studentId/activate',
-    checkStudent,
-    checkUser,
-    checkRole,
-    checkError,
+    Auth.checkToken,
+    Auth.checkRole('admin'),
+    checkStudent,     
     async (req, res) => {
+
         const { studentId } = req.params;
 
         try {
-            // Update students table
-            await Student.activate(studentId);
+            
+            //Activar estudiante
+            const resultStudent = await Student.activate(studentId);
+
+            if (resultStudent.affectedRows !== 1) {
+               return res.status(400).json({ error:  "No se pudo activar al estudiante " + studentId });
+            }
+
+            //Datos del estudiante
             const student = await Student.getById(studentId);
-            res.status(200).json(student);
-        } catch (err) {
+
+            //Habilitar en usuarios
+            const resultUser = await User.cancelUser(student.user_id, null);  
+                
+            if (resultUser.affectedRows !== 1) {
+                return res.status(400).json({ 
+                    error:  "Se ha activado al estudiante " + studentId + " pero ocurrió un error al quitar la baja en usuarios. Contacte con el administrador", 
+                    data: resultUser
+                });
+            }
+               
+           student.leaving_date = null;                   
+           res.status(200).json(student);    
+        } 
+        catch (err) {
             res.status(400).json({
                 error: "PUT Error " + err.errno + ": " + err.message,
-                result: "No se pudo actualizar el estudiante " + studentId
+                result: "No se pudo activar el estudiante " + studentId
             });
         }
     });

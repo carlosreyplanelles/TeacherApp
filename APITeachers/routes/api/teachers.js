@@ -119,8 +119,6 @@ router.post('/',
         // Info Teacher to Email
         const dataTeacherMail = req.body
 
-        /**TODO: Mysql transaction process*/
-
         try {
 
             req.body.password = bcrypt.hashSync(req.body.password, 8);
@@ -176,7 +174,6 @@ router.put('/:teacherId',
 
         const { teacherId } = req.params;
 
-        /**TODO: Mysql transaction process*/
 
         try {
            
@@ -217,7 +214,7 @@ router.put('/validate/:teacherId',
             const resultTeacher = await validateTeacher(teacherId);
 
             if (resultTeacher.affectedRows !== 1) {
-                res.status(400).json({ error:  "No se pudo validar al profesor " + teacherId });
+                return res.status(400).json({ error:  "No se pudo validar al profesor " + teacherId });
             }
           
             //Recupero los datos del profesor
@@ -227,7 +224,7 @@ router.put('/validate/:teacherId',
             const resultUser = await cancelUser(teacherData.user_id, null);  
                 
             if (resultUser.affectedRows !== 1) {
-                res.status(400).json({ 
+               return res.status(400).json({ 
                     error:  "Se ha validado el profesor " + teacherId + " pero ocurrió un error al quitar la baja en usuarios. Contacte con el administrador", 
                     data: teacherData
                 });
@@ -247,21 +244,19 @@ router.put('/validate/:teacherId',
 
 /* DELETE */
 router.delete('/:teacherId',
-    Auth.checkToken,
-    Auth.checkRole('admin'),
+   // Auth.checkToken,
+   // Auth.checkRole('admin'),
     checkTeacher,
     async (req, res) => {
 
         const { teacherId } = req.params;
-
-        /**TODO: mysql transaction*/
 
         try {
             //Recupero al profesor
             const teacher = await getTeacherById(teacherId);
 
             if (teacher.leaving_date !== null) {
-                res.status(400).json({ error: "El profesor " + teacherId + " ya fue dado de baja en el sistema el " + dayjs(teacher.leaving_date).format('DD/MM/YYYY HH:mm:ss') });
+                return res.status(400).json({ error: "El profesor " + teacherId + " ya fue dado de baja en el sistema el " + dayjs(teacher.leaving_date).format('DD/MM/YYYY HH:mm:ss') });
             }
 
             //Fecha de baja  
@@ -299,10 +294,12 @@ router.get('/active', async (req, res) => {
 
 router.get('/pending', async (req, res) => {
     let teachers;
+
     try {
         teachers = await getPendingTeacher();
         res.status(200).json(teachers);
-    } catch (error) {
+    } 
+    catch (error) {
         res.status(400).json({ error: "GET Error " + error.errno + ": " + error.message });
     }
 });
