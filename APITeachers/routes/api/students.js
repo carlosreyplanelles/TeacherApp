@@ -44,9 +44,6 @@ router.post('/',
 
         try {
 
-            console.log("insert student req.params", req.params);
-            console.log("insert student req.body", req.body);
-
             req.body.password = bcrypt.hashSync(req.body.password, 8);
 
             // Insert location and get location_id
@@ -83,8 +80,7 @@ router.put('/:studentId',
         const { studentId } = req.params;
 
         try {
-            console.log("update student req.params", req.params);
-            console.log("update student req.body", req.body);
+          
             req.body.password = bcrypt.hashSync(req.body.password, 8);
 
             // Get student data
