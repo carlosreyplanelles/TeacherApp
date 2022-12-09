@@ -35,8 +35,8 @@ export class HomeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-      this.userid = this.loginAuthService.getId();
-      this.userRole = this.loginAuthService.getRole();
+    this.userid = this.loginAuthService.getId();
+    this.userRole = this.loginAuthService.getRole();
   }
 
   async ngOnInit(): Promise<void> {
@@ -47,14 +47,14 @@ export class HomeComponent implements OnInit {
 
       switch (this.userRole) {
         case 'admin':
-            response = await this.usersService.getById(this.userid);
-            break;
+          response = await this.usersService.getById(this.userid);
+          break;
         case 'teacher':
-            response = await this.teachersService.getById(this.userid);
-            break;
+          response = await this.teachersService.getById(this.userid);
+          break;
         case 'student':
-            response = await this.studentsService.getById(this.userid);
-            break;
+          response = await this.studentsService.getById(this.userid);
+          break;
       }
 
       this.currentUser = response;
@@ -66,15 +66,6 @@ export class HomeComponent implements OnInit {
     /* AÑADIR PROFESORES EN EL MAPA */
     await this.getAllTeachers();
 
-    /* BUSQUEDA DE UBICACION */
-    const input = document.getElementById('autocomplete');
-
-    // const autocomplete = new google.maps.places.Autocomplete(input, {
-    //   types: ['establisment'],
-    //   fields: ['places_id', 'geometry', 'name']
-    // });
-
-    // autocomplete.addListener('place_changed', onPlaceChanged);
   }
 
   async setCurrentLocation() {
@@ -97,7 +88,7 @@ export class HomeComponent implements OnInit {
         }
       })
     }
-    
+
     /* SI ESTA LOGEADO, RECUPERAR DE LA BASE DE DATOS */
     if (this.currentUser !== undefined) {
       this.getGeoUser();

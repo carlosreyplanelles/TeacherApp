@@ -19,14 +19,6 @@
                                 class="rounded-circle" width="150">
                             <div class="mt-3">
                                 <h4>{{currentUser?.name}} {{currentUser?.surname}}</h4>
-                                <!-- REDES SOCIALES PROFESOR -->
-                                <p *ngIf="this.currentUser?.role_id === 2" class="text-secondary mb-1">RAMA
-                                    CONOCIMIENTO
-                                </p>
-                                <!-- REDES SOCIALES PROFESOR Y ESTUDIANTE -->
-                                <p *ngIf="currentUser?.role_id !== 1" class="text-muted font-size-sm">
-                                    LOCALIDAD
-                                </p>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a class="btn btn-danger text-white" (click)="logout()">Cerrar sesión</a>
@@ -70,7 +62,6 @@
                     </div>
                 </div>
 
-                <!-- LISTAS FILTROS ADMIN -->
                 <section *ngIf="currentUser?.role_id === 1" class=" section about-section gray-bg" id="about">
                     <div class="container">
                         <div class="counter">
@@ -82,13 +73,6 @@
                                         <p class="m-0px font-w-600">Estudiantes</p>
                                     </div>
                                 </div>
-                                <!-- <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'inactive' }"
-                                    (click)="chargeTab('inactive')">
-                                    <div class="count-data text-center">
-                                        <h6 class="count h2">{{numInactives}}</h6>
-                                        <p class="m-0px font-w-600">Estudiantes Inactivos</p>
-                                    </div>
-                                </div> -->
                                 <div class="col-12 col-lg-6 btn" [ngClass]="{ 'activo': actualTab === 'teachers' }"
                                     (click)="chargeTab('teachers')">
                                     <div class="count-data text-center">
@@ -96,26 +80,15 @@
                                         <p class="m-0px font-w-600">Profesores</p>
                                     </div>
                                 </div>
-                                <!-- <div class="col-6 col-lg-3 btn" [ngClass]="{ 'activo': actualTab === 'pending' }"
-                                    (click)="chargeTab('pending')">
-                                    <div class="count-data text-center">
-                                        <h6 class="count h2">{{numPending}}</h6>
-                                        <p class="m-0px font-w-600"> Profesores Pendientes</p>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
                 </section>
-                <!-- END LISTAS FILTRO ADMIN -->
-
             </div>
         </div>
         <div class="container">
             <app-admin-student-list *ngIf="actualTab === 'students'"> </app-admin-student-list>
-            <!-- <app-admin-inactive-list *ngIf="actualTab === 'inactive'"></app-admin-inactive-list> -->
             <app-admin-teacher-list *ngIf="actualTab === 'teachers'"> </app-admin-teacher-list>
-            <!-- <app-admin-pending-list *ngIf="actualTab === 'pending'"></app-admin-pending-list> -->
         </div>
     </div>
 </div>
