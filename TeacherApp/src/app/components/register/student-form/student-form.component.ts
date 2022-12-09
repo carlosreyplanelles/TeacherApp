@@ -24,6 +24,8 @@ export class StudentFormComponent implements OnInit {
   citiesbyProvince: City[] = []
   accion:string = "Registrar"
   storedStudent: any
+  userLat: number | undefined = undefined
+  userLon: number | undefined = undefined
 
   constructor( 
     private locationsService: LocationsService,
@@ -40,11 +42,11 @@ export class StudentFormComponent implements OnInit {
       ]),
       name: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z\s]+$/)
+        Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/)
       ]),
       surname: new FormControl('',[
         Validators.required,
-        Validators.pattern(/^[A-Za-z\s]+$/)
+        Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/)
       ]),
       password: new FormControl('',[
         Validators.required,
@@ -69,6 +71,11 @@ export class StudentFormComponent implements OnInit {
     this.getProvinces()
     this.getCities()
 
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      this.userLat = latitude,
+      this.userLon = longitude
+    })
     this.activatedRoute.params.subscribe(async (params: any) => {
 
       if (params.studentId) {
@@ -84,9 +91,7 @@ export class StudentFormComponent implements OnInit {
           avatar: this.storedStudent.avatar,
           phone: this.storedStudent.phone,
           city_id: this.storedStudent.city_id,
-          province_id: this.storedStudent.province_id,
-          latitude: this.storedStudent.latitude,
-          longitude: this.storedStudent.longitude
+          province_id: this.storedStudent.province_id
         })
       }
     })
@@ -118,13 +123,9 @@ export class StudentFormComponent implements OnInit {
 
   async getDataForm() {
     if (this.studentForm.status === "VALID") {
-      let userLat: number | undefined = undefined
-      let userLon: number | undefined = undefined
-      navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords;
-        userLat = latitude,
-          userLon = longitude
-      })
+      if ('geolocation' in navigator) {
+     
+    }
       this.activatedRoute.params.subscribe(async (params: any) => {
         const user = await this.usersService.findByEmail(this.studentForm.value.email)
         let response!: Student | any
@@ -138,9 +139,9 @@ export class StudentFormComponent implements OnInit {
               text: 'El correo utilizado ya existe.',
             })
           } else {
-            if (userLat != undefined) {
-              student.latitude = userLat
-              student.longitude = userLon
+            if (this.userLat != undefined) {
+              student.latitude = this.userLat
+              student.longitude = this.userLon
             }
             response = await this.studentsService.create(student)
             if (response.id) {
@@ -172,9 +173,9 @@ export class StudentFormComponent implements OnInit {
             this.storedStudent.role_id = this.student_role_id,
           this.storedStudent.latitude = student.latitude,
             this.storedStudent.longitude = student.longitude
-          if (userLat != undefined) {
-            student.latitude = userLat
-            student.longitude = userLon
+          if (this.userLat != undefined) {
+            this.storedStudent.latitude = this.userLat
+            this.storedStudent.longitude = this.userLon
           }
           try {
             const response = await this.studentsService.update(this.storedStudent);
