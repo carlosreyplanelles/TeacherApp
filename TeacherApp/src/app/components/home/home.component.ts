@@ -103,8 +103,10 @@ export class HomeComponent implements OnInit {
       geoUser = await this.teachersService.getById(this.userid);
     }
 
-    this.userlat = geoUser.latitude;
-    this.userlong = geoUser.longitude;
+    if (this.userRole !== 'admin') {
+      this.userlat = geoUser.latitude;
+      this.userlong = geoUser.longitude;
+    }
   }
 
   async getAllTeachers() {
