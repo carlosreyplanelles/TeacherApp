@@ -30,20 +30,6 @@
                         <h4 class="mb-0">{{currentUser?.name}} {{currentUser?.surname}}</h4>
                         <span class="text-muted d-block mb-2">{{currentUser?.city}}, {{currentUser?.province}}</span>
                         <button class="btn btn-primary btn-sm details" [routerLink]="['/perfil']">Detalles</button>
-                        <!-- <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
-                            <div class="stats">
-                                <h6 class="mb-0">Profesores</h6>
-                                <span>0</span>
-                            </div>
-                            <div class="stats">
-                                <h6 class="mb-0">Clases</h6>
-                                <span>0</span>
-                            </div>
-                            <div class="stats">
-                                <h6 class="mb-0">Puntuación</h6>
-                                <span>0</span>
-                            </div>
-                        </div> -->
                     </div>
                 </agm-info-window>
             </agm-marker>
@@ -64,26 +50,12 @@
                         <span class="text-muted d-block mb-2">{{teacher?.city}}</span>
                         <button class="btn btn-danger btn-sm details"
                             [routerLink]="['/profesor', teacher?.teacher_id]">Detalles</button>
-                        <!-- <div class="d-flex justify-content-between align-items-center mt-4 mb-2 px-4">
-                            <div class="stats">
-                                <h6 class="mb-0">Alumnos</h6>
-                                <span>0</span>
-                            </div>
-                            <div class="stats">
-                                <h6 class="mb-0">Rama</h6>
-                                <span class="info">Programación</span>
-                            </div>
-                            <div class="stats">
-                                <h6 class="mb-0">Puntuación</h6>
-                                <span>0</span>
-                            </div>
-                        </div> -->
                     </div>
                 </agm-info-window>
             </agm-marker>
         </agm-map>
     </div>
-<hr>
+    <hr>
 </section>
 
 <section class="container mt-4">

@@ -1,68 +1,8 @@
-<!-- <nav class="navbar navbar-dark">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
-            aria-controls="offcanvasDarkNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" [routerLink]="'/profile-student'">Usuario</a>
-
-        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
-            aria-labelledby="offcanvasDarkNavbarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">TeacherApp</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                    aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
-                            [routerLink]="'/profile-teacher'" class="nav-item nav-link text-white">Perfil
-                            Profesor</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
-                            [routerLink]="['/profile-student']" class="nav-item nav-link text-white">Perfil
-                            Estudiante</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
-                            [routerLink]="['/profile-admin']" class="nav-item nav-link text-white">Perfil Admin</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/estudiantes']"
-                            class="nav-item nav-link text-white">Listar Estudiantes</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
-                            [routerLink]="['/students-inactive']" class="nav-item nav-link text-white">Listar
-                            Estudiantes Inactivos</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/profesores']"
-                            class="nav-item nav-link text-white">Listar Profesores</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
-                            [routerLink]="['/teachers-pending']" class="nav-item nav-link text-white">Listar Profesores
-                            Pendientes</a>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
-                            [routerLink]="['/admin-students']" class="nav-item nav-link text-white"> Estudiantes
-                            Admin</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary"
-                            [routerLink]="['/admin-teachers']" class="nav-item nav-link text-white">Profesores Admin</a>
-                    </li>
-                    <li><a routerLinkActive="active border-1 border-bottom border-primary" [routerLink]="['/home']"
-                            class="nav-item nav-link text-white"> Mapa</a>
-                    </li>
-                </ul>
-                <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</nav> -->
 <nav class="navbar navbar-expand-lg border-5 border-bottom border-primary">
     <div class="container-fluid">
         <!-- <a class="navbar-brand text-white fw-bold" [routerLink]="['/home']">TeacherApp</a> -->
-        <img src="../../../assets/LogoBlanco.png" width="100px" height="100px" [routerLink]="['/home']" class="offcanvas-title"
-            id="offcanvasDarkNavbarLabel" alt="">
+        <img src="../../../assets/LogoBlanco.png" width="100px" height="100px" [routerLink]="['/home']"
+            class="offcanvas-title" id="offcanvasDarkNavbarLabel" alt="">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -76,7 +16,8 @@
                     <button class="btn login-btn me-3" [routerLink]="'/login'" *ngIf="!loggedUser">Login</button>
                 </li>
                 <li>
-                    <button class="btn profile-btn btn-primary me-3" [routerLink]="'/perfil'" *ngIf="loggedUser">Mi perfil</button>
+                    <button class="btn profile-btn btn-primary me-3" [routerLink]="'/perfil'" *ngIf="loggedUser">Mi
+                        perfil</button>
                 </li>
             </ul>
         </div>
