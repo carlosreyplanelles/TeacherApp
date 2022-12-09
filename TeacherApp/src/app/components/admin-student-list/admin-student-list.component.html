@@ -2,10 +2,19 @@
 
     <div class="row mt-4 text-center">
         <h2>Administración de estudiantes</h2>
-        <div class="col-3">
-            <mat-form-field appearance="standard">
-                <mat-label>Filtro de estudiante</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Alejandro" #input>
+        <div class="d-flex justify-content-between">
+            <mat-form-field appearance="standard" class="col-3">
+                <mat-label>Busqueda por nombre</mat-label>
+                <input matInput (keyup)="applyFilterName($event)" placeholder="Ex. Alejandro" #input>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-3">
+                <mat-label>Estado del estudiante</mat-label>
+                <mat-select (selectionChange)="applyFilterStatus($event.value)">
+                    <mat-option *ngFor="let status of selectStatus" [value]="status.value">
+                        {{status.viewValue}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
     </div>
@@ -45,6 +54,15 @@
                 <td mat-cell *matCellDef="let student"> {{student.creation_date}} </td>
             </ng-container>
 
+            <!-- State Date Column -->
+            <ng-container matColumnDef="active">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                <td mat-cell *matCellDef="let student"><span *ngIf="student.active == 0; 
+                    else activate">Desactivado</span>
+                    <ng-template #activate>Activado</ng-template>
+                </td>
+            </ng-container>
+
             <!--  Admin Column -->
             <ng-container matColumnDef="admin">
                 <th mat-header-cell *matHeaderCellDef>Administración</th>
@@ -59,9 +77,16 @@
                             <mat-icon fontIcon="edit" [routerLink]="['/actualizar/estudiante', student?.id]">Editar
                             </mat-icon>
                         </button>
-                        <button type="button" class="btn btn-outline-danger rounded-circle" title="Desactivar">
+                        <button *ngIf="student.active == 1; else active" type="button"
+                            class="btn btn-outline-danger rounded-circle" title="Desactivar">
                             <mat-icon fontIcon="delete" (click)="deleteStudent(student?.id)">Delete</mat-icon>
                         </button>
+                        <ng-template #active>
+                            <button type="button" class="btn btn-outline-success rounded-circle" title="Activar">
+                                <mat-icon fontIcon="check" (click)="activeStudent(student.id)">Activate
+                                </mat-icon>
+                            </button>
+                        </ng-template>
                     </span>
 
                 </td>

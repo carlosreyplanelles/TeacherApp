@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 // GET BY ID
 router.get('/:studentId',
     checkStudent, async (req, res) => {
-    const { studentId } = req.params;
+        const { studentId } = req.params;
 
         try {
             const student = await Student.getById(studentId);
@@ -32,13 +32,13 @@ router.get('/:studentId',
         } catch (err) {
             res.json({ error: err.message });
         }
-});
+    });
 
 // POST
 router.post('/',
     checkSchema(newStudent),
     checkError,
-    checkCity,    
+    checkCity,
     checkEmptyFields,
     async (req, res) => {
 
@@ -63,24 +63,24 @@ router.post('/',
         } catch (err) {
             res.status(400).json({ error: err.message });
         }
-});
+    });
 
 // UPDATE
 router.put('/:studentId',
-    Auth.checkToken,    
+    Auth.checkToken,
     checkStudent,
     checkSchema(newStudent),
     checkError,
     checkUser,
     checkRole,
-    checkCity,    
+    checkCity,
     checkEmptyFields,
     async (req, res) => {
-        
+
         const { studentId } = req.params;
 
         try {
-          
+
             req.body.password = bcrypt.hashSync(req.body.password, 8);
 
             // Get student data
@@ -119,7 +119,7 @@ router.delete('/:studentId',
         try {
             // Recupero al estudiante
             const student = await Student.getById(studentId);
-           
+
             if (student.leaving_date !== null) {
                 return res.status(400).json({ error: "El estudiante " + studentId + " ya fue dado de baja en el sistema el " + student.leaving_date });
             }
@@ -138,7 +138,7 @@ router.delete('/:studentId',
 
             res.status(200).json(resultStudent);
         }
-        catch (error) {            
+        catch (error) {
             res.status(400).json({
                 error: "DELETE Error " + error.errno + ": " + error.message,
                 result: "No se pudo dar de baja al estudiante " + studentId
@@ -169,38 +169,38 @@ router.get('/status/inactive', async (req, res) => {
 
 // UPDATE - ACTIVATE STUDENT
 router.put('/:studentId/activate',
-    Auth.checkToken,
-    Auth.checkRole('admin'),
-    checkStudent,     
+    // Auth.checkToken,
+    // Auth.checkRole('admin'),
+    checkStudent,
     async (req, res) => {
 
         const { studentId } = req.params;
 
         try {
-            
-            //Activar estudiante
-            const resultStudent = await Student.activate(studentId);
 
-            if (resultStudent.affectedRows !== 1) {
-               return res.status(400).json({ error:  "No se pudo activar al estudiante " + studentId });
-            }
-
-            //Datos del estudiante
+            // Recupero al estudiante
             const student = await Student.getById(studentId);
 
             //Habilitar en usuarios
-            const resultUser = await User.cancelUser(student.user_id, null);  
-                
+            const resultUser = await User.cancelUser(student.user_id, null);
+
             if (resultUser.affectedRows !== 1) {
-                return res.status(400).json({ 
-                    error:  "Se ha activado al estudiante " + studentId + " pero ocurrió un error al quitar la baja en usuarios. Contacte con el administrador", 
+                return res.status(400).json({
+                    error: "Se ha activado al estudiante " + studentId + " pero ocurrió un error al quitar la baja en usuarios. Contacte con el administrador",
                     data: resultUser
                 });
             }
-               
-           student.leaving_date = null;                   
-           res.status(200).json(student);    
-        } 
+
+            // Se activa el estudiante
+            const resultStudent = await Student.activate(studentId);
+
+            if (resultStudent.affectedRows !== 1) {
+                return res.status(400).json({ error: "No se pudo activar al estudiante " + studentId });
+            }
+
+            student.leaving_date = null;
+            res.status(200).json(student);
+        }
         catch (err) {
             res.status(400).json({
                 error: "PUT Error " + err.errno + ": " + err.message,
