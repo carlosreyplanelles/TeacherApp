@@ -11,7 +11,7 @@ table {
   th {
     width: 25%;
   }
-  .student-row:hover {
+  .teacher-row:hover {
     background: whitesmoke;
   }
   
