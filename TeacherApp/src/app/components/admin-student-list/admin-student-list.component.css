@@ -18,3 +18,8 @@ th {
 mat-icon {
   padding-top: 2px;
 }
+
+.table-container {
+  max-width: 100%;
+  overflow: auto;
+}
