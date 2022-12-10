@@ -13,6 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "sweetalert2"
+            ],
             "outputPath": "dist/teacher-app",
             "index": "src/index.html",
             "main": "src/main.ts",

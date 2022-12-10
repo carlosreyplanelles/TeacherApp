@@ -44,9 +44,9 @@ export class StudentsService {
     );
   }
 
-  activate(student: any): Promise<any> {
+  activate(studentId: number): Promise<any> {
     return lastValueFrom(
-      this.httpClient.put<any>(`${this.baseUrl}${student.id}/activate`, this.loginAuthService.getTokenHeader())
+      this.httpClient.put<any>(`${this.baseUrl}${studentId}/activate`, this.loginAuthService.getTokenHeader())
     );
   }
 

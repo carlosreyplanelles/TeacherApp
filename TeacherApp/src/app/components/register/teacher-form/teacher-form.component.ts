@@ -27,7 +27,8 @@ export class TeacherFormComponent implements OnInit {
   storedTeacher:any
   accion:string = "Registrar"
   timeStampList:any[]=[]
-
+  userLat: number | undefined = undefined
+  userLon: number | undefined = undefined
 
   constructor( 
     private locationsService: LocationsService,
@@ -44,11 +45,11 @@ export class TeacherFormComponent implements OnInit {
       ]),
       name: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z\s]+$/)
+        Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/)
       ]),
       surname: new FormControl('',[
         Validators.required,
-        Validators.pattern(/^[A-Za-z\s]+$/)
+        Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/)
       ]),
       password: new FormControl('',[
         Validators.required,
@@ -80,8 +81,14 @@ export class TeacherFormComponent implements OnInit {
     this.getCities()
     this.getBranches()
     this.createTimeStamps()
-    this.activatedRoute.params.subscribe(async (params: any) => {
 
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      this.userLat = latitude,
+      this.userLon = longitude
+    })
+
+    this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.teacherId) {
         this.accion = "Actualizar"
         this.storedTeacher = await this.teachersService.getById(params.teacherId)
@@ -153,13 +160,7 @@ export class TeacherFormComponent implements OnInit {
   async getDataForm() {
     if (this.teacherForm.status === "VALID") {
       this.activatedRoute.params.subscribe(async (params: any) => {
-        let userLat: number |undefined = undefined
-      let userLon: number |undefined = undefined
-      navigator.geolocation.getCurrentPosition(position => {
-        const {latitude, longitude} = position.coords;
-        userLat=latitude,
-        userLon=longitude
-      })
+
           const user = await this.usersService.findByEmail(this.teacherForm.value.email)
           let response
           let teacher = this.teacherForm.value
@@ -170,9 +171,9 @@ export class TeacherFormComponent implements OnInit {
             } else {
 
               
-              if (userLat != undefined) {
-                teacher.latitude = userLat
-                teacher.longitude = userLon
+              if (this.userLat != undefined) {
+                teacher.latitude = this.userLat
+                teacher.longitude = this.userLon
               }
 
               response = await this.teachersService.create(teacher)
@@ -211,9 +212,9 @@ export class TeacherFormComponent implements OnInit {
               this.storedTeacher.role_id = this.teacher_role_id,
               this.storedTeacher.start_class_hour = teacher.start_class_hour,
               this.storedTeacher.end_class_hour = teacher.end_class_hour
-              if (userLat != undefined) {
-                this.storedTeacher.latitude = userLat
-                this.storedTeacher.longitude = userLon
+              if (this.userLat != undefined) {
+                this.storedTeacher.latitude = this.userLat
+                this.storedTeacher.longitude = this.userLon
               }
             try {
               const response = await this.teachersService.update(this.storedTeacher);

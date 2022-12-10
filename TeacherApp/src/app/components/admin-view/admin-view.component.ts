@@ -51,7 +51,6 @@ export class AdminViewComponent implements OnInit {
     try {
       let response = await this.userService.getById(this.userid);
       this.currentUser = response;
-      console.log(this.currentUser);
     } catch (err: any) {
       console.log(err);
     }

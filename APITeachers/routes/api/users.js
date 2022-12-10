@@ -73,7 +73,6 @@ router.put("/location/user=:userid", checkUser, async (req, res) => {
     try {
         const result = await updateLocation(userid, newLocation);
         const user = await getById(userid);
-        console.log(user);
         res.json(user);
     } catch (error) {
         res.json({ Error: error.message });

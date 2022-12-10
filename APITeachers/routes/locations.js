@@ -5,7 +5,6 @@ const {getCitiesByProvince, getAllProvinces, getAllCities} = require('../models/
 router.get('/provinces/cities/:province_id',(req, res) =>{
     
     const {province_id} = req.params;
-    console.log(req.params)
     try{
         const cities = getCitiesByProvince(province_id);
         res.json(cities);
