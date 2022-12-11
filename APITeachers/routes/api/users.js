@@ -10,12 +10,12 @@ router.get("/", async (req, res) => {
     try {
         const arrUsers = await getAll();
         if (arrUsers.length === 0) {
-            res.json({ Message: 'There is no admin users', arrUsers });
+            res.status(400).json({ Message: 'There is no admin users', arrUsers });
         } else {
-            res.json(arrUsers);
+            res.status(200).json(arrUsers);
         }
     } catch (error) {
-        res.json({ Error: error.message });
+        res.status(400).json({ Error: error.message });
     }
 });
 
@@ -24,9 +24,9 @@ router.get("/user=:userid", checkUser, async (req, res) => {
     const { userid } = req.params;
     try {
         const user = await getById(userid);
-        res.json(user);
+        res.status(200).json(user);
     } catch (error) {
-        res.json({ Error: error.message });
+        res.status(400).json({ Error: error.message });
     }
 });
 
@@ -35,9 +35,9 @@ router.get("/email=:useremail", checkEmail, async (req, res) => {
     const { useremail } = req.params;
     try {
         const user = await getByEmail(useremail);
-        res.json(user);
+        res.status(200).json(user);
     } catch (error) {
-        res.json({ Error: error.message });
+        res.status(400).json({ Error: error.message });
     }
 });
 
@@ -47,9 +47,9 @@ router.post("/new", checkSchema(newUser), checkError, async (req, res) => {
     try {
         const result = await create(newuser);
         const user = await getById(result.insertId);
-        res.json(user);
+        res.status(200).json(user);
     } catch (error) {
-        res.json({ Error: error.message });
+        res.status(400).json({ Error: error.message });
     }
 });
 
@@ -60,9 +60,9 @@ router.put("/update/user=:userid", checkUser, async (req, res) => {
     try {
         const result = await update(userid, newData);
         const user = await getById(userid);
-        res.json(user);
+        res.status(200).json(user);
     } catch (error) {
-        res.json({ Error: error.message });
+        res.status(400).json({ Error: error.message });
     }
 });
 
@@ -73,9 +73,9 @@ router.put("/location/user=:userid", checkUser, async (req, res) => {
     try {
         const result = await updateLocation(userid, newLocation);
         const user = await getById(userid);
-        res.json(user);
+        res.status(200).json(user);
     } catch (error) {
-        res.json({ Error: error.message });
+        res.status(400).json({ Error: error.message });
     }
 });
 

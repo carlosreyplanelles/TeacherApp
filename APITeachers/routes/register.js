@@ -25,10 +25,10 @@ router.post('/student', checkSchema(newStudent), checkCity, checkError, async (r
         const response = await Student.create(req.body);
         const student = await Student.getById(response.insertId);
 
-        res.json(student);
+        res.status(200).json(student);
         
     } catch (err) {
-        res.json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 

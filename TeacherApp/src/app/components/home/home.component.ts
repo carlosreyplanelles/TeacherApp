@@ -10,6 +10,8 @@ import { TeachersService } from 'src/app/services/teachers.service';
 import { UsersService } from 'src/app/services/users.service';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -40,32 +42,44 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    try {
+      /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO */
+      if (this.userid !== undefined) {
+        let response;
 
-    /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO */
-    if (this.userid !== undefined) {
-      let response;
+        switch (this.userRole) {
+          case 'admin':
+            response = await this.usersService.getById(this.userid);
+            break;
+          case 'teacher':
+            response = await this.teachersService.getById(this.userid);
+            break;
+          case 'student':
+            response = await this.studentsService.getById(this.userid);
+            break;
+        }
 
-      switch (this.userRole) {
-        case 'admin':
-          response = await this.usersService.getById(this.userid);
-          break;
-        case 'teacher':
-          response = await this.teachersService.getById(this.userid);
-          break;
-        case 'student':
-          response = await this.studentsService.getById(this.userid);
-          break;
+        this.currentUser = response;
       }
 
-      this.currentUser = response;
+      /* POSICIONAR USUARIO LOGEADO */
+      await this.setCurrentLocation();
+
+      /* AÑADIR PROFESORES EN EL MAPA */
+      await this.getAllTeachers();
     }
-
-    /* POSICIONAR USUARIO LOGEADO */
-    await this.setCurrentLocation();
-
-    /* AÑADIR PROFESORES EN EL MAPA */
-    await this.getAllTeachers();
-
+    catch (error: any) {     
+      const msgError = (error.error['error']!==undefined ?error.error['error'] : (error.error['Error']!==undefined ? error.error['Error'] : error.error['Message']));     
+      Swal.fire({
+        icon: 'error',
+        title: '\'' + error.status + ' -' + error.statusText + '\' Error al cargar TeacherApp',
+        html: `<div style="text-align: left;">
+                <p>Ha ocurrido un error, inténtelo de nuevo más tarde</p>
+                <p>Detalles: ${msgError}</p>
+              </div>`
+      });
+      this.router.navigate(['/landing-page']);
+    }
   }
 
   async setCurrentLocation() {

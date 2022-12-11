@@ -33,7 +33,13 @@ router.get('/', async (req, res) => {
         res.status(200).json(teachers);
 
     } catch (error) {
-        res.status(400).json({ error: "GET Error " + error.errno + ": " + error.message });
+        if (error.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        }
+        res.json({ error: "Error " + error.errno + ": " + error.message });
     }
 });
 
@@ -55,7 +61,13 @@ router.get('/:teacherId', async (req, res) => {
         }
     }
     catch (error) {
-        res.status(400).json({ error: "Error " + error.errno + ": " + error.message });
+        if (error.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        }
+        res.json({ error: "Error " + error.errno + ": " + error.message });
     }
 });
 
@@ -74,7 +86,13 @@ router.get('/hours/:teacherId', async (req, res) => {
         }
     }
     catch (error) {
-        res.status(400).json({ error: "Error " + error.errno + ": " + error.message});
+        if (error.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        }
+        res.json({ error: "Error " + error.errno + ": " + error.message});
     }   
 });
 
@@ -103,7 +121,13 @@ router.get('/filters/:filterId', async (req, res) => {
         }
 
     } catch (error) {
-        res.status(400).json({ error: "GET Teacher Filtered Error " + error.errno + ": " + error.message });
+        if (error.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        }
+        res.json({ error: "Teacher Filtered Error " + error.errno + ": " + error.message });
     }
 });
 
@@ -153,7 +177,7 @@ router.post('/',
             else {
                 res.status(400);
             }
-            res.json({ error: "POST Error " + error.errno + ": " + error.message });
+            res.json({ error: "Error " + error.errno + ": " + error.message });
         }
     }
 );
@@ -189,14 +213,18 @@ router.put('/:teacherId',
             //Actualizo teacher
             const result = await updateTeacher(teacherId, req.body);
 
-            /**TODO: Respuesta: ¿Resultado de la operación o los datos getTeacherbyid?*/
+            //Resultado de la operación 
             res.status(200).json(result);
         }
         catch (error) {
-
-            res.status(400).json({
-                error: "PUT Error " + error.errno + ": " + error.message,
-                result: "No se pudo actualizar el profesor " + teacherId
+            if (error.code === 'ECONNREFUSED') {
+                res.status(503);
+            }
+            else {
+                res.status(400);
+            }
+            res.json({
+                error: "Error " + error.errno + ": " + error.message + ". No se pudo actualizar el profesor " + teacherId + "."
             });
         }
     }
@@ -233,11 +261,14 @@ router.put('/validate/:teacherId',
            teacherData.leaving_date = null;          
            res.status(200).json(teacherData);
         } 
-        catch (error) {      
-           
-           res.status(400).json({ error: "PUT Error " + error.errno + ": " + error.message,
-                                   result: "No se pudo validar al profesor " + teacherId
-                                });
+        catch (error) {   
+            if (error.code === 'ECONNREFUSED') {
+                res.status(503);
+            }
+            else {
+                res.status(400);
+            } 
+           res.json({ error: "Error " + error.errno + ": " + error.message + ". No se pudo validar al profesor " + teacherId + "."});
         }
     }
 );
@@ -273,10 +304,13 @@ router.delete('/:teacherId',
             res.status(200).json(teacher);
         }
         catch (error) {
-            res.status(400).json({
-                error: "DELETE Error " + error.errno + ": " + error.message,
-                result: "No se pudo dar de baja al profesor " + teacherId
-            });
+            if (error.code === 'ECONNREFUSED') {
+                res.status(503);
+            }
+            else {
+                res.status(400);
+            } 
+            res.json({ error: "Error " + error.errno + ": " + error.message +". No se pudo dar de baja al profesor " + teacherId + "."});
         }
     }
 );
@@ -287,7 +321,13 @@ router.get('/active', async (req, res) => {
         teachers = await getActiveTeacher();
         res.status(200).json(teachers);
     } catch (error) {
-        res.status(400).json({ error: "GET Error " + error.errno + ": " + error.message });
+        if (error.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        } 
+        res.json({ error: "Error " + error.errno + ": " + error.message });
     }
 });
 
@@ -300,7 +340,13 @@ router.get('/pending', async (req, res) => {
         res.status(200).json(teachers);
     } 
     catch (error) {
-        res.status(400).json({ error: "GET Error " + error.errno + ": " + error.message });
+        if (error.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        } 
+        res.json({ error: "Error " + error.errno + ": " + error.message });
     }
 });
 

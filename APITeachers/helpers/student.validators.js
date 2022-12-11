@@ -132,13 +132,19 @@ const checkStudent = async (req, res, next) => {
         const student = await Student.getById(studentId);
 
         if (!student) {            
-            return res.status(404).json({ error: 'No existe el estudiante con Id = ' + studentId + '. Debe darlo de alta en la base de datos.' });
+            return res.status(400).json({ error: 'No existe el estudiante con Id = ' + studentId + '. Debe darlo de alta en la base de datos.' });
         }
 
         next();       
     } 
-    catch (error) {        
-        return res.status(400).json({ error: 'No se pudo verificar el estudiante con Id = ' + studentId + '. Error ' + error.errno + ": " + error.message});        
+    catch (error) {     
+        if (err.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        }   
+        return res.json({ error: 'No se pudo verificar el estudiante con Id = ' + studentId + '. Error ' + error.errno + ": " + error.message});        
     }
 }
 

@@ -9,24 +9,28 @@ const { createToken } = require('../helpers/utils');
 
 
 router.post('/login', async (req, res) => {
+
     const { email, password } = req.body;
 
-    // Checks if email exists
-    const user = await getByEmail(email);
-    if(!user) {
-        return res.json({ error: "Error en email y/o contraseña" });
-    }
-
-    // Checks if the passwords are the same
-    const same = bcrypt.compareSync(password, user.password)
-    // const same = (password === user.password);
-    if (!same) {
-        return res.json({ error: "Error en email y/o contraseña" });
-    }
-    
-    // Login success
-    let id;
     try {
+
+        // Checks if email exists
+        const user = await getByEmail(email);
+
+        if(!user) {
+            return res.status(400).json({ error: "Error en email y/o contraseña" });
+        }
+
+        // Checks if the passwords are the same
+        const same = bcrypt.compareSync(password, user.password)
+        // const same = (password === user.password);
+        if (!same) {
+            return res.status(400).json({ error: "Error en email y/o contraseña" });
+        }
+        
+        // Login success
+        let id;
+    
         res_student = await Student.getIdByUserId(user.id);
         res_teacher = await Teacher.getIdByUserId(user.id);
 
@@ -42,11 +46,18 @@ router.post('/login', async (req, res) => {
                 break;
         };
     
-        res.json({
+        res.status(200).json({
             success: true,
             token: createToken(id, user.title)
         });
+
     } catch (err) {
+        if (err.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        }
         return res.json({ error: err.message });
     }
 })

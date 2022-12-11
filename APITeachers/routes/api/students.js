@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         const students = await Student.getAll();
         res.status(200).json(students);
     } catch (err) {
-        res.json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -30,7 +30,7 @@ router.get('/:studentId',
             const student = await Student.getById(studentId);
             res.status(200).json(student);
         } catch (err) {
-            res.json({ error: err.message });
+            res.status(400).json({ error: err.message });
         }
     });
 
@@ -101,7 +101,7 @@ router.put('/:studentId',
             res.status(200).json(newStudent);
         } catch (err) {
             res.status(400).json({
-                error: "PUT Error " + err.errno + ": " + err.message,
+                error: "Error " + err.errno + ": " + err.message,
                 result: "No se pudo actualizar el estudiante " + studentId
             });
         }
@@ -140,7 +140,7 @@ router.delete('/:studentId',
         }
         catch (error) {
             res.status(400).json({
-                error: "DELETE Error " + error.errno + ": " + error.message,
+                error: "Error " + error.errno + ": " + error.message,
                 result: "No se pudo dar de baja al estudiante " + studentId
             });
         }
@@ -153,7 +153,7 @@ router.get('/status/active', async (req, res) => {
         const students = await Student.getActiveStudent();
         res.status(200).json(students);
     } catch (err) {
-        res.json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -163,7 +163,7 @@ router.get('/status/inactive', async (req, res) => {
         const students = await Student.getInactiveStudent();
         res.status(200).json(students);
     } catch (err) {
-        res.json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -203,7 +203,7 @@ router.put('/:studentId/activate',
         }
         catch (err) {
             res.status(400).json({
-                error: "PUT Error " + err.errno + ": " + err.message,
+                error: "Error " + err.errno + ": " + err.message,
                 result: "No se pudo activar el estudiante " + studentId
             });
         }

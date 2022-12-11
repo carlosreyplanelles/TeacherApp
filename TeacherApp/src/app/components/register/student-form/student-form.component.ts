@@ -65,52 +65,54 @@ export class StudentFormComponent implements OnInit {
       avatar: new FormControl('',[])
     }, [this.checkPassword]);
   }
-  
-  ngOnInit(): void {
 
-    this.getProvinces()
-    this.getCities()
+  async ngOnInit(): Promise<void> {
 
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      this.userLat = latitude,
-      this.userLon = longitude
-    })
-    this.activatedRoute.params.subscribe(async (params: any) => {
+    try {
 
-      if (params.studentId) {
-        this.accion = "Actualizar"
-        this.storedStudent = await this.studentsService.getById(params.studentId)
-        this.citiesbyProvince = this.cities.filter(c => c.province_id == parseInt(this.storedStudent.province_id))
+        this.provinces = await this.locationsService.getAllProvince();
+        this.cities = await this.locationsService.getAllCities();
 
-        this.studentForm.patchValue({
-          name: this.storedStudent.name,
-          surname: this.storedStudent.surname,
-          email: this.storedStudent.email,
-          address: this.storedStudent.address,
-          avatar: this.storedStudent.avatar,
-          phone: this.storedStudent.phone,
-          city_id: this.storedStudent.city_id,
-          province_id: this.storedStudent.province_id
+        navigator.geolocation.getCurrentPosition(position => {
+          const { latitude, longitude } = position.coords;
+          this.userLat = latitude;
+          this.userLon = longitude;
         })
-      }
-    })
-  }
 
-  async getProvinces() {
-    try{
-      this.provinces =  await this.locationsService.getAllProvince()
-    } catch(error) {
-      console.log (`FATAL : ${{error}}`)
+        this.activatedRoute.params.subscribe(async (params: any) => {
+    
+          if (params.studentId) {
+            this.accion = "Actualizar"
+            this.storedStudent = await this.studentsService.getById(params.studentId)            
+            this.citiesbyProvince = this.cities.filter(c => c.province_id == parseInt(this.storedStudent.province_id))
+    
+            this.studentForm.patchValue({
+              name: this.storedStudent.name,
+              surname: this.storedStudent.surname,
+              email: this.storedStudent.email,
+              address: this.storedStudent.address,
+              avatar: this.storedStudent.avatar,
+              phone: this.storedStudent.phone,
+              city_id: this.storedStudent.city_id,
+              province_id: this.storedStudent.province_id
+            });
+            
+          }
+        })   
     }
-  }
+    catch (error: any) {
+      const msgErrorLoad = error.error['fatal'];        
+      Swal.fire({
+        icon: 'error',
+        title: '\'' + error.status + ' -' + error.statusText + '\' Error al cargar el formulario',
+        html: `<div style="text-align: left;">
+                <p>Ha ocurrido un error, inténtelo de nuevo más tarde</p>
+                <p>Detalles: ${msgErrorLoad}</p>
+              </div>`
+      });
+      this.router.navigate(['/landing-page']);
+    }
 
-  async getCities(){
-    try{
-      this.cities = await this.locationsService.getAllCities()
-    } catch(error) {
-      console.log (`FATAL : ${{error}}`)
-    }
   }
 
   onSelected(e:any){
@@ -149,14 +151,14 @@ export class StudentFormComponent implements OnInit {
                 icon: 'success',
                 title: 'El Usuario ha sido creado correctamente.',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1800
               })
               this.router.navigate(['/login'])
             } else {
               Swal.fire({
                 icon: 'error',
                 title: 'Error al registrar',
-                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+                text: 'Ha ocurrido un error, inténtelo de nuevo más tarde',
               })
             }
           }
@@ -184,7 +186,7 @@ export class StudentFormComponent implements OnInit {
                 icon: 'success',
                 title: 'Datos actualizados.',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1800
               })
             }
             this.router.navigate(['/perfil']);
@@ -192,7 +194,7 @@ export class StudentFormComponent implements OnInit {
             Swal.fire({
               icon: 'error',
               title: 'Error al Actualizar',
-              text: 'Ha ocurrido un error intentelo de nuevo más tarde',
+              text: 'Ha ocurrido un error inténtelo de nuevo más tarde',
             })
           }
         }

@@ -29,6 +29,7 @@ export class TeacherFormComponent implements OnInit {
   timeStampList:any[]=[]
   userLat: number | undefined = undefined
   userLon: number | undefined = undefined
+  msgErrorLoad: string = "";
 
   constructor( 
     private locationsService: LocationsService,
@@ -76,42 +77,60 @@ export class TeacherFormComponent implements OnInit {
     }, [this.checkPassword, this.scheduleTimesCheck]);
   }
   
-  ngOnInit(): void {
-    this.getProvinces()
-    this.getCities()
-    this.getBranches()
-    this.createTimeStamps()
+  async ngOnInit(): Promise<void> { 
+   
+    try {
 
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      this.userLat = latitude,
-      this.userLon = longitude
-    })
+      this.provinces =  await this.locationsService.getAllProvince();
+      this.cities = await this.locationsService.getAllCities();
+      this.branches = await this.branchesService.getAll();
 
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      if (params.teacherId) {
-        this.accion = "Actualizar"
-        this.storedTeacher = await this.teachersService.getById(params.teacherId)
-        this.citiesbyProvince = this.cities.filter(c => c.province_id == parseInt(this.storedTeacher.province_id))
+      this.createTimeStamps();
 
-        this.teacherForm.patchValue({
-          name: this.storedTeacher.name,
-          surname: this.storedTeacher.surname,
-          email: this.storedTeacher.email,
-          address: this.storedTeacher.address,
-          avatar: this.storedTeacher.avatar,
-          phone: this.storedTeacher.phone,
-          city_id: this.storedTeacher.city_id,
-          province_id: this.storedTeacher.province_id,
-          subjects: this.storedTeacher.subjects,
-          branch_id : this.storedTeacher.branch_id,
-          experience : this.storedTeacher.experience,
-          price_hour : this.storedTeacher.price_hour,
-          start_class_hour: this.storedTeacher.start_class_hour,
-          end_class_hour: this.storedTeacher.end_class_hour
-        })
-      }
-    })
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        this.userLat = latitude,
+        this.userLon = longitude
+      })
+  
+      this.activatedRoute.params.subscribe(async (params: any) => {
+        if (params.teacherId) {
+          this.accion = "Actualizar"
+          this.storedTeacher = await this.teachersService.getById(params.teacherId);
+          this.citiesbyProvince = this.cities.filter(c => c.province_id == parseInt(this.storedTeacher.province_id));
+
+          this.teacherForm.patchValue({
+            name: this.storedTeacher.name,
+            surname: this.storedTeacher.surname,
+            email: this.storedTeacher.email,
+            address: this.storedTeacher.address,
+            avatar: this.storedTeacher.avatar,
+            phone: this.storedTeacher.phone,
+            city_id: this.storedTeacher.city_id,
+            province_id: this.storedTeacher.province_id,
+            subjects: this.storedTeacher.subjects,
+            branch_id : this.storedTeacher.branch_id,
+            experience : this.storedTeacher.experience,
+            price_hour : this.storedTeacher.price_hour,
+            start_class_hour: this.storedTeacher.start_class_hour,
+            end_class_hour: this.storedTeacher.end_class_hour
+          });
+        }
+      });
+    } 
+    catch(error: any) {   
+      this.msgErrorLoad += error.error['fatal'];         
+      Swal.fire({
+        icon: 'error',
+        title: '\'' + error.status + ' -' + error.statusText + '\' Error al cargar el formulario',
+        html: `<div style="text-align: left;">
+                <p>Ha ocurrido un error, inténtelo de nuevo más tarde</p>
+                <p>Detalles: ${this.msgErrorLoad}</p>
+              </div>`
+      });
+      this.router.navigate(['/landing-page']);
+    }
+      
   }
 
   createTimeStamps(){
@@ -122,30 +141,6 @@ export class TeacherFormComponent implements OnInit {
         hour:i+':00'
       }
       this.timeStampList.push(timeStamp)
-    }
-  }
-
-  async getProvinces() {
-    try{
-      this.provinces =  await this.locationsService.getAllProvince()
-    } catch(error) {
-      console.log (`FATAL : ${{error}}`)
-    }
-  }
-
-  async getCities(){
-    try{
-      this.cities = await this.locationsService.getAllCities()
-    } catch(error) {
-      console.log (`FATAL : ${{error}}`)
-    }
-  }
-
-  async getBranches(){
-    try{
-      this.branches = await this.branchesService.getAll()
-    } catch(error) {
-      console.log (`FATAL : ${{error}}`)
     }
   }
 
@@ -162,40 +157,62 @@ export class TeacherFormComponent implements OnInit {
       this.activatedRoute.params.subscribe(async (params: any) => {
 
           const user = await this.usersService.findByEmail(this.teacherForm.value.email)
-          let response
-          let teacher = this.teacherForm.value
+         
+          let response: any;
+          let teacher = this.teacherForm.value         
           
           if (!params.teacherId) {
             if (user != null) {
-              alert("Error al registrar el usuario.El correo utilizado ya existe.")
-            } else {
-
+              alert("Error al registrar el usuario. El correo utilizado ya existe.")
+            } 
+            else {
               
               if (this.userLat != undefined) {
                 teacher.latitude = this.userLat
                 teacher.longitude = this.userLon
               }
 
-              response = await this.teachersService.create(teacher)
-              if (response.teacher_id) {
-                Swal.fire({
-                  position: 'center',
-                  icon: 'success',
-                  title: 'El usuario ha sido creado correctamente.',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-                this.router.navigate(['/login']);
-              } else {
+              try {
+
+                response = await this.teachersService.create(teacher);
+                
+                if (response.teacher_id) {
+                  Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'El usuario se ha registrado correctamente.',
+                    showConfirmButton: false,
+                    timer: 1800
+                  })
+                  this.router.navigate(['/login']);
+                }
+              }
+              catch (error: any) {                
+                let msgErrorForm: string = "";
+                if (error.error!== undefined) {
+                  for(var json in error.error){
+                    if (error.error[json].msg!== undefined) {
+                      msgErrorForm+= "<p> * " + error.error[json].msg + "</p>";
+                    }
+                    else {
+                      msgErrorForm+= "<p> Error general en TeacherApp: " + error.error[json] + ". Contacte con el administrador de la aplicación</p>";
+                    }
+                  }  
+                }
+                else {
+                  msgErrorForm += 'Ha ocurrido un error inténtelo de nuevo más tarde';
+                }
 
                 Swal.fire({
+                  position: 'center',
                   icon: 'error',
-                  title: 'Error al registrar',
-                  text: 'Ha ocurrido un error intentelo de nuevo más tarde',
-                })
+                  title: '\'' + error.status + ' -' + error.statusText + '\' Error al registrarse en TeacherApp',
+                  html: `<div style="text-align: left;">${msgErrorForm}</div>`
+                });
               }
             }
-          } else {
+          } 
+          else {
               this.storedTeacher.name = teacher.name,
               this.storedTeacher.surname = teacher.surname,
               this.storedTeacher.email = teacher.email,
@@ -212,29 +229,53 @@ export class TeacherFormComponent implements OnInit {
               this.storedTeacher.role_id = this.teacher_role_id,
               this.storedTeacher.start_class_hour = teacher.start_class_hour,
               this.storedTeacher.end_class_hour = teacher.end_class_hour
+
               if (this.userLat != undefined) {
                 this.storedTeacher.latitude = this.userLat
                 this.storedTeacher.longitude = this.userLon
               }
-            try {
-              const response = await this.teachersService.update(this.storedTeacher);
-              if (response.success) {
+              try {
+                const response = await this.teachersService.update(this.storedTeacher);
+                
+                if (response.affectedRows === 1) {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Se han actualizado los datos satisfactoriamente.',
+                    showConfirmButton: false,
+                    timer: 1800
+                  });
+                  this.router.navigate(['/perfil']);
+                }
+                else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ha ocurrido un error, revise los datos e inténtelo de nuevo.',
+                    showConfirmButton: false,
+                    timer: 1800
+                  });
+                }
+              } 
+              catch (error: any) {                
+                let msgErrorForm: string = "";
+                if (error.error!== undefined) {
+                  for(var json in error.error){
+                    if (error.error[json].msg!== undefined) {
+                      msgErrorForm+= "<p> * " + error.error[json].msg + "</p>";
+                    }
+                    else {
+                      msgErrorForm+= "<p> Error general en TeacherApp: " + error.error[json] + ". Contacte con el administrador de la aplicación</p>";
+                    }
+                  }  
+                }
+                else {
+                  msgErrorForm += 'Ha ocurrido un error inténtelo de nuevo más tarde';
+                }
                 Swal.fire({
-                  icon: 'success',
-                  title: 'Datos actualizados.',
-                  showConfirmButton: false,
-                  timer: 1500
+                  icon: 'error',
+                  title: '\'' + error.status + ' -' + error.statusText + '\' Error al actualizar los datos en TeacherApp',                  
+                  html: `<div style="text-align: left;">${msgErrorForm}</div>`                  
                 })
               }
-              this.router.navigate(['/perfil']);
-            } catch (error) {
-              Swal.fire({
-                icon: 'error',
-                title: 'Error al actualizar',
-                text: 'Ha ocurrido un error intentelo de nuevo más tarde',
-              })
-
-            }
           }
         
       })
@@ -242,7 +283,7 @@ export class TeacherFormComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error del formulario',
-        text: 'Los datos introducidos son incorrectos. Por favor revise la información introducida.',
+        text: 'Los datos introducidos son incorrectos. Por favor, revise la información introducida.',
       })
     }
   }
