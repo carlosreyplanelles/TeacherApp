@@ -5,7 +5,7 @@
 }
 
 .center-text{
-    padding-top: 15rem;
+    padding-top: 4rem;
     text-align: center;  
     color: white;
 }
@@ -39,21 +39,6 @@
     font-size: 1.1rem;
     transition: all 1s;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -155,4 +140,114 @@
 }.point-r-8{
     bottom: 250px;
     right: 450px;
+}
+
+
+
+
+
+@media (max-width: 992px) {
+    
+    .landing-page{
+        height: 150vh;
+    }
+    .images{
+        transform: translateY(500px);
+    }
+    .planet-1{
+        bottom: -100px;
+        width: 375px;
+        height: 375px;
+    }
+    .planet-2{
+        bottom: 100px;
+        right: 300px;
+        width: 250px;
+        height: 250px
+    }
+    .planet-3{
+        bottom: 175px;
+        left: 25px;
+        width: 125px;
+        height: 125px;
+    }
+    .planet-4{
+        right: 0;
+        bottom: -150px;
+        width: 400px;
+        height: 400px;
+    }
+    .point-l-3{
+        display: none;
+    }
+    .point-l-4{
+        display: none;
+    }
+    .point-l-5{
+        display: none;
+    }
+    .point-r-4{
+        display: none;
+    }
+    .point-r-6{
+        display: none;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    .app-name{
+        font-size: 4rem;
+    }
+    .coming{
+        font-size: 1.5rem;
+    }
+    .planet-3{
+        display: none;
+    }
+    .planet-1{
+        display: none;
+    }
+    .point-l-1{
+        display: none;
+    }
+    .point-l-6{
+        display: none;
+    }
+    .point-l-2{
+        display: none;
+    }
+}
+@media (max-width: 575px) {
+    .app-name{
+        font-size: 3rem;
+    }
+    .coming{
+        font-size: 1.2rem;
+    }
+    .planet-2{
+        display: none;
+    }
+    .point-r-3{
+        display: none;
+    }
+    .point-r-7{
+        display: none;
+    }
+    .point-r-8{
+        display: none;
+    }
+    
+}
+@media (max-width: 400px) {
+    .landing-page{
+        height: 90vh;
+    }
+    .planet{
+        display: none;
+    }
+    .point{
+        display: none;
+    }    
 }
