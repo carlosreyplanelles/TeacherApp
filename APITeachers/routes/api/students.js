@@ -178,7 +178,14 @@ router.put('/:studentId/activate',
 
         try {
 
-            // Recupero al estudiante
+            //Se activa el estudiante
+            const resultStudent = await Student.activate(studentId);
+
+            if (resultStudent.affectedRows !== 1) {
+                return res.status(400).json({ error: "No se pudo activar al estudiante " + studentId });
+            }
+
+            //Recupero al estudiante
             const student = await Student.getById(studentId);
 
             //Habilitar en usuarios
@@ -189,13 +196,6 @@ router.put('/:studentId/activate',
                     error: "Se ha activado al estudiante " + studentId + " pero ocurrió un error al quitar la baja en usuarios. Contacte con el administrador",
                     data: resultUser
                 });
-            }
-
-            // Se activa el estudiante
-            const resultStudent = await Student.activate(studentId);
-
-            if (resultStudent.affectedRows !== 1) {
-                return res.status(400).json({ error: "No se pudo activar al estudiante " + studentId });
             }
 
             student.leaving_date = null;
