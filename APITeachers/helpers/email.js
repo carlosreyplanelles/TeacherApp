@@ -58,7 +58,9 @@ async function sendMailAPiTeachers(dataTeacherMail) {
     // Send email
     return await transporter.sendMail(mailOptions)
         .then(success => "Email enviado")
-        .catch(error => error.message);
+        .catch(error => {
+            throw error;
+        });
 }
 
 module.exports = { sendMailAPiTeachers };
