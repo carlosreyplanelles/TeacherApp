@@ -23,7 +23,7 @@
                 <td>{{ class.start_date }}</td>
                 <td>{{ class.start_hour }}:00 - {{ class.end_hour }}:00</td>
                 <td>
-                    <a [routerLink]="['/estudiante', class?.student_id]" title="Ver ficha del alumno"><span style="color: rgba(31, 62, 104, 0.774);"><i class="fa-regular fa-address-card fa-xl"></i></span></a>&nbsp;&nbsp;                    
+                    <a class="btn btn-outline-secondary me-2" [routerLink]="['/estudiante', class?.student_id]" title="Ver ficha del alumno"><span style="color: rgba(31, 62, 104, 0.774);"><i class="fa-regular fa-address-card fa-xl"></i></span> Ver perfil</a>&nbsp;&nbsp;                    
                 </td>            
             </tr>
         </tbody>

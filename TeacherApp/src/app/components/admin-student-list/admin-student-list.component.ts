@@ -13,17 +13,25 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
   selector: 'app-admin-student-list',
   templateUrl: './admin-student-list.component.html',
   styleUrls: ['./admin-student-list.component.css'],
-  providers:[{
+  providers: [{
     provide: MatPaginatorIntl, useValue: CustomPaginator()
   }]
 })
 export class AdminStudentListComponent implements AfterViewInit {
+
+  selectStatus: any[] = [
+    { value: '', viewValue: 'Todos' },
+    { value: '1', viewValue: 'Activado' },
+    { value: '0', viewValue: 'Desactivado' },
+  ];
+
   displayedColumns: string[] = [
     'id',
     'name',
     'city',
-    'contact',
+    'email',
     'creation_date',
+    'active',
     'admin',
   ];
   dataSource: MatTableDataSource<Student>;
@@ -40,7 +48,7 @@ export class AdminStudentListComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
+  applyFilterName(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -49,13 +57,76 @@ export class AdminStudentListComponent implements AfterViewInit {
     }
   }
 
+  applyFilterStatus(event: Event | string) {
+    this.dataSource.filter = event.toString();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   async ngOnInit(): Promise<void> {
+    this.dataSource.filterPredicate = function (
+      student: Student,
+      filter: string
+    ): boolean {
+      return (
+        student.name.toLowerCase().includes(filter) ||
+        student.active.toString() === filter
+      );
+    };
+
     try {
       let response = await this.studentsService.getAll();
       this.dataSource.data = response;
     } catch (err: any) {
       console.log(err.error);
     }
+  }
+
+  activeStudent(studentId: number) {
+    const idStudent = studentId;
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-secondary me-3 ',
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: `¿Deseas activar el usuario?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            let response = await this.studentsService.activate(idStudent);
+            if (response.user_id) {
+              swalWithBootstrapButtons.fire('Usuario activado');
+              this.ngOnInit();
+            } else {
+              swalWithBootstrapButtons.fire(
+                'Error',
+                `${response.error}`,
+                'error'
+              );
+            }
+          } catch (error: any) {
+            console.log(error.message);
+          }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire(
+            'Cancelado',
+            'El usuario no ha sido activado',
+            'error'
+          );
+        }
+      });
   }
 
   deleteStudent(studentId: number) {
@@ -70,7 +141,7 @@ export class AdminStudentListComponent implements AfterViewInit {
 
     swalWithBootstrapButtons
       .fire({
-        title: `¿Deseas borrar el usuario?`,
+        title: `¿Deseas desactivar el usuario?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -82,7 +153,7 @@ export class AdminStudentListComponent implements AfterViewInit {
           try {
             let response = await this.studentsService.delete(idStudent);
             if (response.affectedRows > 0) {
-              swalWithBootstrapButtons.fire('Usuario borrado');
+              swalWithBootstrapButtons.fire('Usuario desactivado');
               this.ngOnInit();
             } else {
               swalWithBootstrapButtons.fire(
@@ -99,7 +170,7 @@ export class AdminStudentListComponent implements AfterViewInit {
         ) {
           swalWithBootstrapButtons.fire(
             'Cancelado',
-            'El usuario no ha sido borrado',
+            'El usuario no ha sido desactivado',
             'error'
           );
         }

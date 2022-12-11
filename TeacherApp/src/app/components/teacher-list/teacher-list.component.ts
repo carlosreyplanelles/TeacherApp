@@ -36,8 +36,8 @@ export class TeacherListComponent implements OnInit {
       isChecked: false,
     },
     {
-      name: 'Ingieniería y Arquitectura',
-      value: 'Ingieniería y Arquitectura',
+      name: 'Ingeniería y Arquitectura',
+      value: 'Ingeniería y Arquitectura',
       id: 'ingenieriaArquitactura',
       isChecked: false,
     },
@@ -80,7 +80,7 @@ export class TeacherListComponent implements OnInit {
       'Ciencias',
       'Arte y Humanidades',
       'Ciencias de la Salud',
-      'Ingieniería y Arquitectura',
+      'Ingeniería y Arquitectura',
     ],
     priceMax: 1000,
     priceMin: 1,
@@ -138,7 +138,7 @@ export class TeacherListComponent implements OnInit {
         'Ciencias',
         'Arte y Humanidades',
         'Ciencias de la Salud',
-        'Ingieniería y Arquitectura',
+        'Ingeniería y Arquitectura',
       ];
     }
     this.filteredTeachers();
@@ -196,7 +196,7 @@ export class TeacherListComponent implements OnInit {
         'Ciencias',
         'Arte y Humanidades',
         'Ciencias de la Salud',
-        'Ingieniería y Arquitectura',
+        'Ingeniería y Arquitectura',
       ],
       priceMax: 1000,
       priceMin: 1,

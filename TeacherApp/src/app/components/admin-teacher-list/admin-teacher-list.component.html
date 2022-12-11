@@ -1,6 +1,5 @@
 <div class="container">
 
-
     <div class="row mt-4 text-center">
         <h2>Administración de profesores</h2>
         <div class="d-flex justify-content-between">
@@ -19,8 +18,8 @@
             </mat-form-field>
         </div>
     </div>
-    
-    <div class="mat-elevation-z8">
+
+    <div class="mat-elevation-z8 table-container">
         <table mat-table [dataSource]="dataSource" matSort>
 
             <!-- ID Column -->
@@ -33,53 +32,62 @@
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-                <td mat-cell *matCellDef="let teacher"> {{teacher.name}} {{teacher.surname}}</td>
+                <td mat-cell *matCellDef="let teacher" class="p-2"> {{teacher.name}} {{teacher.surname}}</td>
             </ng-container>
 
             <!-- City Column -->
             <ng-container matColumnDef="city" class="m-0">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad </th>
-                <td mat-cell *matCellDef="let teacher"> {{teacher.city}}<br> {{teacher.province}} </td>
+                <td mat-cell *matCellDef="let teacher" class="p-2"> {{teacher.city}}<br> {{teacher.province}} </td>
             </ng-container>
 
             <!-- Branch Column -->
             <ng-container matColumnDef="branch_title">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Rama </th>
-                <td mat-cell *matCellDef="let teacher"> {{teacher.branch_title}}</td>
+                <td mat-cell *matCellDef="let teacher" class="p-2"> {{teacher.branch_title}}</td>
             </ng-container>
 
             <!-- Contact Column -->
-            <ng-container matColumnDef="contact">
+            <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Contacto </th>
-                <td mat-cell *matCellDef="let teacher"> {{teacher.email}} <br>{{teacher.phone}}</td>
+                <td mat-cell *matCellDef="let teacher" class="p-2"> {{teacher.email}} <br>{{teacher.phone}}</td>
             </ng-container>
 
             <!-- State Date Column -->
             <ng-container matColumnDef="validated">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-                <td mat-cell *matCellDef="let teacher"><span *ngIf="teacher.validated == 0; 
-                            else desactivate">Activado</span>
-                    <ng-template #desactivate>Desactivado</ng-template>
+                <td mat-cell *matCellDef="let teacher" class="p-2"><span *ngIf="teacher.validated == 0; 
+                            else activate">Desactivado</span>
+                    <ng-template #activate>Activado</ng-template>
                 </td>
             </ng-container>
 
             <!--  Admin Column -->
             <ng-container matColumnDef="admin">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Administración</th>
+                <th mat-header-cell *matHeaderCellDef>Administración</th>
                 <td mat-cell *matCellDef="let teacher">
 
-                    <span class="d-flex m-2 ms-4">
+                    <span class="d-flex gap-1">
                         <button type="button"
-                            class="btn btn-outline-primary me-2 rounded-circle justify-content-center">
-                            <mat-icon fontIcon="info" [routerLink]="['/profesor', teacher?.teacher_id]">Detalles</mat-icon>
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary me-2 rounded-circle">
-                            <mat-icon fontIcon="edit" [routerLink]="['/actualizar/profesor', teacher?.teacher_id]">Editar
+                            class="btn btn-outline-primary me-2 rounded-circle justify-content-center" title="Detalles">
+                            <mat-icon fontIcon="info" [routerLink]="['/profesor', teacher?.teacher_id]">Detalles
                             </mat-icon>
                         </button>
-                        <button type="button" class="btn btn-outline-danger rounded-circle">
+                        <button type="button" class="btn btn-outline-secondary me-2 rounded-circle" title="Editar">
+                            <mat-icon fontIcon="edit" [routerLink]="['/actualizar/profesor', teacher?.teacher_id]">
+                                Editar
+                            </mat-icon>
+                        </button>
+                        <button *ngIf="teacher.validated == 1; else active" type="button"
+                            class="btn btn-outline-danger rounded-circle" title="Desactivar">
                             <mat-icon fontIcon="delete" (click)="deleteTeacher(teacher.teacher_id)">Delete</mat-icon>
                         </button>
+                        <ng-template #active>
+                            <button type="button" class="btn btn-outline-success rounded-circle" title="Activar">
+                                <mat-icon fontIcon="check" (click)="validateTeacher(teacher.teacher_id)">Activate
+                                </mat-icon>
+                            </button>
+                        </ng-template>
                     </span>
 
                 </td>
@@ -90,7 +98,7 @@
 
             <!-- Row shown when there is no matching data. -->
             <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">No hay alumnos que coincidan con la búsqueda "{{input.value}}"</td>
+                <td class="mat-cell" colspan="4">No hay profesores que coincidan con la búsqueda "{{input.value}}"</td>
             </tr>
         </table>
 

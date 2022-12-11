@@ -20,7 +20,7 @@ import { Error500Component } from './components/errors/error500/error500.compone
 import { AdminStudentListComponent } from './components/admin-student-list/admin-student-list.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
 import { RegisterComponent } from './components/register/register.component';
-import { StudentFormComponent} from './components/register/student-form/student-form.component';
+import { StudentFormComponent } from './components/register/student-form/student-form.component';
 import { TeacherFormComponent } from './components/register/teacher-form/teacher-form.component';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component'
 import { TeacherListComponent } from './components/teacher-list/teacher-list.component';
@@ -83,7 +83,7 @@ import { ClassBookingComponent } from './components/class-booking/class-booking.
     BrowserAnimationsModule,
     AgmCoreModule,
     SweetAlert2Module,
-    BrowserAnimationsModule,    
+    BrowserAnimationsModule,
     MaterialModule,
     SweetAlert2Module.forRoot(),
     NgxPaginationModule,

@@ -17,6 +17,10 @@ img {
   margin-bottom: 10px;
 }
 
+.card {
+  min-height: 450px;
+}
+
 .card:hover {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
