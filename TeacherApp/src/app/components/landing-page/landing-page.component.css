@@ -1,40 +1,49 @@
-.landing-page{
+.landing-page {
     width: 100%;
     height: 100vh;
     background-image: url('../../../assets/assets-lp/fondo.jpg');
 }
 
-.center-text{
-    padding-top: 15rem;
-    text-align: center;  
+.center-text {
+    padding-top: 4rem;
+    text-align: center;
     color: white;
 }
 
-.coming{
+.coming {
     font-size: 2rem;
     margin-bottom: 1rem;
 }
-.app-name{
+
+.app-name {
     font-size: 5rem;
     text-transform: capitalize;
     margin-bottom: 2rem;
+    z-index: 1;
+    position: relative;
 }
-.register-btn{
+
+.register-btn {
     border: 4px solid rgba(38, 255, 38, 0.3);
     color: white;
     width: 250px;
     height: 60px;
     font-size: 1.1rem;
     border-radius: 50px;
+    z-index: 1;
+    position: relative;
 }
-.student-btn{
+
+.student-btn {
     background-color: transparent;
 }
-.student-btn:hover{
+
+.student-btn:hover {
     background-color: rgba(38, 255, 38, 0.3);
     transition: all 1s;
 }
-.teacher-btn:hover{
+
+.teacher-btn:hover {
     background-color: rgba(38, 255, 38, 0.3);
     font-size: 1.1rem;
     transition: all 1s;
@@ -45,42 +54,31 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.planet{
+.planet {
     position: absolute;
 }
-.planet-1{
+
+.planet-1 {
     bottom: -100px;
     width: 450px;
     height: 450px;
 }
-.planet-2{
+
+.planet-2 {
     bottom: 100px;
     right: 300px;
     width: 300px;
     height: 300px
 }
-.planet-3{
+
+.planet-3 {
     bottom: 175px;
     left: 250px;
     width: 150px;
     height: 150px;
 }
-.planet-4{
+
+.planet-4 {
     right: 0;
     bottom: -150px;
     width: 500px;
@@ -101,27 +99,38 @@
 
 
 
-.point{
+.point {
     position: absolute;
     width: 50px;
     height: 50px;
 }
-.point-l-1{
+
+.point-l-1 {
     bottom: 100px;
     left: 150px;
-}.point-l-2{
+}
+
+.point-l-2 {
     bottom: 150px;
     left: 220px;
-}.point-l-3{
+}
+
+.point-l-3 {
     bottom: 200px;
     left: 325px;
-}.point-l-4{
+}
+
+.point-l-4 {
     bottom: 250px;
     left: 300px;
-}.point-l-5{
+}
+
+.point-l-5 {
     bottom: 200px;
     left: 250px;
-}.point-l-6{
+}
+
+.point-l-6 {
     bottom: 80px;
     left: 290px;
 }
@@ -131,28 +140,177 @@
 
 
 
-.point-r-1{
+.point-r-1 {
     bottom: 100px;
     right: 150px;
-}.point-r-2{
+}
+
+.point-r-2 {
     bottom: 150px;
     right: 220px;
-}.point-r-3{
+}
+
+.point-r-3 {
     bottom: 200px;
     right: 325px;
-}.point-r-4{
+}
+
+.point-r-4 {
     bottom: 250px;
     right: 300px;
-}.point-r-5{
+}
+
+.point-r-5 {
     bottom: 200px;
     right: 150px;
-}.point-r-6{
+}
+
+.point-r-6 {
     bottom: 80px;
     right: 390px;
-}.point-r-7{
+}
+
+.point-r-7 {
     bottom: 300px;
     right: 375px;
-}.point-r-8{
+}
+
+.point-r-8 {
     bottom: 250px;
     right: 450px;
+}
+
+
+
+
+
+@media (max-width: 992px) {
+
+    .landing-page {
+        height: 150vh;
+    }
+
+    .images {
+        transform: translateY(500px);
+    }
+
+    .planet-1 {
+        bottom: -100px;
+        width: 375px;
+        height: 375px;
+    }
+
+    .planet-2 {
+        bottom: 100px;
+        right: 300px;
+        width: 250px;
+        height: 250px
+    }
+
+    .planet-3 {
+        bottom: 175px;
+        left: 25px;
+        width: 125px;
+        height: 125px;
+    }
+
+    .planet-4 {
+        right: 0;
+        bottom: -150px;
+        width: 400px;
+        height: 400px;
+    }
+
+    .point-l-3 {
+        display: none;
+    }
+
+    .point-l-4 {
+        display: none;
+    }
+
+    .point-l-5 {
+        display: none;
+    }
+
+    .point-r-4 {
+        display: none;
+    }
+
+    .point-r-6 {
+        display: none;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    .app-name {
+        font-size: 4rem;
+    }
+
+    .coming {
+        font-size: 1.5rem;
+    }
+
+    .planet-3 {
+        display: none;
+    }
+
+    .planet-1 {
+        display: none;
+    }
+
+    .point-l-1 {
+        display: none;
+    }
+
+    .point-l-6 {
+        display: none;
+    }
+
+    .point-l-2 {
+        display: none;
+    }
+}
+
+@media (max-width: 575px) {
+    .app-name {
+        font-size: 3rem;
+    }
+
+    .coming {
+        font-size: 1.2rem;
+    }
+
+    .planet-2 {
+        display: none;
+    }
+
+    .point-r-3 {
+        display: none;
+    }
+
+    .point-r-7 {
+        display: none;
+    }
+
+    .point-r-8 {
+        display: none;
+    }
+
+}
+
+@media (max-width: 400px) {
+    .landing-page {
+        height: 90vh;
+    }
+
+    .planet {
+        display: none;
+    }
+
+    .point {
+        display: none;
+    }
 }

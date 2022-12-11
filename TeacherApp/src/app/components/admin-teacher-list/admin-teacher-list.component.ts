@@ -155,7 +155,6 @@ export class AdminTeacherListComponent implements AfterViewInit {
       .then(async (result) => {
         if (result.isConfirmed) {
           try {
-            // let response = await this.teachersService.delete(idTeacher);
             let response = await this.teachersService.delete(idTeacher);
             if (response.user_id) {
               swalWithBootstrapButtons.fire('Usuario dado de baja');

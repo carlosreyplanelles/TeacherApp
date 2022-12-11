@@ -377,8 +377,14 @@ const checkTeacher = async (req, res, next) => {
 
         next();       
     } 
-    catch (error) {        
-        return res.status(400).json({ error: 'No se pudo verificar el profesor con Id = ' + teacherId + '. Error ' + error.errno + ": " + error.message});        
+    catch (error) {    
+        if (error.code === 'ECONNREFUSED') {
+            res.status(503);
+        }
+        else {
+            res.status(400);
+        }    
+        return res.json({ error: 'No se pudo verificar el profesor con Id = ' + teacherId + '. Error ' + error.errno + ": " + error.message});        
     }    
 }
 

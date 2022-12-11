@@ -10,6 +10,8 @@ import { TeachersService } from 'src/app/services/teachers.service';
 import { UsersService } from 'src/app/services/users.service';
 import { LoginAuthService } from 'src/app/services/login-auth.service';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -35,46 +37,49 @@ export class HomeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-      this.userid = this.loginAuthService.getId();
-      this.userRole = this.loginAuthService.getRole();
+    this.userid = this.loginAuthService.getId();
+    this.userRole = this.loginAuthService.getRole();
   }
 
   async ngOnInit(): Promise<void> {
+    try {
+      /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO */
+      if (this.userid !== undefined) {
+        let response;
 
-    /* SI ESTA LOGEADO RECUPERAMOS EL USUARIO */
-    if (this.userid !== undefined) {
-      let response;
-
-      switch (this.userRole) {
-        case 'admin':
+        switch (this.userRole) {
+          case 'admin':
             response = await this.usersService.getById(this.userid);
             break;
-        case 'teacher':
+          case 'teacher':
             response = await this.teachersService.getById(this.userid);
             break;
-        case 'student':
+          case 'student':
             response = await this.studentsService.getById(this.userid);
             break;
+        }
+
+        this.currentUser = response;
       }
 
-      this.currentUser = response;
+      /* POSICIONAR USUARIO LOGEADO */
+      await this.setCurrentLocation();
+
+      /* AÑADIR PROFESORES EN EL MAPA */
+      await this.getAllTeachers();
     }
-
-    /* POSICIONAR USUARIO LOGEADO */
-    await this.setCurrentLocation();
-
-    /* AÑADIR PROFESORES EN EL MAPA */
-    await this.getAllTeachers();
-
-    /* BUSQUEDA DE UBICACION */
-    const input = document.getElementById('autocomplete');
-
-    // const autocomplete = new google.maps.places.Autocomplete(input, {
-    //   types: ['establisment'],
-    //   fields: ['places_id', 'geometry', 'name']
-    // });
-
-    // autocomplete.addListener('place_changed', onPlaceChanged);
+    catch (error: any) {     
+      const msgError = (error.error['error']!==undefined ?error.error['error'] : (error.error['Error']!==undefined ? error.error['Error'] : error.error['Message']));     
+      Swal.fire({
+        icon: 'error',
+        title: '\'' + error.status + ' -' + error.statusText + '\' Error al cargar TeacherApp',
+        html: `<div style="text-align: left;">
+                <p>Ha ocurrido un error, inténtelo de nuevo más tarde</p>
+                <p>Detalles: ${msgError}</p>
+              </div>`
+      });
+      this.router.navigate(['/landing-page']);
+    }
   }
 
   async setCurrentLocation() {
@@ -93,12 +98,11 @@ export class HomeComponent implements OnInit {
             lat: position.coords.latitude,
             lon: position.coords.longitude
           }
-          console.log(this.currentUser);
           let response = await this.usersService.saveLocation(this.currentUser, newLocation);
         }
       })
     }
-    
+
     /* SI ESTA LOGEADO, RECUPERAR DE LA BASE DE DATOS */
     if (this.currentUser !== undefined) {
       this.getGeoUser();
@@ -113,8 +117,10 @@ export class HomeComponent implements OnInit {
       geoUser = await this.teachersService.getById(this.userid);
     }
 
-    this.userlat = geoUser.latitude;
-    this.userlong = geoUser.longitude;
+    if (this.userRole !== 'admin') {
+      this.userlat = geoUser.latitude;
+      this.userlong = geoUser.longitude;
+    }
   }
 
   async getAllTeachers() {

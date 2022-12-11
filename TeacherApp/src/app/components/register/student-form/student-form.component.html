@@ -91,7 +91,7 @@
             <select (change) = "onSelected($event)" class="form-select" name="province" id="province-selector" formControlName="province_id">
                 <option default>Selecciona una provincia</option>
                 <option *ngFor="let province of provinces"
-                [value]="province.id">{{province.name}}</option>
+                [value]="province?.id">{{province?.name}}</option>
                 
             </select>
             <p class="error" *ngIf="checkControl('province', 'required')">
@@ -104,7 +104,7 @@
             <select class="form-select" name="city" id="city-selector" formControlName="city_id">
                 <option default>Selecciona tu ciudad de residencia</option>
                 <option *ngFor="let city of citiesbyProvince"
-                [value] ="city.id">{{city.name}}</option>
+                [value] ="city?.id">{{city?.name}}</option>
             </select>
             <p class="error" *ngIf="checkControl('city', 'required')">
                 El campo es obligatorio

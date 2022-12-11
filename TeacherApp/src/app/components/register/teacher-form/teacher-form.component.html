@@ -89,7 +89,7 @@
             <label class="form-label" for="province-selector">Provincia</label>
             <select (change) = "onSelected($event)" class="form-select" name="province" id="province-selector" formControlName="province_id">
                 <option default>Selecciona una provincia</option>
-                <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
+                <option *ngFor="let province of provinces" [value]="province?.id">{{province?.name}}</option>
             </select>
             <p class="error" *ngIf="checkControl('province_id', 'required')">
                 El campo es obligatorio
@@ -100,7 +100,7 @@
             <label  class="form-label" for="city-selector">Ciudad</label>
             <select class="form-select" name="city" id="city-selector" formControlName="city_id">
                 <option default>Selecciona tu ciudad de residencia</option>
-                <option *ngFor="let city of citiesbyProvince" [value]="city.id">{{city.name}}</option>
+                <option *ngFor="let city of citiesbyProvince" [value]="city?.id">{{city?.name}}</option>
             </select>
             <p class="error" *ngIf="checkControl('city_id', 'required')">
                 El campo es obligatorio
@@ -122,7 +122,7 @@
             <label class="form-label"  for="branch">Rama</label>
             <select class="form-select" name="branch" id="branch-selector" formControlName="branch_id">
                 <option default>Selecciona una rama</option>
-                <option *ngFor="let branch of branches" [value]="branch.id">{{branch.title}}</option>
+                <option *ngFor="let branch of branches" [value]="branch?.id">{{branch?.title}}</option>
             </select>
             <p class="error" *ngIf="checkControl('branch', 'required')">
                 El campo es obligatorio

@@ -1,7 +1,7 @@
 table {
     width: 100%;
   }
-  
+
   .mat-form-field {
     font-size: 14px;
     width: 100%;
@@ -9,13 +9,20 @@ table {
   
   td,
   th {
-    width: 25%;
+    width: 14.2%;
   }
-  .student-row:hover {
+
+  .teacher-row:hover {
     background: whitesmoke;
   }
   
   mat-icon {
     padding-top: 2px;
   }
+
+  .table-container {
+    max-width: 100%;
+    overflow: auto;
+  }
+  
   

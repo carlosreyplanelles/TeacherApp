@@ -6,10 +6,11 @@ router.get('/', async(req,res) =>{
 
     try{
         const branches = await getAll();
-        res.json(branches);
-    }  catch (error) {
-        res.json({ fatal: error.message });
-      }
+        res.status(200).json(branches);
+    }  
+    catch (error) {
+        res.status(400).json({ fatal: error.message });
+    }
 })
 
 module.exports = router

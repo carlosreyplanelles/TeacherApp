@@ -45,7 +45,7 @@ Content-Type: application/json
 {    
     "name": "Isabel Maria del Pino",
     "surname": "Haggen Dazn",
-    "email": "isabeli@mgur.com",
+    "email": "isadbeli@mgur.com",
     "password": "CorazonLatino",       
     "role_id": 2,
     "phone": "999999999",
@@ -58,7 +58,9 @@ Content-Type: application/json
     "branch_id": 2,
     "subjects": "ante ipsum primis in",  
     "experience": 23,
-    "validated": 0 
+    "validated": 0,
+    "start_class_hour": 9,
+    "end_class_hour": 18
 }
 ###
 

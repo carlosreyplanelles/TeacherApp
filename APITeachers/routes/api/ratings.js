@@ -44,9 +44,9 @@ router.put('/:ratingId', async (req, res) => {
     try {
         await Rating.update(ratingId, req.body);
         const ratingUpdated = await Rating.getById(ratingId);
-        res.json(ratingUpdated);
+        res.status(200).json(ratingUpdated);
     } catch (err) {
-        res.json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
