@@ -145,21 +145,40 @@ export class StudentFormComponent implements OnInit {
               student.latitude = this.userLat
               student.longitude = this.userLon
             }
-            response = await this.studentsService.create(student)
-            if (response.id) {
-              Swal.fire({
-                icon: 'success',
-                title: 'El Usuario ha sido creado correctamente.',
-                showConfirmButton: false,
-                timer: 1800
-              })
-              this.router.navigate(['/login'])
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Error al registrar',
-                text: 'Ha ocurrido un error, inténtelo de nuevo más tarde',
-              })
+            try {
+              response = await this.studentsService.create(student)
+
+              if (response.id) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'El Usuario ha sido creado correctamente.',
+                  showConfirmButton: false,
+                  timer: 1800
+                })
+                this.router.navigate(['/login'])
+              }
+            } catch (error: any) {
+              let msgErrorForm: string = "";
+                if (error.error!== undefined) {
+                  for(var json in error.error){
+                    if (error.error[json].msg!== undefined) {
+                      msgErrorForm+= "<p> * " + error.error[json].msg + "</p>";
+                    }
+                    else {
+                      msgErrorForm+= "<p> Error general en TeacherApp: " + error.error[json] + ". Contacte con el administrador de la aplicación</p>";
+                    }
+                  }  
+                }
+                else {
+                  msgErrorForm += 'Ha ocurrido un error inténtelo de nuevo más tarde';
+                }
+
+                Swal.fire({
+                  position: 'center',
+                  icon: 'error',
+                  title: '\'' + error.status + ' -' + error.statusText + '\' Error al registrarse en TeacherApp',
+                  html: `<div style="text-align: left;">${msgErrorForm}</div>`
+                });
             }
           }
         } else {
@@ -190,12 +209,26 @@ export class StudentFormComponent implements OnInit {
               })
             }
             this.router.navigate(['/perfil']);
-          } catch (error) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error al Actualizar',
-              text: 'Ha ocurrido un error inténtelo de nuevo más tarde',
-            })
+          } catch (error: any) {
+            let msgErrorForm: string = "";
+                if (error.error!== undefined) {
+                  for(var json in error.error){
+                    if (error.error[json].msg!== undefined) {
+                      msgErrorForm+= "<p> * " + error.error[json].msg + "</p>";
+                    }
+                    else {
+                      msgErrorForm+= "<p> Error general en TeacherApp: " + error.error[json] + ". Contacte con el administrador de la aplicación</p>";
+                    }
+                  }  
+                }
+                else {
+                  msgErrorForm += 'Ha ocurrido un error inténtelo de nuevo más tarde';
+                }
+                Swal.fire({
+                  icon: 'error',
+                  title: '\'' + error.status + ' -' + error.statusText + '\' Error al actualizar los datos en TeacherApp',                  
+                  html: `<div style="text-align: left;">${msgErrorForm}</div>`                  
+                })
           }
         }
       })
