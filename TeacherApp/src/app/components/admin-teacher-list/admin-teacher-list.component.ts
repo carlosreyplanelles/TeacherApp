@@ -24,8 +24,8 @@ export class AdminTeacherListComponent implements AfterViewInit {
 
   selectStatus: any[] = [
     { value: '', viewValue: 'Todos' },
-    { value: '0', viewValue: 'Activado' },
-    { value: '1', viewValue: 'Desactivado' },
+    { value: '1', viewValue: 'Activado' },
+    { value: '0', viewValue: 'Desactivado' },
   ];
 
   displayedColumns: string[] = [
