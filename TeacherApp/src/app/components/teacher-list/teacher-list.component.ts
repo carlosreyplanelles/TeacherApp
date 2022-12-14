@@ -111,14 +111,15 @@ export class TeacherListComponent implements OnInit {
       this.selectedFilters;
 
     this.filterArrTeachers = this.arrTeachers.filter(
-      ({ branch_title, price_hour, experience, avg_rating }) =>
+      ({ branch_title, price_hour, experience, avg_rating, validated }) =>
         branches.includes(branch_title) &&
         price_hour < priceMax &&
         price_hour > priceMin &&
         experience > expMin &&
         experience <= expMax &&
         avg_rating >= ratMin &&
-        avg_rating <= ratMax
+        avg_rating <= ratMax &&
+        validated == 1
     );
 
     this.pageStart = 1;
